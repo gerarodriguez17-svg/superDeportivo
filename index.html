@@ -443,22 +443,7 @@
             } 
         };
 
-        const SPONSORS = [
-    { nombre: "DAR+, la tarjeta para comprar", logo: "img/Dar+.jpg" },
-    { nombre: "Municipalidad de Cerrito", logo: "img/municipalidad.png" },
-    { nombre: "AUTOSERVICIO LA CALABAZA", logo: "img/la calabaza.png" },
-    "Don Charo AUTOSERVICIO",
-    "Hielos Celestiales",
-    { nombre: "Masquito reparaciones", logo:"img/masquito reparaciones.png" },
-    { nombre: "HR-Netcom", logo:img/hrnetcom.jpg" },
-    { nonbre: "YPF El Empalme", logo:"img/ypf el empalme.png" },
-    { nombre: "Corralon El Rafa", logo: "el rafa.png" },
-    { onbre: "Emi Pérez Motos", logo:"img/emi perez motos.jpg" },
-    { nonbre: "Apapacho-Pañalea", logo:"img/apapacho.png" },
-    { nonbre: "Farmacia", logo:"img/farmacia palacios.jpg" },
-    "Daniel Guetti Odontólogo"
-]; 
-
+        const SPONSORS = ["DAR+, la tarjeta para comprar", "Municipalidad de Cerrito", "AUTOSERVICIO LA CALABAZA", "Don Charo AUTOSERVICIO", "Hielos Celestiales", "Masquito reparaciones", "HR-Netcom", "YPF El Empalme", "Corralon El Rafa", "Emi Pérez Motos", "Daniel Guetti Odontólogo"];
 
         function desbloquearVideo() {
             localStorage.setItem('acceso_superdep', 'true');
@@ -582,32 +567,15 @@
         }
 
         window.onload = () => {
-    lucide.createIcons();
-
-    const sponsorsGrid = document.getElementById('sponsors-grid');
-    
-    if (sponsorsGrid) {
-        sponsorsGrid.innerHTML = SPONSORS.map(s => {
-            // Verificamos si es un objeto con logo o solo texto
-            const esObjeto = typeof s === 'object';
-            const nombre = esObjeto ? s.nombre : s;
-            const logo = esObjeto ? s.logo : null;
-
-            return `
+            lucide.createIcons();
+            document.getElementById('sponsors-grid').innerHTML = SPONSORS.map(s => `
                 <div class="sponsor-card">
-                    ${logo 
-                        ? `<img src="${logo}" alt="${nombre}" class="h-10 w-auto object-contain brightness-110">` 
-                        : `<span class="text-[9px] font-black uppercase italic text-slate-400 text-center leading-tight">${nombre}</span>`
-                    }
+                    <span class="text-[9px] font-black uppercase italic text-slate-400 text-center leading-tight">${s}</span>
                 </div>
-            `;
-        }).join('');
-    }
-
-    renderizar();
-    validarAcceso();
-
-};
+            `).join('');
+            renderizar();
+            validarAcceso();
+        };
     </script>
 </body>
 </html>

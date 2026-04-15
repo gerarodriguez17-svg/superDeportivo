@@ -443,7 +443,45 @@
             } 
         };
 
-        const SPONSORS = ["DAR+, la tarjeta para comprar", "Municipalidad de Cerrito", "AUTOSERVICIO LA CALABAZA", "Don Charo AUTOSERVICIO", "Hielos Celestiales", "Masquito reparaciones", "HR-Netcom", "YPF El Empalme", "Corralon El Rafa", "Emi Pérez Motos", "Apapacho-pañalera", "Farmacia palacios",  "Daniel Guetti Odontólogo"];
+        const SPONSORS = [
+    { nombre: "DAR+, la tarjeta para comprar", logo: "img/Dar+.jpg" },
+    { nombre: "Municipalidad de Cerrito", logo: "img/municipalidad.png" },
+    { nombre: "AUTOSERVICIO LA CALABAZA", logo: "img/la calabaza.png" },
+    "Don Charo AUTOSERVICIO",
+    "Hielos Celestiales",
+    { nombre: "Masquito reparaciones", logo: "img/masquito reparaciones.png" },
+    { nombre: "HR-Netcom", logo: "img/hrnetcom.jpg" }, // Corregido: faltaba una comilla
+    { nombre: "YPF El Empalme", logo: "img/ypf el empalme.png" },
+    { nombre: "Corralon El Rafa", logo: "img/el rafa.png" }, // Corregido: faltaba img/
+    { nombre: "Emi Pérez Motos", logo: "img/emi perez motos.jpg" },
+    { nombre: "Apapacho-Pañalea", logo: "img/apapacho.png" },
+    { nombre: "Farmacia", logo: "img/farmacia palacios.jpg" },
+    "Daniel Guetti Odontólogo"
+];
+
+const sponsorsGrid = document.getElementById('sponsors-grid');
+
+SPONSORS.forEach(item => {
+    // Detectamos si es un objeto o solo texto
+    const esObjeto = typeof item === 'object';
+    const nombre = esObjeto ? (item.nombre || item.nonbre || item.onbre) : item;
+    const logo = esObjeto ? item.logo : null;
+
+    const card = document.createElement('div');
+    card.className = "sponsor-card group hover:bg-slate-800/50 transition-all duration-300 border border-white/5 flex flex-col items-center justify-center p-4 text-center";
+    
+    if (logo) {
+        card.innerHTML = `
+            <img src="${logo}" alt="${nombre}" 
+                 class="max-h-16 w-auto object-contain mb-2 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all grayscale group-hover:grayscale-0"
+                 onerror="this.parentElement.innerHTML='<p class=\'text-[10px] font-black uppercase text-slate-400\'>${nombre}</p>'">
+        `;
+    } else {
+        card.innerHTML = `<p class="text-[10px] font-black uppercase text-slate-400 group-hover:text-emerald-500">${nombre}</p>`;
+    }
+    
+    sponsorsGrid.appendChild(card);
+});
 
         function desbloquearVideo() {
             localStorage.setItem('acceso_superdep', 'true');

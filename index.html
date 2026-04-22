@@ -577,14 +577,33 @@ function renderizar() {
         </div>
     `;
 
+    // Calculamos el mejor sexto antes de renderizar la tabla para comparar
+    const sextosAux = [tNorte[5], tCentro[5], tSur[5]].filter(Boolean);
+    const globalMejor6 = sextosAux.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg)[0];
+
     document.getElementById('tabla-render').innerHTML = header + tablaMostrar.map((eq, i) => {
-        const esClasificado = i < 5;
-        const bg = esClasificado ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-white/5 border-white/10';
-        const txt = esClasificado ? 'text-emerald-400' : 'text-slate-200';
+        const esTop5 = i < 5;
+        // Condición clave: ¿Es el 6to de esta tabla Y TAMBIÉN el mejor de los tres 6tos?
+        const esElMejorSextoEntrando = i === 5 && globalMejor6 && eq.nombre === globalMejor6.nombre;
+        
+        let bg = 'bg-white/5 border-white/10';
+        let txt = 'text-slate-200';
+        let badge = '';
+
+        if (esTop5) {
+            bg = 'bg-emerald-500/10 border-emerald-500/20';
+            txt = 'text-emerald-400';
+        } else if (esElMejorSextoEntrando) {
+            // Pintamos de verde al 6to "afortunado"
+            bg = 'bg-emerald-600/20 border-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.1)]';
+            txt = 'text-emerald-400';
+            badge = '<span class="ml-2 text-[7px] bg-emerald-500 text-white px-1 rounded animate-pulse">CLASIFICANDO</span>';
+        }
+
         return `
             <div class="grid grid-cols-12 gap-1 items-center ${bg} p-3 mb-1 rounded-xl border transition-all">
-                <div class="col-span-1 ${esClasificado ? 'text-emerald-500' : 'text-slate-500'} font-black text-[10px]">${i+1}</div>
-                <div class="col-span-4 font-black italic uppercase text-[10px] ${txt} truncate">${eq.nombre}</div>
+                <div class="col-span-1 ${(esTop5 || esElMejorSextoEntrando) ? 'text-emerald-500' : 'text-slate-500'} font-black text-[10px]">${i+1}</div>
+                <div class="col-span-4 font-black italic uppercase text-[10px] ${txt} truncate">${eq.nombre} ${badge}</div>
                 <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pj}</div>
                 <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pg}</div>
                 <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pe}</div>

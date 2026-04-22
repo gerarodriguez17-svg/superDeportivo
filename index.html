@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -132,7 +133,7 @@
                 <h1 class="text-2xl font-black italic uppercase tracking-tighter leading-none text-white">
                     SUPER <span class="text-emerald-500">DEPORTIVO</span>
                 </h1>
-                <p id="sub-header-text" class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.3em] mt-1 italic">cerrito • entre rios</p>
+                <p id="sub-header-text" class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.3em] mt-1 italic">CERRITO • Entre Ríos</p>
             </div>
         </div>
         <a href="https://wa.me/5493430000000" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 p-3 rounded-2xl transition-all shadow-lg text-white">
@@ -193,7 +194,7 @@
           <div>
               <h3 class="text-emerald-500 font-black italic uppercase text-sm tracking-widest">Fecha 4</h3>
               
-              <p class="text-slate-400 text-[10px] font-bold uppercase">Estadio 5 de Octubre - Atl. Hernandarias</p>
+              <p class="text-slate-400 text-[10px] font-bold uppercase">Estadio Atl. Hernandarias</p>
               
           </div>
           <span class="bg-emerald-500/10 text-emerald-500 text-[9px] font-black px-3 py-1 rounded-full border border-emerald-500/20 uppercase animate-pulse">Zona Norte</span>
@@ -212,7 +213,7 @@
                           <img src="https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cah.png" class="w-full h-full object-contain rounded-full">
                       </div>
                       
-                      <span class="text-white font-black text-5xl mb-1 text-center">0</span>
+                      <span class="text-white font-black text-5xl mb-1 text-center"></span>
                       
                       <span class="text-center text-white/70 font-bold uppercase text-[9px] leading-tight">Atl. Hernandarias</span>
                   </div>
@@ -230,7 +231,7 @@
                           <img src="https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cuac.png" class="w-full h-full object-contain rounded-full"> 
                       </div>
                       
-                      <span class="text-white font-black text-5xl mb-1 text-center">6</span>
+                      <span class="text-white font-black text-5xl mb-1 text-center"></span>
                       
                       <span class="text-center text-white/70 font-bold uppercase text-[9px] leading-tight">U. Agrarios Cerrito</span>
                   </div>
@@ -304,6 +305,35 @@
                 <div id="libre-render" class="mt-6"></div>
             </div>
         </div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12">
+    
+        <div class="lg:col-span-4 panel-deportivo p-6 shadow-2xl border-t-4 border-yellow-500">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-yellow-500/10 p-2 rounded-lg border border-yellow-500/20">
+                    <i data-lucide="award" class="w-5 h-5 text-yellow-500"></i>
+                </div>
+                <h3 class="text-xs font-black uppercase tracking-widest text-slate-200">Orden de Mérito (1-16)</h3>
+            </div>
+            
+            <div id="top-16-render" class="space-y-1">
+                <p class="text-[10px] text-slate-600 italic">Calculando mérito deportivo...</p>
+            </div>
+        </div>
+    
+        <div class="lg:col-span-8 panel-deportivo p-6 shadow-2xl border-t-4 border-emerald-500">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
+                    <i data-lucide="git-merge" class="w-5 h-5 text-emerald-500"></i>
+                </div>
+                <h3 class="text-xs font-black uppercase tracking-widest text-slate-200">Play-offs: Octavos de Final</h3>
+            </div>
+            
+            <div id="cuadro-render" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <p class="text-[10px] text-slate-600 italic">Esperando confirmación de llaves...</p>
+            </div>
+        </div>
+    
     </div>
 
     <section class="panel-deportivo p-10 mt-12">
@@ -443,45 +473,7 @@
             } 
         };
 
-        const SPONSORS = [
-    { nombre: "DAR+, la tarjeta para comprar", logo: "img/Dar+.jpg" },
-    { nombre: "Municipalidad de Cerrito", logo: "img/municipalidad.png" },
-    { nombre: "AUTOSERVICIO LA CALABAZA", logo: "img/la calabaza.png" },
-    "Don Charo AUTOSERVICIO",
-    "Hielos Celestiales",
-    { nombre: "Masquito reparaciones", logo: "img/masquito reparaciones.png" },
-    { nombre: "HR-Netcom", logo: "img/hrnetcom.jpg" }, // Corregido: faltaba una comilla
-    { nombre: "YPF El Empalme", logo: "img/ypf el empalme.png" },
-    { nombre: "Corralon El Rafa", logo: "img/el rafa.png" }, // Corregido: faltaba img/
-    { nombre: "Emi Pérez Motos", logo: "img/emi perez motos.jpg" },
-    { nombre: "Apapacho-Pañalea", logo: "img/apapacho.png" },
-    { nombre: "Farmacia", logo: "img/farmacia palacios.jpg" },
-    "Daniel Guetti Odontólogo"
-];
-
-const sponsorsGrid = document.getElementById('sponsors-grid');
-
-SPONSORS.forEach(item => {
-    // Detectamos si es un objeto o solo texto
-    const esObjeto = typeof item === 'object';
-    const nombre = esObjeto ? (item.nombre || item.nonbre || item.onbre) : item;
-    const logo = esObjeto ? item.logo : null;
-
-    const card = document.createElement('div');
-    card.className = "sponsor-card group hover:bg-slate-800/50 transition-all duration-300 border border-white/5 flex flex-col items-center justify-center p-4 text-center";
-    
-    if (logo) {
-        card.innerHTML = `
-            <img src="${logo}" alt="${nombre}" 
-                 class="max-h-16 w-auto object-contain mb-2 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all grayscale group-hover:grayscale-0"
-                 onerror="this.parentElement.innerHTML='<p class=\'text-[10px] font-black uppercase text-slate-400\'>${nombre}</p>'">
-        `;
-    } else {
-        card.innerHTML = `<p class="text-[10px] font-black uppercase text-slate-400 group-hover:text-emerald-500">${nombre}</p>`;
-    }
-    
-    sponsorsGrid.appendChild(card);
-});
+        const SPONSORS = ["DAR+, la tarjeta para comprar", "Municipalidad de Cerrito", "AUTOSERVICIO LA CALABAZA", "Don Charo AUTOSERVICIO", "Hielos Celestiales", "Masquito reparaciones", "HR-Netcom", "YPF El Empalme", "Corralon El Rafa", "Emi Pérez Motos", "Daniel Guetti Odontólogo"];
 
         function desbloquearVideo() {
             localStorage.setItem('acceso_superdep', 'true');
@@ -522,98 +514,223 @@ SPONSORS.forEach(item => {
             fechaActual = f;
             renderizar();
         }
+        function obtenerTablaPorZona(zona, categoria) {
+    let equipos = zona === 'norte' ? EQUIPOS_NORTE : (zona === 'centro' ? EQUIPOS_CENTRO : EQUIPOS_SUR);
+    let data = (zona === 'norte' ? NORTE_DATA : (zona === 'centro' ? CENTRO_DATA : SUR_DATA))[categoria];
+    
+    let stats = {};
+    equipos.forEach(e => stats[e] = { pts: 0, pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0 });
+    
+    if(!data) return [];
 
-        function calcularTabla() {
-            let equipos = zonaActual === 'norte' ? EQUIPOS_NORTE : (zonaActual === 'centro' ? EQUIPOS_CENTRO : EQUIPOS_SUR);
-            let data = zonaActual === 'norte' ? NORTE_DATA[categoriaActual] : (zonaActual === 'centro' ? CENTRO_DATA[categoriaActual] : SUR_DATA[categoriaActual]);
-
-            let stats = {};
-            equipos.forEach(e => stats[e] = { pts: 0, pj: 0, gf: 0, gc: 0 });
-
-            if(!data) return Object.entries(stats).map(([nombre, s]) => ({ nombre, ...s, dg: 0 }));
-
-            Object.values(data).forEach(fecha => {
-                if(fecha.partidos) {
-                    fecha.partidos.forEach(p => {
-                        if (p.R && p.R !== "-") {
-                            const scores = p.R.split(/[-|]/).map(s => parseInt(s.trim()));
-                            if(scores.length === 2 && !isNaN(scores[0]) && !isNaN(scores[1])) {
-                                if(stats[p.L] && stats[p.V]) {
-                                    stats[p.L].pj++; stats[p.V].pj++;
-                                    stats[p.L].gf += scores[0]; stats[p.L].gc += scores[1];
-                                    stats[p.V].gf += scores[1]; stats[p.V].gc += scores[0];
-                                    if (scores[0] > scores[1]) stats[p.L].pts += 3;
-                                    else if (scores[1] > scores[0]) stats[p.V].pts += 3;
-                                    else { stats[p.L].pts += 1; stats[p.V].pts += 1; }
-                                }
+    Object.values(data).forEach(fecha => {
+        if(fecha.partidos) {
+            fecha.partidos.forEach(p => {
+                if (p.R && p.R !== "-" && p.R !== "") {
+                    const scores = p.R.split(/[-|]/).map(s => parseInt(s.trim()));
+                    if(scores.length === 2 && !isNaN(scores[0]) && !isNaN(scores[1])) {
+                        const L = p.L.trim(); const V = p.V.trim();
+                        if(stats[L] && stats[V]) {
+                            stats[L].pj++; stats[V].pj++;
+                            stats[L].gf += scores[0]; stats[L].gc += scores[1];
+                            stats[V].gf += scores[1]; stats[V].gc += scores[0];
+                            if (scores[0] > scores[1]) {
+                                stats[L].pts += 3; stats[L].pg++; stats[V].pp++;
+                            } else if (scores[1] > scores[0]) {
+                                stats[V].pts += 3; stats[V].pg++; stats[L].pp++;
+                            } else {
+                                stats[L].pts += 1; stats[V].pts += 1;
+                                stats[L].pe++; stats[V].pe++;
                             }
                         }
-                    });
+                    }
                 }
             });
-
-            return Object.entries(stats)
-                .map(([nombre, s]) => ({ nombre, ...s, dg: s.gf - s.gc }))
-                .sort((a,b) => b.pts - a.pts || b.dg - a.dg || b.gf - a.gf);
         }
+    });
 
-        function renderizar() {
-            document.getElementById('titulo-tabla').innerText = `Posiciones - ${zonaActual.toUpperCase()} (${categoriaActual.toUpperCase()})`;
-            
-            const tabla = calcularTabla();
-            document.getElementById('tabla-render').innerHTML = tabla.map((eq, i) => `
-                <div class="grid grid-cols-12 items-center bg-white/[0.02] p-4 rounded-2xl border border-white/5 hover:bg-white/10 transition-all group">
-                    <div class="col-span-1 text-slate-600 font-black text-[10px]">${i+1}</div>
-                    <div class="col-span-7 font-black italic uppercase text-[11px] tracking-tight text-slate-200 group-hover:text-emerald-400 truncate pr-2">${eq.nombre}</div>
-                    <div class="col-span-1 text-center text-slate-500 font-bold text-[10px]">${eq.pj}</div>
-                    <div class="col-span-1 text-center text-slate-500 font-bold text-[10px]">${eq.dg > 0 ? '+' + eq.dg : eq.dg}</div>
-                    <div class="col-span-2 text-right text-emerald-500 font-black text-base italic">${eq.pts}</div>
+    return Object.entries(stats)
+        .map(([nombre, s]) => ({ nombre, ...s, dg: s.gf - s.gc }))
+        .sort((a,b) => b.pts - a.pts || b.dg - a.dg || b.gf - a.gf);
+}
+
+function renderizar() {
+    // 1. Títulos y Datos
+    document.getElementById('titulo-tabla').innerText = `Posiciones - ${zonaActual.toUpperCase()} (${categoriaActual.toUpperCase()})`;
+    const tNorte = obtenerTablaPorZona('norte', categoriaActual);
+    const tCentro = obtenerTablaPorZona('centro', categoriaActual);
+    const tSur = obtenerTablaPorZona('sur', categoriaActual);
+    const tablaMostrar = zonaActual === 'norte' ? tNorte : (zonaActual === 'centro' ? tCentro : tSur);
+
+    // 2. Render de la Tabla de Posiciones
+    const header = `
+        <div class="grid grid-cols-12 gap-1 px-4 mb-2 text-[9px] font-black uppercase text-slate-500 tracking-tighter">
+            <div class="col-span-1">#</div>
+            <div class="col-span-4">Equipo</div>
+            <div class="col-span-1 text-center">PJ</div>
+            <div class="col-span-1 text-center">G</div>
+            <div class="col-span-1 text-center">E</div>
+            <div class="col-span-1 text-center">P</div>
+            <div class="col-span-1 text-center">GF/GC</div>
+            <div class="col-span-1 text-center">DG</div>
+            <div class="col-span-1 text-right">PTS</div>
+        </div>
+    `;
+
+    document.getElementById('tabla-render').innerHTML = header + tablaMostrar.map((eq, i) => {
+        const esClasificado = i < 5;
+        const bg = esClasificado ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-white/5 border-white/10';
+        const txt = esClasificado ? 'text-emerald-400' : 'text-slate-200';
+        return `
+            <div class="grid grid-cols-12 gap-1 items-center ${bg} p-3 mb-1 rounded-xl border transition-all">
+                <div class="col-span-1 ${esClasificado ? 'text-emerald-500' : 'text-slate-500'} font-black text-[10px]">${i+1}</div>
+                <div class="col-span-4 font-black italic uppercase text-[10px] ${txt} truncate">${eq.nombre}</div>
+                <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pj}</div>
+                <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pg}</div>
+                <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pe}</div>
+                <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pp}</div>
+                <div class="col-span-1 text-center text-slate-500 text-[9px] font-medium">${eq.gf}/${eq.gc}</div>
+                <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.dg > 0 ? '+' + eq.dg : eq.dg}</div>
+                <div class="col-span-1 text-right text-emerald-500 font-black text-sm italic">${eq.pts}</div>
+            </div>
+        `;
+    }).join('');
+
+    // 3. Render de Fixture
+    let dataFixture = zonaActual === 'norte' ? NORTE_DATA[categoriaActual] : (zonaActual === 'centro' ? CENTRO_DATA[categoriaActual] : SUR_DATA[categoriaActual]);
+    const fecha = (dataFixture && dataFixture[fechaActual]) ? dataFixture[fechaActual] : { partidos: [], libre: "" };
+    
+    if(!fecha.partidos || fecha.partidos.length === 0) {
+        document.getElementById('fixture-render').innerHTML = `
+            <div class="flex flex-col items-center justify-center py-10 opacity-30">
+                <i data-lucide="info" class="w-8 h-8 mb-4 text-emerald-500"></i>
+                <p class="text-center text-slate-600 text-[10px] uppercase font-black italic">No hay partidos cargados para esta fecha</p>
+            </div>`;
+    } else {
+        document.getElementById('fixture-render').innerHTML = fecha.partidos.map(p => `
+            <div class="bg-slate-950/50 p-4 rounded-2xl border border-white/5 flex justify-between items-center text-[10px] font-black italic uppercase tracking-tighter shadow-inner mb-2">
+                <span class="flex-1 text-right text-slate-400 leading-none">${p.L}</span>
+                <div class="mx-4 px-3 py-1.5 rounded-lg ${p.R === '-' ? 'bg-white/5 text-slate-600' : 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20'} min-w-[55px] text-center">
+                    ${p.R === '-' ? 'VS' : p.R.replace('|', '-')}
                 </div>
-            `).join('');
+                <span class="flex-1 text-left text-slate-400 leading-none">${p.V}</span>
+            </div>
+        `).join('');
+    }
 
-            let data = zonaActual === 'norte' ? NORTE_DATA[categoriaActual] : (zonaActual === 'centro' ? CENTRO_DATA[categoriaActual] : SUR_DATA[categoriaActual]);
-            const fecha = (data && data[fechaActual]) ? data[fechaActual] : { partidos: [], libre: "" };
-            
-            if(!fecha.partidos || fecha.partidos.length === 0) {
-                document.getElementById('fixture-render').innerHTML = `
-                    <div class="flex flex-col items-center justify-center py-10 opacity-30">
-                        <i data-lucide="info" class="w-8 h-8 mb-4 text-emerald-500"></i>
-                        <p class="text-center text-slate-600 text-[10px] uppercase font-black italic">No hay partidos cargados para esta fecha</p>
-                    </div>`;
-                lucide.createIcons();
-            } else {
-                document.getElementById('fixture-render').innerHTML = fecha.partidos.map(p => `
-                    <div class="bg-slate-950/50 p-4 rounded-2xl border border-white/5 flex justify-between items-center text-[10px] font-black italic uppercase tracking-tighter shadow-inner">
-                        <span class="flex-1 text-right text-slate-400 leading-none">${p.L}</span>
-                        <div class="mx-4 px-3 py-1.5 rounded-lg ${p.R === '-' ? 'bg-white/5 text-slate-600' : 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20'} min-w-[55px] text-center">
-                            ${p.R === '-' ? 'VS' : p.R.replace('|', '-')}
+    if(fecha.libre) {
+        document.getElementById('libre-render').innerHTML = `
+            <div class="text-center p-4 border border-dashed border-emerald-500/20 rounded-2xl bg-emerald-500/[0.02]">
+                <p class="text-[8px] font-black uppercase text-slate-600 tracking-widest mb-1">Equipo Libre</p>
+                <p class="text-[11px] font-black text-emerald-500 uppercase italic">${fecha.libre}</p>
+            </div>`;
+    } else {
+        document.getElementById('libre-render').innerHTML = '';
+    }
+
+    // 4. LÓGICA DE FASE FINAL (OCTAVOS)
+    const clasificadosSur = tSur.slice(0, 5);
+    const clasificadosNorte = tNorte.slice(0, 5);
+    const clasificadosCentro = tCentro.slice(0, 5);
+
+    const sextos = [tNorte[5], tCentro[5], tSur[5]].filter(Boolean);
+    const mejor6 = sextos.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg)[0];
+
+    const equiposSegui = ["SEGUI FC", "CAÑADITA CENTRAL", "CAÑADITA"];
+    const equiposHasenkamp = ["ATL. HASENKAMP", "SARMIENTO", "SARMIENTO HASENKAMP"];
+
+    const centroParaA = clasificadosCentro.filter(eq => equiposSegui.some(s => eq.nombre.toUpperCase().includes(s)));
+    const centroParaB = clasificadosCentro.filter(eq => equiposHasenkamp.some(h => eq.nombre.toUpperCase().includes(h)));
+    const restoCentro = clasificadosCentro.filter(eq => !centroParaA.includes(eq) && !centroParaB.includes(eq));
+
+    let grupoA = [...clasificadosSur, ...centroParaA];
+    let grupoB = [...clasificadosNorte, ...centroParaB];
+
+    restoCentro.forEach(eq => { if (grupoA.length < 8) grupoA.push(eq); else grupoB.push(eq); });
+    if (mejor6) { if (grupoA.length < 8) grupoA.push(mejor6); else grupoB.push(mejor6); }
+
+    const ordenarG = (g) => g.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg);
+    grupoA = ordenarG(grupoA); grupoB = ordenarG(grupoB);
+
+    // --- RENDER TOP 16 (IZQUIERDA) ---
+    const cont16 = document.getElementById('top-16-render');
+    if(cont16) {
+        cont16.innerHTML = `
+            <div class="mb-4"><div class="text-[9px] font-black text-yellow-500 mb-2">GRUPO A (SUR/CENTRO)</div>
+            ${grupoA.map((eq, i) => `<div class="flex justify-between p-2 bg-white/5 mb-1 rounded border-l-2 border-yellow-500 text-[10px] uppercase font-bold text-slate-200"><span>${i+1}. ${eq.nombre}</span> <span class="text-slate-500">${(eq.pts/eq.pj).toFixed(2)}</span></div>`).join('')}</div>
+            <div><div class="text-[9px] font-black text-emerald-500 mb-2">GRUPO B (NORTE/CENTRO)</div>
+            ${grupoB.map((eq, i) => `<div class="flex justify-between p-2 bg-white/5 mb-1 rounded border-l-2 border-emerald-500 text-[10px] uppercase font-bold text-slate-200"><span>${i+1}. ${eq.nombre}</span> <span class="text-slate-500">${(eq.pts/eq.pj).toFixed(2)}</span></div>`).join('')}</div>`;
+    }
+
+    // --- RENDER CUADRO VISUAL (DERECHA) ---
+    const contCuadro = document.getElementById('cuadro-render');
+    if(contCuadro) {
+        const crearPartido = (p1, r1, p2, r2) => `
+            <div class="bg-slate-900/80 border border-white/5 rounded-lg overflow-hidden mb-2 shadow-lg">
+                <div class="flex justify-between items-center p-2 border-b border-white/5">
+                    <span class="text-[10px] font-bold text-slate-200 truncate uppercase w-32">${p1 || '---'}</span>
+                    <span class="text-[8px] font-black text-emerald-500 bg-emerald-500/10 px-1 rounded">${r1}º</span>
+                </div>
+                <div class="flex justify-between items-center p-2">
+                    <span class="text-[10px] font-bold text-slate-200 truncate uppercase w-32">${p2 || '---'}</span>
+                    <span class="text-[8px] font-black text-emerald-500 bg-emerald-500/10 px-1 rounded">${r2}º</span>
+                </div>
+            </div>
+        `;
+
+        contCuadro.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <h5 class="text-[9px] font-black text-yellow-500 uppercase tracking-widest text-center border-b border-yellow-500/20 pb-2">Llaves Grupo A</h5>
+                    <div class="grid grid-cols-1 gap-2">
+                        <div class="relative">
+                            ${crearPartido(grupoA[0]?.nombre, 1, grupoA[7]?.nombre, 8)}
+                            ${crearPartido(grupoA[3]?.nombre, 4, grupoA[4]?.nombre, 5)}
+                            <div class="absolute -right-4 top-1/2 -translate-y-1/2 w-4 h-24 border-y border-r border-white/20 rounded-r-lg"></div>
                         </div>
-                        <span class="flex-1 text-left text-slate-400 leading-none">${p.V}</span>
+                        <div class="relative mt-4">
+                            ${crearPartido(grupoA[1]?.nombre, 2, grupoA[6]?.nombre, 7)}
+                            ${crearPartido(grupoA[2]?.nombre, 3, grupoA[5]?.nombre, 6)}
+                            <div class="absolute -right-4 top-1/2 -translate-y-1/2 w-4 h-24 border-y border-r border-white/20 rounded-r-lg"></div>
+                        </div>
                     </div>
-                `).join('');
-            }
-
-            if(fecha.libre) {
-                document.getElementById('libre-render').innerHTML = `
-                    <div class="text-center p-4 border border-dashed border-emerald-500/20 rounded-2xl bg-emerald-500/[0.02]">
-                        <p class="text-[8px] font-black uppercase text-slate-600 tracking-widest mb-1">Equipo Libre</p>
-                        <p class="text-[11px] font-black text-emerald-500 uppercase italic">${fecha.libre}</p>
-                    </div>`;
-            } else {
-                document.getElementById('libre-render').innerHTML = '';
-            }
-        }
-
-        window.onload = () => {
-            lucide.createIcons();
-            document.getElementById('sponsors-grid').innerHTML = SPONSORS.map(s => `
-                <div class="sponsor-card">
-                    <span class="text-[9px] font-black uppercase italic text-slate-400 text-center leading-tight">${s}</span>
                 </div>
-            `).join('');
-            renderizar();
-            validarAcceso();
-        };
-    </script>
+
+                <div class="space-y-6">
+                    <h5 class="text-[9px] font-black text-emerald-500 uppercase tracking-widest text-center border-b border-emerald-500/20 pb-2">Llaves Grupo B</h5>
+                    <div class="grid grid-cols-1 gap-2">
+                        <div class="relative">
+                            ${crearPartido(grupoB[0]?.nombre, 1, grupoB[7]?.nombre, 8)}
+                            ${crearPartido(grupoB[3]?.nombre, 4, grupoB[4]?.nombre, 5)}
+                            <div class="absolute -left-4 top-1/2 -translate-y-1/2 w-4 h-24 border-y border-l border-white/20 rounded-l-lg"></div>
+                        </div>
+                        <div class="relative mt-4">
+                            ${crearPartido(grupoB[1]?.nombre, 2, grupoB[6]?.nombre, 7)}
+                            ${crearPartido(grupoB[2]?.nombre, 3, grupoB[5]?.nombre, 6)}
+                            <div class="absolute -left-4 top-1/2 -translate-y-1/2 w-4 h-24 border-y border-l border-white/20 rounded-l-lg"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 text-center">
+                <div class="inline-block bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-full">
+                    <span class="text-[9px] font-black text-emerald-500 uppercase tracking-widest">Camino a Cuartos de Final</span>
+                </div>
+            </div>
+        `;
+    }
+    lucide.createIcons();
+}
+
+window.onload = () => {
+    lucide.createIcons();
+    document.getElementById('sponsors-grid').innerHTML = SPONSORS.map(s => `
+        <div class="sponsor-card">
+            <span class="text-[9px] font-black uppercase italic text-slate-400 text-center leading-tight">${s}</span>
+        </div>
+    `).join('');
+    renderizar();
+};
+</script>
 </body>
 </html>

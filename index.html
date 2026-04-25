@@ -120,7 +120,27 @@
     align-items: center;
     justify-content: center;
     padding: 0 20px;
-} </style>
+} <style>
+    /* Versión para pegar directo si NO usas Tailwind puro en el CSS */
+    .zone-button {
+        background-color: transparent;
+        color: #64748b; /* El gris de antes */
+        border: none;
+        cursor: pointer;
+    }
+
+    .active-btn {
+        background-color: #10b981 !important; 
+        color: white !important;
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        transform: translateY(-1px);
+    }
+
+    .zone-button:hover:not(.active-btn) {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: #f1f5f9;
+    }
+</style>
 </head>
 <body>
 <header class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 p-4">
@@ -144,36 +164,47 @@
 
 <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-12">
     
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <div class="lg:col-span-8">
-            <div class="video-container shadow-2xl relative overflow-hidden bg-black rounded-3xl border border-white/10 aspect-video">
-                
-                <div id="esperando-senal" class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-slate-950 text-center p-6">
-                    <div class="relative mb-4">
-                        <div class="absolute inset-0 rounded-full bg-emerald-500/20 animate-ping"></div>
-                        <div class="relative bg-emerald-500/10 p-5 rounded-full border border-emerald-500/40">
-                            <i data-lucide="video" class="text-emerald-500 w-10 h-10"></i>
-                        </div>
-                    </div>
-                    
-                    <h3 class="text-3xl font-black uppercase italic mb-2 tracking-tighter text-white">
-                        Esperando señal
-                    </h3>
-                    <p class="text-emerald-500 text-sm uppercase font-bold tracking-[0.3em] mb-8 text-[10px]">
-                        
-                    </p>
-
-                    <button onclick="document.getElementById('esperando-senal').classList.add('hidden')" 
-                            class="bg-emerald-600 hover:bg-emerald-500 text-white font-black uppercase text-xs px-10 py-4 rounded-2xl transition-all shadow-xl active:scale-95 flex items-center gap-3">
-                        <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                        Quitar cartel para ver
-                    </button>
-                </div>
-
-                <iframe id="youtube-player" src="https://www.youtube.com/embed/TU_ID_DE_VIDEO" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
+    
+        <div class="lg:col-span-3 bg-black rounded-3xl overflow-hidden aspect-video shadow-2xl border border-white/5">
+            <iframe id="youtube-player" class="w-full h-full hidden" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            
+            <div id="video-placeholder" class="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-slate-500">
+                <i data-lucide="lock" class="w-12 h-12 mb-2 opacity-20"></i>
+                <p class="text-xs uppercase font-black italic tracking-widest">Contenido Protegido</p>
             </div>
-        </div><div class="lg:col-span-4 flex flex-col gap-6">
-            <div class="panel-deportivo flex-1 flex flex-col min-h-[350px] overflow-hidden">
+        </div>
+    
+        <div id="panel-acceso" class="bg-slate-900/50 border border-white/10 p-6 rounded-3xl flex flex-col justify-center">
+            <div id="formulario-login">
+                <h3 class="text-emerald-500 font-black italic uppercase text-sm mb-4">Acceso Premium</h3>
+                <p class="text-slate-400 text-[10px] mb-4 leading-relaxed">Ingresá la clave del domingo para desbloquear la transmisión en vivo.</p>
+                
+                <input type="text" id="pass-usuario" placeholder="CLAVE AQUÍ" 
+                    class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-bold focus:border-emerald-500 outline-none mb-3 transition-all">
+                
+                <button onclick="intentarAcceso()" 
+                    class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black italic uppercase text-[10px] py-3 rounded-xl transition-all shadow-lg shadow-emerald-900/20">
+                    Desbloquear Video
+                </button>
+                
+                <p id="msj-error" class="hidden text-red-500 text-[9px] font-bold mt-3 text-center uppercase tracking-tighter">
+                    Clave incorrecta. Intentá de nuevo.
+                </p>
+            </div>
+    
+            <div id="acceso-exitoso" class="hidden text-center">
+                <div class="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="check" class="text-emerald-500 w-6 h-6"></i>
+                </div>
+                <p class="text-emerald-500 font-black italic uppercase text-[10px]">Acceso Concedido</p>
+            </div>
+        </div>
+    </div>
+    <section class="max-w-6xl mx-auto px-4 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+            
+            <div class="panel-deportivo flex flex-col h-full overflow-hidden border border-white/10 rounded-3xl">
                 <div class="p-5 border-b border-white/5 bg-slate-900/50 flex justify-between items-center text-white">
                     <span class="text-[10px] font-black uppercase tracking-widest text-emerald-500 flex items-center gap-2 italic">
                         <i data-lucide="volume-2" class="w-4 h-4"></i> Radio en Vivo
@@ -183,67 +214,57 @@
                         <span class="text-[9px] font-bold opacity-50 uppercase">Al Aire</span>
                     </div>
                 </div>
-                <div class="flex-1 bg-black">
+                <div class="flex-1 bg-black min-h-[250px]">
                     <iframe src="https://zeno.fm/player/superdeportivo-digital" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
                 </div>
             </div>
+    
+            <div class="bg-slate-900/50 border border-white/10 rounded-3xl p-6 flex flex-col justify-between">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-emerald-500 font-black italic uppercase text-sm tracking-widest">Fecha 5</h3>
+                        <p class="text-slate-400 text-[10px] font-bold uppercase">Estadio Presidente Jacob</p>
+                    </div>
+                    <span class="bg-emerald-500/10 text-emerald-500 text-[9px] font-black px-3 py-1 rounded-full border border-emerald-500/20 uppercase animate-pulse">Zona Norte</span>
+                </div>
+    
+                <div class="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl flex-1 min-h-[180px]">
+                    <img src="https://scontent.faep36-2.fna.fbcdn.net/v/t39.30808-6/475753760_3084410991708257_3992826180135275557_n.jpg?..." 
+                         class="absolute inset-0 w-full h-full object-cover opacity-40" alt="Estadio">
+                    <div class="absolute inset-0 bg-slate-950/80"></div>
+    
+                    <div class="relative z-10 p-4 h-full flex items-center">
+                        <div class="flex items-center justify-around w-full gap-2">
+                            <div class="flex flex-col items-center flex-1">
+                                <div class="w-12 h-12 mb-2 rounded-full bg-white p-1 shadow-xl">
+                                    <img src="https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cuac.png" class="w-full h-full object-contain"> 
+                                </div>
+                                <span class="text-center text-white/70 font-bold uppercase text-[8px] leading-tight">U. Agrarios Cerrito</span>
+                            </div>
+    
+                            <div class="flex flex-col items-center min-w-[60px]">
+                                <div class="bg-emerald-600 text-white px-2 py-1 rounded text-[8px] font-black italic">VS</div>
+                                <div class="h-[2px] w-6 bg-emerald-500 mt-2"></div>
+                            </div>
+    
+                            <div class="flex flex-col items-center flex-1">
+                                <div class="w-12 h-12 mb-2 rounded-full bg-white p-1 shadow-xl">
+                                    <img src="https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/juventudc.png" class="w-full h-full object-contain"> 
+                                </div>
+                                <span class="text-center text-white/70 font-bold uppercase text-[8px] leading-tight">J. Unida Bovril</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="w-full overflow-hidden bg-slate-950/50 py-4 mb-8 border border-white/5 rounded-2xl">
+            <div class="carousel-track" id="sponsors-carousel"></div>
         </div>
     </div>
-    <div class="bg-slate-900/50 border border-white/10 rounded-3xl p-6 mb-8">
-      <div class="flex items-center justify-between mb-6">
-          <div>
-              <h3 class="text-emerald-500 font-black italic uppercase text-sm tracking-widest">Fecha 4</h3>
-              
-              <p class="text-slate-400 text-[10px] font-bold uppercase">Estadio Atl. Hernandarias</p>
-              
-          </div>
-          <span class="bg-emerald-500/10 text-emerald-500 text-[9px] font-black px-3 py-1 rounded-full border border-emerald-500/20 uppercase animate-pulse">Zona Norte</span>
-      </div>
-  
-      <div class="relative overflow-hidden rounded-3xl mb-4 border border-white/10 shadow-2xl">
-          <img src="https://scontent.faep36-2.fna.fbcdn.net/v/t39.30808-6/475753760_3084410991708257_3992826180135275557_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=100&ccb=1-7&_nc_sid=2a1932&_nc_eui2=AeFWnzXt2GrZ6q5AhnaH36Uv9ehQvoLbhPP16FC-gtuE82KQzqaeW1cBFd0pM80ztcFZGawXptpsn1MY6KH9mdly&_nc_ohc=Bg-9bONWmY8Q7kNvwG683aj&_nc_oc=AdqbY5M7VQ2U2wL-EXtHnmvJ-MMp8UOGZ_i6NsgJHjNiVh2ADjDbxJut3uOJFiBkDUo&_nc_zt=23&_nc_ht=scontent.faep36-2.fna&_nc_gid=Lh8BMJVFZM5j4Nel-xfpng&_nc_ss=7a3a8&oh=00_Af2RSUonLimRfppPu8Vn_zj7pkT557AJXvEFg4VWhaq2Xg&oe=69DC3476" 
-               class="absolute inset-0 w-full h-full object-cover opacity-40" alt="Estadio">
-          <div class="absolute inset-0 bg-slate-950/80"></div>
-  
-          <div class="relative z-10 p-6">
-              <div class="flex items-center justify-around gap-2">
-                  
-                  <div class="flex flex-col items-center flex-1">
-                      <div class="w-16 h-16 mb-2 rounded-full bg-white p-1 shadow-xl">
-                          <img src="https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cah.png" class="w-full h-full object-contain rounded-full">
-                      </div>
-                      
-                      <span class="text-white font-black text-5xl mb-1 text-center"></span>
-                      
-                      <span class="text-center text-white/70 font-bold uppercase text-[9px] leading-tight">Atl. Hernandarias</span>
-                  </div>
-  
-                  <div class="flex flex-col items-center min-w-[100px]">
-                      <div class="bg-emerald-600 text-white px-3 py-1 rounded-md mb-2 text-[9px] font-black uppercase italic">VS</div>
-                      
-                      <div class="text-4xl font-mono font-black text-white tracking-tighter drop-shadow-lg"></div>
-                      
-                      <div class="h-[2px] w-8 bg-emerald-500 mt-2"></div>
-                  </div>
-  
-                  <div class="flex flex-col items-center flex-1">
-                      <div class="w-16 h-16 mb-2 rounded-full bg-white p-1 shadow-xl">
-                          <img src="https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cuac.png" class="w-full h-full object-contain rounded-full"> 
-                      </div>
-                      
-                      <span class="text-white font-black text-5xl mb-1 text-center"></span>
-                      
-                      <span class="text-center text-white/70 font-bold uppercase text-[9px] leading-tight">U. Agrarios Cerrito</span>
-                  </div>
-                  
-              </div>
-          </div>
-      </div>
-  </div>
-    <div class="w-full overflow-hidden bg-slate-950/50 py-4 mb-8 border-y border-white/5">
-        <div class="carousel-track" id="sponsors-carousel"></div>
-    </div> </div>
-    </section>
 
     <div class="space-y-8">
         <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-6">
@@ -252,11 +273,22 @@
                 <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Temporada 2026 • Liga Paraná Campaña</p>
             </div>
             
-            <div class="flex flex-wrap gap-4">
-                <div class="flex gap-1 bg-slate-950/50 p-1.5 rounded-2xl border border-white/5 shadow-xl">
-                    <button onclick="cambiarZona('norte')" id="zone-norte" class="zone-button active-btn">Norte</button>
-                    <button onclick="cambiarZona('centro')" id="zone-centro" class="zone-button">Centro</button>
-                    <button onclick="cambiarZona('sur')" id="zone-sur" class="zone-button">Sur</button>
+            <<div class="flex flex-wrap gap-4">
+                <div class="flex gap-1 bg-slate-950/80 p-1 rounded-xl border border-white/10 shadow-2xl backdrop-blur-md">
+                    <button onclick="cambiarZona('norte')" id="zone-norte" 
+                        class="zone-button active-btn px-4 py-2 rounded-lg text-[10px] font-black uppercase italic tracking-tighter transition-all duration-300">
+                        Norte
+                    </button>
+                    <button onclick="cambiarZona('centro')" id="zone-centro" 
+                        class="zone-button px-4 py-2 rounded-lg text-[10px] font-black uppercase italic tracking-tighter transition-all duration-300 text-slate-500 hover:text-white">
+                        Centro
+                    </button>
+                    <button onclick="cambiarZona('sur')" id="zone-sur" 
+                        class="zone-button px-4 py-2 rounded-lg text-[10px] font-black uppercase italic tracking-tighter transition-all duration-300 text-slate-500 hover:text-white">
+                        Sur
+                    </button>
+                </div>
+            </div>
                 </div>
                 <div class="flex gap-1 bg-slate-950/50 p-1.5 rounded-2xl border border-white/5 shadow-xl">
                     <button onclick="cambiarCategoria('primera')" id="cat-primera" class="category-button active-btn">1ª Div</button>
@@ -375,106 +407,133 @@
         let fechaActual = '3';
         const VIDEO_ID = "dQw4w9WgXcQ";
 
-        const EQUIPOS_CENTRO = ["Atlético Litoral", "Cañadita Central", "Atlético María Grande", "Atlético Hasenkamp", "Seguí Football Club", "Asociación Social Diego Maradona", "Juventud Sarmiento"];
-        const EQUIPOS_NORTE = ["Juventud Unida", "Deportivo Tuyango", "Unión Agrarios", "Atlético Hernandarias", "Deportivo Bovril", "Independiente FC", "Unión FC"];
-        const EQUIPOS_SUR = ["Atlético Arsenal", "Viale Football Club", "Atlético Sarmiento", "Atlético Unión", "Deportivo Tabossi", "Asociación Cultural", "Atlético Unión de Viale"];
+        const EQUIPOS_CENTRO = ["Atlético Litoral", "Cañadita Central", "Atlético María Grande", "Atlético Hasenkamp", "Segui FC", "Escuela Diego Maradona", "Juventud Sarmiento"];
+const EQUIPOS_NORTE = ["Juventud Unida", "Deportivo Tuyango", "Unión Agrarios", "Atlético Hernandarias", "Deportivo Bovril", "Independiente FC", "Unión FC"];
+const EQUIPOS_SUR = ["Atlético Arsenal", "Viale Football Club", "Atlético Sarmiento", "Atlético Unión", "Deportivo Tabossi", "Asociación Cultural", "Atlético Unión de Viale"];
 
-        const NORTE_DATA = {
-            primera: {
-                "1": { partidos: [{ L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-3" }, { L: "Juventud Unida", V: "Independiente FC", R: "2-0" }, { L: "Unión Agrarios", V: "Unión FC", R: "4-2" }], libre: "Deportivo Bovril" },
-                "2": { partidos: [{ L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "2-3" }, { L: "Deportivo Tuyango", V: "Unión Agrarios", R: "2-1" }, { L: "Unión FC", V: "Juventud Unida", R: "0-3" }], libre: "Independiente FC" },
-                "3": { partidos: [{ L: "Independiente FC", V: "Unión FC", R: "2-0" }, { L: "Unión Agrarios", V: "Deportivo Bovril", R: "3-1" }, { L: "Juventud Unida", V: "Deportivo Tuyango", R: "1-1" }], libre: "Atlético Hernandarias" },
-                "4": { partidos: [{ L: "Atlético Hernandarias", V: "Unión Agrarios", R: "0-6" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "0-0" }, { L: "Deportivo Bovril", V: "Juventud Unida", R: "0-0" }], libre: "Unión FC" },
-                "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "-" }, { L: "Juventud Unida", V: "Atlético Hernandarias", R: "-" }, { L: "Unión FC", V: "Deportivo Tuyango", R: "-" }], libre: "Unión Agrarios" },
-                "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "-" }, { L: "Unión Agrarios", V: "Juventud Unida", R: "-" }, { L: "Deportivo Bovril", V: "Unión FC", R: "-" }], libre: "Deportivo Tuyango" },
-                "7": { partidos: [{ L: "Independiente FC", V: "Unión Agrarios", R: "-" }, { L: "Unión FC", V: "Atlético Hernandarias", R: "-" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "-" }], libre: "Juventud Unida" }
-            },
-            sub20: {
-                "1": { partidos: [{ L: "Juventud Unida", V: "Independiente FC", R: "0-1" }, { L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-0" }, { L: "Unión Agrarios", V: "Unión FC", R: "3-1" }], libre: "Deportivo Bovril" },
-                "2": { partidos: [{ L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "0-0" }, { L: "Unión FC", V: "Juventud Unida", R: "0-3" }, { L: "Deportivo Tuyango", V: "Unión Agrarios", R: "1-0" }], libre: "Independiente FC" },
-                "3": { partidos: [{ L: "Independiente FC", V: "Unión FC", R: "2-2" }, { L: "Unión Agrarios", V: "Deportivo Bovril", R: "4-4" }, { L: "Juventud Unida", V: "Deportivo Tuyango", R: "0-0" }], libre: "Atlético Hernandarias" },
-                "4": { partidos: [{ L: "Atlético Hernandarias", V: "Unión Agrarios", R: "1-2" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "1-1" }, { L: "Deportivo Bovril", V: "Juventud Unida", R: "0-0" }], libre: "Unión FC" },
-                "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "-" }, { L: "Juventud Unida", V: "Atlético Hernandarias", R: "-" }, { L: "Unión FC", V: "Deportivo Tuyango", R: "-" }], libre: "Unión Agrarios" },
-                "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "-" }, { L: "Unión Agrarios", V: "Juventud Unida", R: "-" }, { L: "Deportivo Bovril", V: "Unión FC", R: "-" }], libre: "Deportivo Tuyango" },
-                "7": { partidos: [{ L: "Independiente FC", V: "Unión Agrarios", R: "-" }, { L: "Unión FC", V: "Atlético Hernandarias", R: "-" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "-" }], libre: "Juventud Unida" },
+const NORTE_DATA = {
+    primera: {
+        "1": { partidos: [{ L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-3" }, { L: "Juventud Unida", V: "Independiente FC", R: "2-0" }, { L: "Unión Agrarios", V: "Unión FC", R: "4-2" }], libre: "Deportivo Bovril" },
+        "2": { partidos: [{ L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "2-3" }, { L: "Deportivo Tuyango", V: "Unión Agrarios", R: "2-1" }, { L: "Unión FC", V: "Juventud Unida", R: "0-3" }], libre: "Independiente FC" },
+        "3": { partidos: [{ L: "Independiente FC", V: "Unión FC", R: "2-0" }, { L: "Unión Agrarios", V: "Deportivo Bovril", R: "3-1" }, { L: "Juventud Unida", V: "Deportivo Tuyango", R: "1-1" }], libre: "Atlético Hernandarias" },
+        "4": { partidos: [{ L: "Atlético Hernandarias", V: "Unión Agrarios", R: "0-6" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "0-0" }, { L: "Deportivo Bovril", V: "Juventud Unida", R: "0-0" }], libre: "Unión FC" },
+        "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "-" }, { L: "Juventud Unida", V: "Atlético Hernandarias", R: "-" }, { L: "Unión FC", V: "Deportivo Tuyango", R: "-" }], libre: "Unión Agrarios" },
+        "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "-" }, { L: "Unión Agrarios", V: "Juventud Unida", R: "-" }, { L: "Deportivo Bovril", V: "Unión FC", R: "-" }], libre: "Deportivo Tuyango" },
+        "7": { partidos: [{ L: "Independiente FC", V: "Unión Agrarios", R: "-" }, { L: "Unión FC", V: "Atlético Hernandarias", R: "-" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "-" }], libre: "Juventud Unida" }
+    },
+    sub20: {
+        "1": { partidos: [{ L: "Juventud Unida", V: "Independiente FC", R: "0-1" }, { L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-0" }, { L: "Unión Agrarios", V: "Unión FC", R: "3-1" }], libre: "Deportivo Bovril" },
+        "2": { partidos: [{ L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "0-0" }, { L: "Unión FC", V: "Juventud Unida", R: "0-3" }, { L: "Deportivo Tuyango", V: "Unión Agrarios", R: "1-0" }], libre: "Independiente FC" },
+        "3": { partidos: [{ L: "Independiente FC", V: "Unión FC", R: "2-2" }, { L: "Unión Agrarios", V: "Deportivo Bovril", R: "4-4" }, { L: "Juventud Unida", V: "Deportivo Tuyango", R: "0-0" }], libre: "Atlético Hernandarias" },
+        "4": { partidos: [{ L: "Atlético Hernandarias", V: "Unión Agrarios", R: "1-2" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "1-1" }, { L: "Deportivo Bovril", V: "Juventud Unida", R: "0-0" }], libre: "Unión FC" },
+        "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "-" }, { L: "Juventud Unida", V: "Atlético Hernandarias", R: "-" }, { L: "Unión FC", V: "Deportivo Tuyango", R: "-" }], libre: "Unión Agrarios" },
+        "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "-" }, { L: "Unión Agrarios", V: "Juventud Unida", R: "-" }, { L: "Deportivo Bovril", V: "Unión FC", R: "-" }], libre: "Deportivo Tuyango" },
+        "7": { partidos: [{ L: "Independiente FC", V: "Unión Agrarios", R: "-" }, { L: "Unión FC", V: "Atlético Hernandarias", R: "-" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "-" }], libre: "Juventud Unida" }
+    },
+    sub17: {
+        "1": { partidos: [{ L: "Juventud Unida", V: "Independiente FC", R: "2-0" }, { L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-2" }, { L: "Unión Agrarios", V: "Unión FC", R: "4-1" }], libre: "Deportivo Bovril" },
+        "2": { partidos: [{ L: "Unión FC", V: "Juventud Unida", R: "1-1" }, { L: "Deportivo Tuyango", V: "Unión Agrarios", R: "0-2" }, { L: "Atlético Hernandarias", V: "Deportivo Bovril", R: "0-2" }], libre: "Independiente FC" },
+        "3": { partidos: [{ L: "Independiente FC", V: "Unión FC", R: "0-1" }, { L: "Unión Agrarios", V: "Deportivo Bovril", R: "0-0" }, { L: "Juventud Unida", V: "Deportivo Tuyango", R: "0-0" }], libre: "Atlético Hernandarias" },
+        "4": { partidos: [{ L: "Atlético Hernandarias", V: "Unión Agrarios", R: "1-1" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "0-0" }, { L: "Deportivo Bovril", V: "Juventud Unida", R: "0-3" }], libre: "Unión FC" },
+        "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "-" }, { L: "Juventud Unida", V: "Atlético Hernandarias", R: "-" }, { L: "Unión FC", V: "Deportivo Tuyango", R: "-" }], libre: "Unión Agrarios" },
+        "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "-" }, { L: "Unión Agrarios", V: "Juventud Unida", R: "-" }, { L: "Deportivo Bovril", V: "Unión FC", R: "-" }], libre: "Deportivo Tuyango" },
+        "7": { partidos: [{ L: "Independiente FC", V: "Unión Agrarios", R: "-" }, { L: "Unión FC", V: "Atlético Hernandarias", R: "-" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "-" }], libre: "Juventud Unida" }
+    }
+};
 
-            },
-            sub17: {
-                "1": { partidos: [{ L: "Juventud Unida", V: "Independiente FC", R: "2-0" }, { L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-2" }, { L: "Unión Agrarios", V: "Unión FC", R: "4-1" }], libre: "Deportivo Bovril" },
-                "2": { partidos: [{ L: "Unión FC", V: "Juventud Unida", R: "1-1" }, { L: "Deportivo Tuyango", V: "Unión Agrarios", R: "0-2" }, { L: "Atlético Hernandarias", V: "Deportivo Bovril", R: "0-2" }], libre: "Independiente FC" },
-                "3": { partidos: [{ L: "Independiente FC", V: "Unión FC", R: "0-1" }, { L: "Unión Agrarios", V: "Deportivo Bovril", R: "0-0" }, { L: "Juventud Unida", V: "Deportivo Tuyango", R: "0-0" }], libre: "Atlético Hernandarias" },
-                "4": { partidos: [{ L: "Atlético Hernandarias", V: "Unión Agrarios", R: "1-1" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "0-0" }, { L: "Deportivo Bovril", V: "Juventud Unida", R: "0-3" }], libre: "Unión FC" },
-                "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "-" }, { L: "Juventud Unida", V: "Atlético Hernandarias", R: "-" }, { L: "Unión FC", V: "Deportivo Tuyango", R: "-" }], libre: "Unión Agrarios" },
-                "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "-" }, { L: "Unión Agrarios", V: "Juventud Unida", R: "-" }, { L: "Deportivo Bovril", V: "Unión FC", R: "-" }], libre: "Deportivo Tuyango" },
-                "7": { partidos: [{ L: "Independiente FC", V: "Unión Agrarios", R: "-" }, { L: "Unión FC", V: "Atlético Hernandarias", R: "-" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "-" }], libre: "Juventud Unida" },
+const CENTRO_DATA = {
+    primera: {
+        "1": { partidos: [{ L: "Atlético Hasenkamp", V: "Segui FC", R: "3-0" }, { L: "Atlético Litoral", V: "Juventud Sarmiento", R: "5-0" }, { L: "Cañadita Central", V: "Escuela Diego Maradona", R: "2-0" }], libre: "Atlético María Grande" },
+        "2": { partidos: [{ L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "2-1" }, { L: "Segui FC", V: "Cañadita Central", R: "0-2" }, { L: "Escuela Diego Maradona", V: "Atlético Litoral", R: "1-2" }], libre: "Juventud Sarmiento" },
+        "3": { partidos: [{ L: "Juventud Sarmiento", V: "Escuela Diego Maradona", R: "1-0" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "1-5" }, { L: "Atlético Litoral", V: "Segui FC", R: "3-1" }], libre: "Atlético Hasenkamp" },
+        "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "1-1" }, { L: "Segui FC", V: "Juventud Sarmiento", R: "2-2" }, { L: "Atlético María Grande", V: "Atlético Litoral", R: "1-0" }], libre: "Escuela Diego Maradona" },
+        "5": { partidos: [{ L: "Juventud Sarmiento", V: "Atlético María Grande", R: "-" }, { L: "Atlético Litoral", V: "Atlético Hasenkamp", R: "-" }, { L: "Escuela Diego Maradona", V: "Segui FC", R: "-" }], libre: "Cañadita Central" },
+        "6": { partidos: [{ L: "Atlético Hasenkamp", V: "Juventud Sarmiento", R: "-" }, { L: "Cañadita Central", V: "Atlético Litoral", R: "-" }, { L: "Atlético María Grande", V: "Escuela Diego Maradona", R: "-" }], libre: "Segui FC" },
+        "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "-" }, { L: "Escuela Diego Maradona", V: "Atlético Hasenkamp", R: "-" }, { L: "Segui FC", V: "Atlético Litoral", R: "-" }], libre: "Atlético María Grande" }
+    },
+    sub20: {
+        "1": { partidos: [{ L: "Cañadita Central", V: "Escuela Diego Maradona", R: "1-0" }, { L: "Atlético Litoral", V: "Juventud Sarmiento", R: "2-1" }, { L: "Atlético Hasenkamp", V: "Segui FC", R: "1-1" }], libre: "Atlético María Grande" },
+        "2": { partidos: [{ L: "Segui FC", V: "Cañadita Central", R: "0-1" }, { L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "4-0" }, { L: "Escuela Diego Maradona", V: "Atlético Litoral", R: "0-1" }], libre: "Juventud Sarmiento" },
+        "3": { partidos: [{ L: "Juventud Sarmiento", V: "Escuela Diego Maradona", R: "1-4" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "0-3" }, { L: "Atlético Litoral", V: "Segui FC", R: "6-0" }], libre: "Atlético Hasenkamp" },
+        "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "0-4" }, { L: "Segui FC", V: "Juventud Sarmiento", R: "6-1" }, { L: "Atlético María Grande", V: "Atlético Litoral", R: "0-0" }], libre: "Escuela Diego Maradona" },
+        "5": { partidos: [{ L: "Juventud Sarmiento", V: "Atlético María Grande", R: "-" }, { L: "Atlético Litoral", V: "Atlético Hasenkamp", R: "-" }, { L: "Escuela Diego Maradona", V: "Segui FC", R: "-" }], libre: "Cañadita Central" },
+        "6": { partidos: [{ L: "Atlético Hasenkamp", V: "Juventud Sarmiento", R: "-" }, { L: "Cañadita Central", V: "Atlético Litoral", R: "-" }, { L: "Atlético María Grande", V: "Escuela Diego Maradona", R: "-" }], libre: "Segui FC" },
+        "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "-" }, { L: "Escuela Diego Maradona", V: "Atlético Hasenkamp", R: "-" }, { L: "Segui FC", V: "Atlético Litoral", R: "-" }], libre: "Atlético María Grande" }
+    },
+    sub17: {
+        "1": { partidos: [{ L: "Cañadita Central", V: "Escuela Diego Maradona", R: "1-1" }, { L: "Atlético Litoral", V: "Juventud Sarmiento", R: "2-0" }, { L: "Atlético Hasenkamp", V: "Segui FC", R: "5-0" }], libre: "Atlético María Grande" },
+        "2": { partidos: [{ L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "2-0" }, { L: "Escuela Diego Maradona", V: "Atlético Litoral", R: "0-2" }, { L: "Segui FC", V: "Cañadita Central", R: "1-0" }], libre: "Juventud Sarmiento" },
+        "3": { partidos: [{ L: "Juventud Sarmiento", V: "Escuela Diego Maradona", R: "1-1" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "0-2" }, { L: "Atlético Litoral", V: "Segui FC", R: "5-1" }], libre: "Atlético Hasenkamp" },
+        "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "1-2" }, { L: "Segui FC", V: "Juventud Sarmiento", R: "2-2" }, { L: "Atlético María Grande", V: "Atlético Litoral", R: "2-0" }], libre: "Escuela Diego Maradona" },
+        "5": { partidos: [{ L: "Juventud Sarmiento", V: "Atlético María Grande", R: "-" }, { L: "Atlético Litoral", V: "Atlético Hasenkamp", R: "-" }, { L: "Escuela Diego Maradona", V: "Segui FC", R: "-" }], libre: "Cañadita Central" },
+        "6": { partidos: [{ L: "Atlético Hasenkamp", V: "Juventud Sarmiento", R: "-" }, { L: "Cañadita Central", V: "Atlético Litoral", R: "-" }, { L: "Atlético María Grande", V: "Escuela Diego Maradona", R: "-" }], libre: "Segui FC" },
+        "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "-" }, { L: "Escuela Diego Maradona", V: "Atlético Hasenkamp", R: "-" }, { L: "Segui FC", V: "Atlético Litoral", R: "-" }], libre: "Atlético María Grande" }
+    }
+};
 
-            }
-        };
+const SUR_DATA = { 
+    primera: {
+        "1": { partidos: [{ L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "4-0" }, { L: "Atlético Unión", V: "Atlético Unión de Viale", R: "7-0" }, { L: "Viale Football Club", V: "Asociación Cultural", R: "5-1" }], libre: "Atlético Sarmiento" },
+        "2": { partidos: [{ L: "Atlético Sarmiento", V: "Atlético Arsenal", R: "1-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "1-3" }, { L: "Asociación Cultural", V: "Atlético Unión", R: "1-0" }], libre: "Atlético Unión de Viale" },
+        "3": { partidos: [{ L: "Atlético Unión de Viale", V: "Asociación Cultural", R: "0-8" }, { L: "Viale Football Club", V: "Atlético Sarmiento", R: "3-0" }, { L: "Atlético Unión", V: "Deportivo Tabossi", R: "3-0" }], libre: "Atlético Arsenal" },
+        "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "1-2" }, { L: "Deportivo Tabossi", V: "Atlético Unión de Viale", R: "2-0" }, { L: "Atlético Sarmiento", V: "Atlético Unión", R: "0-1" }], libre: "Asociación Cultural" },
+        "5": { partidos: [{ L: "Atlético Unión de Viale", V: "Atlético Sarmiento", R: "-" }, { L: "Atlético Unión", V: "Atlético Arsenal", R: "-" }, { L: "Asociación Cultural", V: "Deportivo Tabossi", R: "-" }], libre: "Viale Football Club" },
+        "6": { partidos: [{ L: "Atlético Arsenal", V: "Atlético Unión de Viale", R: "-" }, { L: "Viale Football Club", V: "Atlético Unión", R: "-" }, { L: "Atlético Sarmiento", V: "Asociación Cultural", R: "-" }], libre: "Deportivo Tabossi" },
+        "7": { partidos: [{ L: "Atlético Unión de Viale", V: "Viale Football Club", R: "-" }, { L: "Asociación Cultural", V: "Atlético Arsenal", R: "-" }, { L: "Deportivo Tabossi", V: "Atlético Sarmiento", R: "-" }], libre: "Atlético Unión" }
+    }, 
+    sub20: {
+        "1": { partidos: [{ L: "Viale Football Club", V: "Asociación Cultural", R: "1-1" }, { L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "2-0" }, { L: "Atlético Unión", V: "Atlético Unión de Viale", R: "1-0" }], libre: "Atlético Sarmiento" },
+        "2": { partidos: [{ L: "Asociación Cultural", V: "Atlético Unión", R: "3-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "0-3" }, { L: "Atlético Sarmiento", V: "Atlético Arsenal", R: "1-3" }], libre: "Atlético Unión de Viale" },
+        "3": { partidos: [{ L: "Atlético Unión de Viale", V: "Asociación Cultural", R: "0-3" }, { L: "Viale Football Club", V: "Atlético Sarmiento", R: "3-1" }, { L: "Atlético Unión", V: "Deportivo Tabossi", R: "2-0" }], libre: "Atlético Arsenal" },
+        "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "1-2" }, { L: "Deportivo Tabossi", V: "Atlético Unión de Viale", R: "5-1" }, { L: "Atlético Sarmiento", V: "Atlético Unión", R: "2-4" }], libre: "Asociación Cultural" },
+        "5": { partidos: [{ L: "Atlético Unión de Viale", V: "Atlético Sarmiento", R: "-" }, { L: "Atlético Unión", V: "Atlético Arsenal", R: "-" }, { L: "Asociación Cultural", V: "Deportivo Tabossi", R: "-" }], libre: "Viale Football Club" },
+        "6": { partidos: [{ L: "Atlético Arsenal", V: "Atlético Unión de Viale", R: "-" }, { L: "Viale Football Club", V: "Atlético Unión", R: "-" }, { L: "Atlético Sarmiento", V: "Asociación Cultural", R: "-" }], libre: "Deportivo Tabossi" },
+        "7": { partidos: [{ L: "Atlético Unión de Viale", V: "Viale Football Club", R: "-" }, { L: "Asociación Cultural", V: "Atlético Arsenal", R: "-" }, { L: "Deportivo Tabossi", V: "Atlético Sarmiento", R: "-" }], libre: "Atlético Unión" }
+    }, 
+    sub17: {
+        "1": { partidos: [{ L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "0-0" }, { L: "Atlético Unión", V: "Atlético Unión de Viale", R: "12-0" }, { L: "Viale Football Club", V: "Asociación Cultural", R: "1-0" }], libre: "Atlético Sarmiento" },
+        "2": { partidos: [{ L: "Atlético Sarmiento", V: "Atlético Arsenal", R: "2-0" }, { L: "Asociación Cultural", V: "Atlético Unión", R: "0-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "0-2" }], libre: "Atlético Unión de Viale" },
+        "3": { partidos: [{ L: "Atlético Unión de Viale", V: "Asociación Cultural", R: "0-5" }, { L: "Viale Football Club", V: "Atlético Sarmiento", R: "0-0" }, { L: "Atlético Unión", V: "Deportivo Tabossi", R: "3-1" }], libre: "Atlético Arsenal" },
+        "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "2-0" }, { L: "Deportivo Tabossi", V: "Atlético Unión de Viale", R: "4-0" }, { L: "Atlético Sarmiento", V: "Atlético Unión", R: "0-2" }], libre: "Asociación Cultural" },
+        "5": { partidos: [{ L: "Atlético Unión de Viale", V: "Atlético Sarmiento", R: "-" }, { L: "Atlético Unión", V: "Atlético Arsenal", R: "-" }, { L: "Asociación Cultural", V: "Deportivo Tabossi", R: "-" }], libre: "Viale Football Club" },
+        "6": { partidos: [{ L: "Atlético Arsenal", V: "Atlético Unión de Viale", R: "-" }, { L: "Viale Football Club", V: "Atlético Unión", R: "-" }, { L: "Atlético Sarmiento", V: "Asociación Cultural", R: "-" }], libre: "Deportivo Tabossi" },
+        "7": { partidos: [{ L: "Atlético Unión de Viale", V: "Viale Football Club", R: "-" }, { L: "Asociación Cultural", V: "Atlético Arsenal", R: "-" }, { L: "Deportivo Tabossi", V: "Atlético Sarmiento", R: "-" }], libre: "Atlético Unión" }
+    } 
+};
 
-        const CENTRO_DATA = {
-            primera: {
-                "1": { partidos: [{ L: "Atlético Hasenkamp", V: "Seguí Football Club", R: "3-0" }, { L: "Atlético Litoral", V: "Juventud Sarmiento", R: "5-0" }, { L: "Cañadita Central", V: "Asociación Social Diego Maradona", R: "2-0" }], libre: "Atlético María Grande" },
-                "2": { partidos: [{ L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "2-1" }, { L: "Seguí Football Club", V: "Cañadita Central", R: "0-2" }, { L: "Asociación Social Diego Maradona", V: "Atlético Litoral", R: "1-2" }], libre: "Juventud Sarmiento" },
-                "3": { partidos: [{ L: "Juventud Sarmiento", V: "Asociación Social Diego Maradona", R: "1-0" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "1-5" }, { L: "Atlético Litoral", V: "Seguí Football Club", R: "3-1" }], libre: "Atlético Hasenkamp" },
-                "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "1-1" }, { L: "Seguí Football Club", V: "Juventud Sarmiento", R: "2-2" }, { L: "Atlético María Grande", V: "Atlético Litoral", R: "1-0" }], libre: "Asociación Social Diego Maradona" },
-                "5": { partidos: [{ L: "Juventud Sarmiento ", V: "Atlético María Grande", R: "-" }, { L: "Atlético Litoral", V: "Atlético Hasenkamp", R: "-" }, { L: "Asociación Social Diego Maradona", V: "Seguí Football Club", R: "-" }], libre: "Cañadita Central " },
-                "6": { partidos: [{ L: "Atlético Hasenkamp ", V: "Juventud Sarmiento  ", R: "-" }, { L: "Cañadita Central ", V: "Atlético Litoral ", R: "-" }, { L: "Atlético María Grande", V: "Asociación Social Diego Maradona", R: "-" }], libre: "Seguí Football Club" },
-                "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "-" }, { L: "Asociación Social Diego Maradona", V: "Atlético Hasenkamp ", R: "-" }, { L: "Seguí Football Club ", V: "Atlético Litoral", R: "-" }], libre: "Atlético María Grande" },
-            },
-            sub20: {
-                "1": { partidos: [{ L: "Cañadita Central", V: "Asociación Social Diego Maradona", R: "1-0" }, { L: "Atlético Litoral", V: "Juventud Sarmiento", R: "2-1" }, { L: "Atlético Hasenkamp", V: "Seguí Football Club", R: "1-1" }], libre: "Atlético María Grande" },
-                "2": { partidos: [{ L: "Seguí Football Club", V: "Cañadita Central", R: "0-1" }, { L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "4-0" }, { L: "Asociación Social Diego Maradona", V: "Atlético Litoral", R: "0-1" }], libre: "Juventud Sarmiento" },
-                "3": { partidos: [{ L: "Juventud Sarmiento", V: "Asociación Social Diego Maradona", R: "1-4" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "0-3" }, { L: "Atlético Litoral", V: "Seguí Football Club", R: "6-0" }], libre: "Atlético Hasenkamp" },
-                "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "0-4" }, { L: "Seguí Football Club", V: "Juventud Sarmiento", R: "6-1" }, { L: "Atlético María Grande", V: "Atlético Litoral", R: "0-0" }], libre: "Asociación Social Diego Maradona" },
-                "5": { partidos: [{ L: "Juventud Sarmiento ", V: "Atlético María Grande", R: "-" }, { L: "Atlético Litoral", V: "Atlético Hasenkamp", R: "-" }, { L: "Asociación Social Diego Maradona", V: "Seguí Football Club", R: "-" }], libre: "Cañadita Central " },
-                "6": { partidos: [{ L: "Atlético Hasenkamp ", V: "Juventud Sarmiento  ", R: "-" }, { L: "Cañadita Central ", V: "Atlético Litoral ", R: "-" }, { L: "Atlético María Grande", V: "Asociación Social Diego Maradona", R: "-" }], libre: "Seguí Football Club" },
-                "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "-" }, { L: "Asociación Social Diego Maradona", V: "Atlético Hasenkamp ", R: "-" }, { L: "Seguí Football Club ", V: "Atlético Litoral", R: "-" }], libre: "Atlético María Grande" },
+        const SPONSORS = ["DAR+, la tarjeta para comprar", "Municipalidad de Cerrito", "YPF El Empalme", "AUTOSERVICIO LA CALABAZA", "Masquito reparaciones", "HR-Netcom", "Corralon El Rafa", "Emi Pérez Motos", "APAPACHA-Pañalera", "FARMACIA PALACIOS", "Don Charo AUTOSERVICIO", "Hielos Celestiales", "Daniel Guetti Odontólogo"];
+        
+        function intentarAcceso() {
+    const ingreso = document.getElementById('pass-usuario').value.toUpperCase();
+    const CLAVE_POSTA = "DOMINGO"; 
+    const ID_YOUTUBE = "7OVl_iivD1c"; // El ID de tu video
 
-            },
-            sub17: {
-                "1": { partidos: [{ L: "Cañadita Central", V: "Asociación Social Diego Maradona", R: "1-1" }, { L: "Atlético Litoral", V: "Juventud Sarmiento", R: "2-0" }, { L: "Atlético Hasenkamp", V: "Seguí Football Club", R: "5-0" }], libre: "Atlético María Grande" },
-                "2": { partidos: [{ L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "2-0" }, { L: "Asociación Social Diego Maradona", V: "Atlético Litoral", R: "0-2" }, { L: "Seguí Football Club", V: "Cañadita Central", R: "1-0" }], libre: "Juventud Sarmiento" },
-                "3": { partidos: [{ L: "Juventud Sarmiento", V: "Asociación Social Diego Maradona", R: "1-1" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "0-2" }, { L: "Atlético Litoral", V: "Seguí Football Club", R: "5-1" }], libre: "Atlético Hasenkamp" },
-                "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "1-2" }, { L: "Seguí Football Club", V: "Juventud Sarmiento", R: "2-2" }, { L: "Atlético María Grande", V: "Atlético Litoral", R: "2-0" }], libre: "Asociación Social Diego Maradona" },
-                "5": { partidos: [{ L: "Juventud Sarmiento ", V: "Atlético María Grande", R: "-" }, { L: "Atlético Litoral", V: "Atlético Hasenkamp", R: "-" }, { L: "Asociación Social Diego Maradona", V: "Seguí Football Club", R: "-" }], libre: "Cañadita Central " },
-                "6": { partidos: [{ L: "Atlético Hasenkamp ", V: "Juventud Sarmiento  ", R: "-" }, { L: "Cañadita Central ", V: "Atlético Litoral ", R: "-" }, { L: "Atlético María Grande", V: "Asociación Social Diego Maradona", R: "-" }], libre: "Seguí Football Club" },
-                "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "-" }, { L: "Asociación Social Diego Maradona", V: "Atlético Hasenkamp ", R: "-" }, { L: "Seguí Football Club ", V: "Atlético Litoral", R: "-" }], libre: "Atlético María Grande" },
+    if (ingreso === CLAVE_POSTA) {
+        localStorage.setItem('acceso_superdep', 'true');
+        aplicarAcceso(ID_YOUTUBE);
+    } else {
+        const error = document.getElementById('msj-error');
+        error.classList.remove('hidden');
+        setTimeout(() => error.classList.add('hidden'), 3000);
+    }
+}
 
-            }
-        };
+function aplicarAcceso(videoID) {
+    if (localStorage.getItem('acceso_superdep') === 'true') {
+        const player = document.getElementById('youtube-player');
+        const placeholder = document.getElementById('video-placeholder');
+        const form = document.getElementById('formulario-login');
+        const exito = document.getElementById('acceso-exitoso');
 
-        const SUR_DATA = { 
-            primera: {
-                "1": { partidos: [{ L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "4-0" }, { L: "Atlético Unión", V: "Atlético Unión de Viale", R: "7-0" }, { L: "Viale Football Club", V: "Asociación Cultural", R: "5-1" }], libre: "Atlético Sarmiento" },
-                "2": { partidos: [{ L: "Atlético Sarmiento", V: "Atlético Arsenal", R: "1-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "1-3" }, { L: "Asociación Cultural", V: "Atlético Unión", R: "1-0" }], libre: "Atlético Unión de Viale" },
-                "3": { partidos: [{ L: "Atlético Unión de Viale", V: "Asociación Cultural", R: "0-8" }, { L: "Viale Football Club", V: "Atlético Sarmiento", R: "3-0" }, { L: "Atlético Unión", V: "Deportivo Tabossi", R: "3-0" }], libre: "Atlético Arsenal" },
-                "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "1-2" }, { L: "Deportivo Tabossi", V: "Atlético Unión de Viale", R: "2-0" }, { L: "Atlético Sarmiento", V: "Atlético Unión", R: "0-1" }], libre: "Asociación Cultural" },
-                "5": { partidos: [{ L: "Atlético Unión de Viale", V: "Atlético Sarmiento", R: "-" }, { L: "Atlético Unión", V: "Atlético Arsenal", R: "-" }, { L: "Asociación Cultural", V: "Deportivo Tabossi", R: "-" }], libre: "Viale Football Club" },
-                "6": { partidos: [{ L: "Atlético Arsenal", V: "Atlético Unión de Viale", R: "-" }, { L: "Viale Football Club", V: "Atlético Unión", R: "-" }, { L: "Atlético Sarmiento", V: "Asociación Cultural", R: "-" }], libre: "Deportivo Tabossi" },
-                "7": { partidos: [{ L: "Atlético Unión de Viale", V: "Viale Football Club", R: "-" }, { L: "Asociación Cultural", V: "Atlético Arsenal", R: "-" }, { L: "Deportivo Tabossi", V: "Atlético Sarmiento", R: "-" }], libre: "Atlético Unión" }
-            }, 
-            sub20: {
-                "1": { partidos: [{ L: "Viale Football Club", V: "Asociación Cultural", R: "1-1" }, { L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "2-0" }, { L: "Atlético Unión", V: "Atlético Unión de Viale", R: "1-0" }], libre: "Atlético Sarmiento" },
-                "2": { partidos: [{ L: "Asociación Cultural", V: "Atlético Unión", R: "3-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "0-3" }, { L: "Atlético Sarmiento", V: "Atlético Arsenal", R: "1-3" }], libre: "Atlético Unión de Viale" },
-                "3": { partidos: [{ L: "Atlético Unión de Viale", V: "Asociación Cultural", R: "0-3" }, { L: "Viale Football Club", V: "Atlético Sarmiento", R: "3-1" }, { L: "Atlético Unión", V: "Deportivo Tabossi", R: "2-0" }], libre: "Atlético Arsenal" },
-                "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "1-2" }, { L: "Deportivo Tabossi", V: "Atlético Unión de Viale", R: "5-1" }, { L: "Atlético Sarmiento", V: "Atlético Unión", R: "2-4" }], libre: "Asociación Cultural" },
-                "5": { partidos: [{ L: "Atlético Unión de Viale", V: "Atlético Sarmiento", R: "-" }, { L: "Atlético Unión", V: "Atlético Arsenal", R: "-" }, { L: "Asociación Cultural", V: "Deportivo Tabossi", R: "-" }], libre: "Viale Football Club" },
-                "6": { partidos: [{ L: "Atlético Arsenal", V: "Atlético Unión de Viale", R: "-" }, { L: "Viale Football Club", V: "Atlético Unión", R: "-" }, { L: "Atlético Sarmiento", V: "Asociación Cultural", R: "-" }], libre: "Deportivo Tabossi" },
-                "7": { partidos: [{ L: "Atlético Unión de Viale", V: "Viale Football Club", R: "-" }, { L: "Asociación Cultural", V: "Atlético Arsenal", R: "-" }, { L: "Deportivo Tabossi", V: "Atlético Sarmiento", R: "-" }], libre: "Atlético Unión" }
-            }, 
-            sub17: {
-                "1": { partidos: [{ L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "0-0" }, { L: "Atlético Unión", V: "Atlético Unión de Viale", R: "12-0" }, { L: "Viale Football Club", V: "Asociación Cultural", R: "1-0" }], libre: "Atlético Sarmiento" },
-                "2": { partidos: [{ L: "Atlético Sarmiento", V: "Atlético Arsenal", R: "2-0" }, { L: "Asociación Cultural", V: "Atlético Unión", R: "0-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "0-2" }], libre: "Atlético Unión de Viale" },
-                "3": { partidos: [{ L: "Atlético Unión de Viale", V: "Asociación Cultural", R: "0-5" }, { L: "Viale Football Club", V: "Atlético Sarmiento", R: "0-0" }, { L: "Atlético Unión", V: "Deportivo Tabossi", R: "3-1" }], libre: "Atlético Arsenal" },
-                "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "2-0" }, { L: "Deportivo Tabossi", V: "Atlético Unión de Viale", R: "4-0" }, { L: "Atlético Sarmiento", V: "Atlético Unión", R: "0-2" }], libre: "Asociación Cultural" },
-                "5": { partidos: [{ L: "Atlético Unión de Viale", V: "Atlético Sarmiento", R: "-" }, { L: "Atlético Unión", V: "Atlético Arsenal", R: "-" }, { L: "Asociación Cultural", V: "Deportivo Tabossi", R: "-" }], libre: "Viale Football Club" },
-                "6": { partidos: [{ L: "Atlético Arsenal", V: "Atlético Unión de Viale", R: "-" }, { L: "Viale Football Club", V: "Atlético Unión", R: "-" }, { L: "Atlético Sarmiento", V: "Asociación Cultural", R: "-" }], libre: "Deportivo Tabossi" },
-                "7": { partidos: [{ L: "Atlético Unión de Viale", V: "Viale Football Club", R: "-" }, { L: "Asociación Cultural", V: "Atlético Arsenal", R: "-" }, { L: "Deportivo Tabossi", V: "Atlético Sarmiento", R: "-" }], libre: "Atlético Unión" }
-            } 
-        };
-
-        const SPONSORS = ["DAR+, la tarjeta para comprar", "Municipalidad de Cerrito", "AUTOSERVICIO LA CALABAZA", "Don Charo AUTOSERVICIO", "Hielos Celestiales", "Masquito reparaciones", "HR-Netcom", "YPF El Empalme", "Corralon El Rafa", "Emi Pérez Motos", "Daniel Guetti Odontólogo"];
-
+        if (player) {
+            player.classList.remove('hidden');
+            player.src = `https://www.youtube.com/embed/${videoID || "dQw4w9WgXcQ"}?autoplay=1`;
+        }
+        if (placeholder) placeholder.classList.add('hidden');
+        if (form) form.classList.add('hidden');
+        if (exito) exito.classList.remove('hidden');
+    }
+}
         function desbloquearVideo() {
             localStorage.setItem('acceso_superdep', 'true');
             validarAcceso();
@@ -495,9 +554,9 @@
             document.getElementById('zone-' + z).classList.add('active-btn');
             
             const subTexts = {
-                'norte': 'Zona Norte • Cerrito',
-                'centro': 'Zona Centro • María Grande',
-                'sur': 'Zona Sur • Viale / Tabossi'
+                'norte': 'Zona Norte',
+                'centro': 'Zona Centro',
+                'sur': 'Zona Sur',
             };
             document.getElementById('sub-header-text').innerText = subTexts[z];
             renderizar();
@@ -648,28 +707,73 @@ function renderizar() {
     }
 
     // 4. LÓGICA DE FASE FINAL (OCTAVOS)
-    const clasificadosSur = tSur.slice(0, 5);
-    const clasificadosNorte = tNorte.slice(0, 5);
-    const clasificadosCentro = tCentro.slice(0, 5);
+const clasificadosSur = tSur.slice(0, 5);
+const clasificadosNorte = tNorte.slice(0, 5);
+const clasificadosCentro = tCentro.slice(0, 5);
 
-    const sextos = [tNorte[5], tCentro[5], tSur[5]].filter(Boolean);
-    const mejor6 = sextos.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg)[0];
+const sextos = [tNorte[5], tCentro[5], tSur[5]].filter(Boolean);
+const mejor6 = sextos.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg)[0];
 
-    const equiposSegui = ["SEGUI FC", "CAÑADITA CENTRAL", "CAÑADITA"];
-    const equiposHasenkamp = ["ATL. HASENKAMP", "SARMIENTO", "SARMIENTO HASENKAMP"];
+// Usamos palabras clave para que no importe si falta una tilde o hay un espacio
+console.log("EQUIPOS EN CLASIFICADOS CENTRO:");
+console.table(clasificadosCentro.map(e => ({nombre: e.nombre, pts: e.pts})));
+console.log("¿ESTA SEGUI EN EL FILTRO?:", clasificadosCentro.filter(eq => eq.nombre.toUpperCase().includes("SEGUI")));
+const equiposSegui = ["SEGUI", "CAÑADITA"]; 
+const equiposHasenkamp = ["HASENKAMP", "SARMIENTO"];
 
-    const centroParaA = clasificadosCentro.filter(eq => equiposSegui.some(s => eq.nombre.toUpperCase().includes(s)));
-    const centroParaB = clasificadosCentro.filter(eq => equiposHasenkamp.some(h => eq.nombre.toUpperCase().includes(h)));
-    const restoCentro = clasificadosCentro.filter(eq => !centroParaA.includes(eq) && !centroParaB.includes(eq));
+// Filtramos el Centro para el Grupo A (Seguí)
+const centroParaA = clasificadosCentro.filter(eq => 
+    equiposSegui.some(s => eq.nombre.toUpperCase().includes(s.toUpperCase()))
+);
 
-    let grupoA = [...clasificadosSur, ...centroParaA];
+// Filtramos el Centro para el Grupo B (Hasenkamp)
+const centroParaB = clasificadosCentro.filter(eq => 
+    equiposHasenkamp.some(h => eq.nombre.toUpperCase().includes(h.toUpperCase()))
+);
+
+// Sacamos a los que ya asignamos para que no se repitan
+const restoCentro = clasificadosCentro.filter(eq => 
+    !centroParaA.some(a => a.nombre === eq.nombre) && 
+    !centroParaB.some(b => b.nombre === eq.nombre)
+);
+
+// 1. Cargamos la base: los 5 fijos de cada zona + sus invitados del Centro
+let grupoA = [...clasificadosSur, ...centroParaA];
     let grupoB = [...clasificadosNorte, ...centroParaB];
 
-    restoCentro.forEach(eq => { if (grupoA.length < 8) grupoA.push(eq); else grupoB.push(eq); });
-    if (mejor6) { if (grupoA.length < 8) grupoA.push(mejor6); else grupoB.push(mejor6); }
+    // 2. Ubicamos al MEJOR SEXTO (donde pertenece)
+    if (mejor6) {
+        // Si el mejor sexto es del SUR o del CENTRO (Seguí/Cañadita), lo mandamos al A
+        const esDelSurOCentro = tSur.some(e => e.nombre === mejor6.nombre) || 
+                                centroParaA.some(e => e.nombre === mejor6.nombre);
+        
+        if (esDelSurOCentro && grupoA.length < 8) {
+            grupoA.push(mejor6);
+        } else if (grupoB.length < 8) {
+            // Si es del Norte o el A ya se llenó, va al B
+            grupoB.push(mejor6);
+        } else {
+            // Último recurso: si el B está lleno, vuelve al A
+            grupoA.push(mejor6);
+        }
+    }
 
+    // 3. Completamos con el resto del Centro que haya quedado boyando
+    restoCentro.forEach(eq => {
+        // Evitamos duplicados por las dudas
+        if (grupoA.some(a => a.nombre === eq.nombre) || grupoB.some(b => b.nombre === eq.nombre)) return;
+
+        if (grupoA.length < 8) {
+            grupoA.push(eq);
+        } else if (grupoB.length < 8) {
+            grupoB.push(eq);
+        }
+    });
+
+    // 4. Orden Final por promedio
     const ordenarG = (g) => g.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg);
-    grupoA = ordenarG(grupoA); grupoB = ordenarG(grupoB);
+    grupoA = ordenarG(grupoA); 
+    grupoB = ordenarG(grupoB);
 
     // --- RENDER TOP 16 (IZQUIERDA) ---
     const cont16 = document.getElementById('top-16-render');

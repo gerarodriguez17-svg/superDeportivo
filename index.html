@@ -71,14 +71,36 @@
 
         .sponsor-card {
             background: linear-gradient(145deg, #0f172a, #1e293b);
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08); /* Borde un poquito más visible */
             transition: all 0.3s ease;
-            padding: 1.5rem;
+            padding: 2rem; /* Más espacio interno */
             border-radius: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100px;
+            min-height: 120px; /* Un poco más altos para que entre la letra grande */
+            text-align: center;
+        }
+
+        /* Agregamos esto para controlar el texto específicamente */
+        .sponsor-card p {
+            font-size: 1.1rem; /* ¡Acá es donde agrandamos la letra! */
+            font-weight: 900;
+            text-transform: uppercase;
+            font-style: italic;
+            color: #94a3b8; /* Gris claro de base */
+            line-height: 1.2;
+        }
+
+        .sponsor-card:hover {
+            border-color: #10b981; /* Borde verde al pasar el mouse */
+            transform: translateY(-5px); /* Se levanta un poquito */
+        }
+
+        .sponsor-card:hover p {
+            color: #10b981; /* Letra verde al pasar el mouse */
+        }
+
         }
 
         /* Nuevos estilos para secciones anexadas */
@@ -222,8 +244,8 @@
             <div class="bg-slate-900/50 border border-white/10 rounded-3xl p-6 flex flex-col justify-between">
                 <div class="flex items-center justify-between mb-4">
                     <div>
-                        <h3 class="text-emerald-500 font-black italic uppercase text-sm tracking-widest">Fecha 5</h3>
-                        <p class="text-slate-400 text-[10px] font-bold uppercase">Estadio Presidente Jacob</p>
+                        <h3 class="text-emerald-500 font-black italic uppercase text-sm tracking-widest">Fecha 7</h3>
+                        <p class="text-slate-400 text-[10px] font-bold uppercase">Estadio Federico Coco</p>
                     </div>
                     <span class="bg-emerald-500/10 text-emerald-500 text-[9px] font-black px-3 py-1 rounded-full border border-emerald-500/20 uppercase animate-pulse">Zona Norte</span>
                 </div>
@@ -237,9 +259,9 @@
                         <div class="flex items-center justify-around w-full gap-2">
                             <div class="flex flex-col items-center flex-1">
                                 <div class="w-12 h-12 mb-2 rounded-full bg-white p-1 shadow-xl">
-                                    <img src="https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cuac.png" class="w-full h-full object-contain"> 
+                                    <img src="https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/ifbc.png" class="w-full h-full object-contain"> 
                                 </div>
-                                <span class="text-center text-white/70 font-bold uppercase text-[8px] leading-tight">U. Agrarios Cerrito</span>
+                                <span class="text-center text-white/70 font-bold uppercase text-[8px] leading-tight">Independiente F.C</span>
                             </div>
     
                             <div class="flex flex-col items-center min-w-[60px]">
@@ -249,9 +271,9 @@
     
                             <div class="flex flex-col items-center flex-1">
                                 <div class="w-12 h-12 mb-2 rounded-full bg-white p-1 shadow-xl">
-                                    <img src="https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/juventudc.png" class="w-full h-full object-contain"> 
+                                    <img src="https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cuac.png" class="w-full h-full object-contain"> 
                                 </div>
-                                <span class="text-center text-white/70 font-bold uppercase text-[8px] leading-tight">J. Unida Bovril</span>
+                                <span class="text-center text-white/70 font-bold uppercase text-[8px] leading-tight">Unionn Agrarios Cerrito</span>
                             </div>
                         </div>
                     </div>
@@ -270,7 +292,7 @@
         <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-6">
             <div>
                 <h2 class="text-4xl font-black italic uppercase tracking-tighter text-white">Estadísticas <span class="text-emerald-500">En Vivo</span></h2>
-                <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Temporada 2026 • Liga Paraná Campaña</p>
+                <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Temporada 2026 • Liga Paraná Campaña • COPA DESIDERIO GODOY Y EDUARDO SEBOLLA SEIMANDI</p>
             </div>
             
             <<div class="flex flex-wrap gap-4">
@@ -326,11 +348,11 @@
                     <select onchange="cambiarFecha(this.value)" id="fecha-selector" class="bg-slate-900 text-emerald-500 text-[10px] font-black uppercase p-2 px-4 rounded-xl border border-emerald-500/20 outline-none">
                         <option value="1">Fecha 1</option>
                         <option value="2">Fecha 2</option>
-                        <option value="3" selected>Fecha 3</option>
+                        <option value="3">Fecha 3</option>
                         <option value="4">Fecha 4</option>
                         <option value="5">Fecha 5</option>
-                        <option value="6">Fecha 6</option>
-                        <option value="7">Fecha 7</option>
+                        <option value="6" >Fecha 6</option>
+                        <option value="7"selected>Fecha 7</option>
                     </select>
                 </div>
                 <div id="fixture-render" class="space-y-3 flex-1"></div>
@@ -338,37 +360,39 @@
             </div>
         </div>
     </div>
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12">
+   <!-- TABLAS DE MÉRITO ARRIBA (OCUPAN TODO EL ANCHO PERO DIVIDIDAS EN 2 INTERNAMENTE) -->
+<div class="grid grid-cols-1 gap-8 mt-12">
     
-        <div class="lg:col-span-4 panel-deportivo p-6 shadow-2xl border-t-4 border-yellow-500">
-            <div class="flex items-center gap-3 mb-6">
-                <div class="bg-yellow-500/10 p-2 rounded-lg border border-yellow-500/20">
-                    <i data-lucide="award" class="w-5 h-5 text-yellow-500"></i>
-                </div>
-                <h3 class="text-xs font-black uppercase tracking-widest text-slate-200">Orden de Mérito (1-16)</h3>
-            </div>
-            
-            <div id="top-16-render" class="space-y-1">
-                <p class="text-[10px] text-slate-600 italic">Calculando mérito deportivo...</p>
-            </div>
+<div class="panel-deportivo p-6 shadow-2xl border-t-4 border-yellow-500">
+    <div class="flex items-center gap-3 mb-6">
+        <div class="bg-yellow-500/10 p-2 rounded-lg border border-yellow-500/20">
+            <i data-lucide="award" class="w-5 h-5 text-yellow-500"></i>
         </div>
-    
-        <div class="lg:col-span-8 panel-deportivo p-6 shadow-2xl border-t-4 border-emerald-500">
-            <div class="flex items-center gap-3 mb-6">
-                <div class="bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
-                    <i data-lucide="git-merge" class="w-5 h-5 text-emerald-500"></i>
-                </div>
-                <h3 class="text-xs font-black uppercase tracking-widest text-slate-200">Play-offs: Octavos de Final</h3>
-            </div>
-            
-            <div id="cuadro-render" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <p class="text-[10px] text-slate-600 italic">Esperando confirmación de llaves...</p>
-            </div>
-        </div>
-    
+        <h3 class="text-xs font-black uppercase tracking-widest text-slate-200">Orden de Mérito Deportivo (Grupo A y B)</h3>
     </div>
+    
+    <!-- Aquí el JS ahora dibujará dos columnas: una para el A y otra para el B -->
+    <div id="top-16-render" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <p class="text-[10px] text-slate-600 italic text-center col-span-2">Calculando mérito deportivo...</p>
+    </div>
+</div>
 
-    <section class="panel-deportivo p-10 mt-12">
+<!-- CUADRO DE OCTAVOS ABAJO (TODO EL ANCHO DISPONIBLE) -->
+<div class="panel-deportivo p-6 shadow-2xl border-t-4 border-emerald-500">
+    <div class="flex items-center gap-3 mb-6">
+        <div class="bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
+            <i data-lucide="git-merge" class="w-5 h-5 text-emerald-500"></i>
+        </div>
+        <h3 class="text-xs font-black uppercase tracking-widest text-slate-200">Play-offs: Fase Final</h3>
+    </div>
+    
+    <!-- Quitamos el grid-cols-2 de acá para que el cuadro respire -->
+    <div id="cuadro-render" class="w-full overflow-x-auto custom-scrollbar">
+        <p class="text-[10px] text-slate-600 italic">Esperando confirmación de llaves...</p>
+    </div>
+</div>
+
+</div>    <section class="panel-deportivo p-10 mt-12">
         <h3 class="text-center text-[10px] font-black uppercase tracking-[0.4em] text-emerald-500 mb-10">Staff Profesional</h3>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
             <div class="text-center">
@@ -387,6 +411,9 @@
                 <p class="text-white font-black italic uppercase text-sm">Sergio Serrano</p>
                 <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Producción General</p>
             </div>
+            <div class="text-center">
+                <p class="text-white font-black italic uppercase text-sm">Guillermo Gegenschatz</p>
+                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Voz Comercial</p>
         </div>
     </section>
 
@@ -404,105 +431,127 @@
         // --- TODO TU SCRIPT ORIGINAL SE MANTIENE INTACTO ABAJO ---
         let zonaActual = 'norte';
         let categoriaActual = 'primera';
-        let fechaActual = '3';
+        let fechaActual = '5';
         const VIDEO_ID = "dQw4w9WgXcQ";
 
-        const EQUIPOS_CENTRO = ["Atlético Litoral", "Cañadita Central", "Atlético María Grande", "Atlético Hasenkamp", "Segui FC", "Escuela Diego Maradona", "Juventud Sarmiento"];
-const EQUIPOS_NORTE = ["Juventud Unida", "Deportivo Tuyango", "Unión Agrarios", "Atlético Hernandarias", "Deportivo Bovril", "Independiente FC", "Unión FC"];
-const EQUIPOS_SUR = ["Atlético Arsenal", "Viale Football Club", "Atlético Sarmiento", "Atlético Unión", "Deportivo Tabossi", "Asociación Cultural", "Atlético Unión de Viale"];
+        // --- LISTAS DE EQUIPOS ACTUALIZADAS ---
+const EQUIPOS_CENTRO = ["Litoral María Grande", "Cañadita Central", "Atlético María Grande", "Atlético Hasenkamp", "Segui FC", "Escuela Diego Maradona", "Juventud Sarmiento"];
+const EQUIPOS_NORTE = ["J. Unida de Bovril", "Deportivo Tuyango", "U. Agrarios Cerrito", "Atlético Hernandarias", "Deportivo Bovril", "Independiente FC", "Union Alcaraz"];
+const EQUIPOS_SUR = ["Atlético Arsenal", "Viale Football Club", "Sarmiento de Crespo", "Union de Crespo", "Deportivo Tabossi", "Cultural de Crespo", "Union de Viale"];
 
+// --- DATA ACTUALIZADA ---
 const NORTE_DATA = {
     primera: {
-        "1": { partidos: [{ L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-3" }, { L: "Juventud Unida", V: "Independiente FC", R: "2-0" }, { L: "Unión Agrarios", V: "Unión FC", R: "4-2" }], libre: "Deportivo Bovril" },
-        "2": { partidos: [{ L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "2-3" }, { L: "Deportivo Tuyango", V: "Unión Agrarios", R: "2-1" }, { L: "Unión FC", V: "Juventud Unida", R: "0-3" }], libre: "Independiente FC" },
-        "3": { partidos: [{ L: "Independiente FC", V: "Unión FC", R: "2-0" }, { L: "Unión Agrarios", V: "Deportivo Bovril", R: "3-1" }, { L: "Juventud Unida", V: "Deportivo Tuyango", R: "1-1" }], libre: "Atlético Hernandarias" },
-        "4": { partidos: [{ L: "Atlético Hernandarias", V: "Unión Agrarios", R: "0-6" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "0-0" }, { L: "Deportivo Bovril", V: "Juventud Unida", R: "0-0" }], libre: "Unión FC" },
-        "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "1-3" }, { L: "Juventud Unida", V: "Atlético Hernandarias", R: "2-0" }, { L: "Unión FC", V: "Deportivo Tuyango", R: "1-2" }], libre: "Unión Agrarios" },
-        "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "-" }, { L: "Unión Agrarios", V: "Juventud Unida", R: "-" }, { L: "Deportivo Bovril", V: "Unión FC", R: "-" }], libre: "Deportivo Tuyango" },
-        "7": { partidos: [{ L: "Independiente FC", V: "Unión Agrarios", R: "-" }, { L: "Unión FC", V: "Atlético Hernandarias", R: "-" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "-" }], libre: "Juventud Unida" }
+        "1": { partidos: [{ L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-3" }, { L: "J. Unida de Bovril", V: "Independiente FC", R: "2-0" }, { L: "U. Agrarios Cerrito", V: "Union Alcaraz", R: "4-2" }], libre: "Deportivo Bovril" },
+        "2": { partidos: [{ L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "2-3" }, { L: "Deportivo Tuyango", V: "U. Agrarios Cerrito", R: "2-1" }, { L: "Union Alcaraz", V: "J. Unida de Bovril", R: "0-3" }], libre: "Independiente FC" },
+        "3": { partidos: [{ L: "Independiente FC", V: "Union Alcaraz", R: "2-0" }, { L: "U. Agrarios Cerrito", V: "Deportivo Bovril", R: "3-1" }, { L: "J. Unida de Bovril", V: "Deportivo Tuyango", R: "1-1" }], libre: "Atlético Hernandarias" },
+        "4": { partidos: [{ L: "Atlético Hernandarias", V: "U. Agrarios Cerrito", R: "0-6" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "0-0" }, { L: "Deportivo Bovril", V: "J. Unida de Bovril", R: "0-0" }], libre: "Union Alcaraz" },
+        "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "1-3" }, { L: "J. Unida de Bovril", V: "Atlético Hernandarias", R: "2-0" }, { L: "Union Alcaraz", V: "Deportivo Tuyango", R: "1-2" }], libre: "U. Agrarios Cerrito" },
+        "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "1-3" }, { L: "U. Agrarios Cerrito", V: "J. Unida de Bovril", R: "1-0" }, { L: "Deportivo Bovril", V: "Union Alcaraz", R: "1-1" }], libre: "Deportivo Tuyango" },
+        "7": { partidos: [{ L: "Independiente FC", V: "U. Agrarios Cerrito", R: "-" }, { L: "Union Alcaraz", V: "Atlético Hernandarias", R: "-" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "-" }], libre: "J. Unida de Bovril" }
     },
     sub20: {
-        "1": { partidos: [{ L: "Juventud Unida", V: "Independiente FC", R: "0-1" }, { L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-0" }, { L: "Unión Agrarios", V: "Unión FC", R: "3-1" }], libre: "Deportivo Bovril" },
-        "2": { partidos: [{ L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "0-0" }, { L: "Unión FC", V: "Juventud Unida", R: "0-3" }, { L: "Deportivo Tuyango", V: "Unión Agrarios", R: "1-0" }], libre: "Independiente FC" },
-        "3": { partidos: [{ L: "Independiente FC", V: "Unión FC", R: "2-2" }, { L: "Unión Agrarios", V: "Deportivo Bovril", R: "4-4" }, { L: "Juventud Unida", V: "Deportivo Tuyango", R: "0-0" }], libre: "Atlético Hernandarias" },
-        "4": { partidos: [{ L: "Atlético Hernandarias", V: "Unión Agrarios", R: "1-2" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "1-1" }, { L: "Deportivo Bovril", V: "Juventud Unida", R: "0-0" }], libre: "Unión FC" },
-        "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "1-3" }, { L: "Juventud Unida", V: "Atlético Hernandarias", R: "1-0" }, { L: "Unión FC", V: "Deportivo Tuyango", R: "1-0" }], libre: "Unión Agrarios" },
-        "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "-" }, { L: "Unión Agrarios", V: "Juventud Unida", R: "-" }, { L: "Deportivo Bovril", V: "Unión FC", R: "-" }], libre: "Deportivo Tuyango" },
-        "7": { partidos: [{ L: "Independiente FC", V: "Unión Agrarios", R: "-" }, { L: "Unión FC", V: "Atlético Hernandarias", R: "-" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "-" }], libre: "Juventud Unida" }
+        "1": { partidos: [{ L: "J. Unida de Bovril", V: "Independiente FC", R: "0-1" }, { L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-0" }, { L: "U. Agrarios Cerrito", V: "Union Alcaraz", R: "3-1" }], libre: "Deportivo Bovril" },
+        "2": { partidos: [{ L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "0-0" }, { L: "Union Alcaraz", V: "J. Unida de Bovril", R: "0-3" }, { L: "Deportivo Tuyango", V: "U. Agrarios Cerrito", R: "1-0" }], libre: "Independiente FC" },
+        "3": { partidos: [{ L: "Independiente FC", V: "Union Alcaraz", R: "2-2" }, { L: "U. Agrarios Cerrito", V: "Deportivo Bovril", R: "4-4" }, { L: "J. Unida de Bovril", V: "Deportivo Tuyango", R: "0-0" }], libre: "Atlético Hernandarias" },
+        "4": { partidos: [{ L: "Atlético Hernandarias", V: "U. Agrarios Cerrito", R: "1-2" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "1-1" }, { L: "Deportivo Bovril", V: "J. Unida de Bovril", R: "0-0" }], libre: "Union Alcaraz" },
+        "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "1-3" }, { L: "J. Unida de Bovril", V: "Atlético Hernandarias", R: "1-0" }, { L: "Union Alcaraz", V: "Deportivo Tuyango", R: "1-0" }], libre: "U. Agrarios Cerrito" },
+        "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "0-2" }, { L: "U. Agrarios Cerrito", V: "J. Unida de Bovril", R: "1-1" }, { L: "Deportivo Bovril", V: "Union Alcaraz", R: "4-1" }], libre: "Deportivo Tuyango" },
+        "7": { partidos: [{ L: "Independiente FC", V: "U. Agrarios Cerrito", R: "-" }, { L: "Union Alcaraz", V: "Atlético Hernandarias", R: "-" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "-" }], libre: "J. Unida de Bovril" }
     },
     sub17: {
-        "1": { partidos: [{ L: "Juventud Unida", V: "Independiente FC", R: "2-0" }, { L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-2" }, { L: "Unión Agrarios", V: "Unión FC", R: "4-1" }], libre: "Deportivo Bovril" },
-        "2": { partidos: [{ L: "Unión FC", V: "Juventud Unida", R: "1-1" }, { L: "Deportivo Tuyango", V: "Unión Agrarios", R: "0-2" }, { L: "Atlético Hernandarias", V: "Deportivo Bovril", R: "0-2" }], libre: "Independiente FC" },
-        "3": { partidos: [{ L: "Independiente FC", V: "Unión FC", R: "0-1" }, { L: "Unión Agrarios", V: "Deportivo Bovril", R: "0-0" }, { L: "Juventud Unida", V: "Deportivo Tuyango", R: "0-0" }], libre: "Atlético Hernandarias" },
-        "4": { partidos: [{ L: "Atlético Hernandarias", V: "Unión Agrarios", R: "1-1" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "0-0" }, { L: "Deportivo Bovril", V: "Juventud Unida", R: "0-3" }], libre: "Unión FC" },
-        "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "1-2" }, { L: "Juventud Unida", V: "Atlético Hernandarias", R: "2-2" }, { L: "Unión FC", V: "Deportivo Tuyango", R: "0-0" }], libre: "Unión Agrarios" },
-        "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "-" }, { L: "Unión Agrarios", V: "Juventud Unida", R: "-" }, { L: "Deportivo Bovril", V: "Unión FC", R: "-" }], libre: "Deportivo Tuyango" },
-        "7": { partidos: [{ L: "Independiente FC", V: "Unión Agrarios", R: "-" }, { L: "Unión FC", V: "Atlético Hernandarias", R: "-" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "-" }], libre: "Juventud Unida" }
+        "1": { partidos: [{ L: "J. Unida de Bovril", V: "Independiente FC", R: "2-0" }, { L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-2" }, { L: "U. Agrarios Cerrito", V: "Union Alcaraz", R: "4-1" }], libre: "Deportivo Bovril" },
+        "2": { partidos: [{ L: "Union Alcaraz", V: "J. Unida de Bovril", R: "1-1" }, { L: "Deportivo Tuyango", V: "U. Agrarios Cerrito", R: "0-2" }, { L: "Atlético Hernandarias", V: "Deportivo Bovril", R: "0-2" }], libre: "Independiente FC" },
+        "3": { partidos: [{ L: "Independiente FC", V: "Union Alcaraz", R: "0-1" }, { L: "U. Agrarios Cerrito", V: "Deportivo Bovril", R: "0-0" }, { L: "J. Unida de Bovril", V: "Deportivo Tuyango", R: "0-0" }], libre: "Atlético Hernandarias" },
+        "4": { partidos: [{ L: "Atlético Hernandarias", V: "U. Agrarios Cerrito", R: "1-1" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "0-0" }, { L: "Deportivo Bovril", V: "J. Unida de Bovril", R: "0-3" }], libre: "Union Alcaraz" },
+        "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "1-2" }, { L: "J. Unida de Bovril", V: "Atlético Hernandarias", R: "2-2" }, { L: "Union Alcaraz", V: "Deportivo Tuyango", R: "0-0" }], libre: "U. Agrarios Cerrito" },
+        "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "1-1" }, { L: "U. Agrarios Cerrito", V: "J. Unida de Bovril", R: "2-1" }, { L: "Deportivo Bovril", V: "Union Alcaraz", R: "2-1" }], libre: "Deportivo Tuyango" },
+        "7": { partidos: [{ L: "Independiente FC", V: "U. Agrarios Cerrito", R: "-" }, { L: "Union Alcaraz", V: "Atlético Hernandarias", R: "-" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "-" }], libre: "J. Unida de Bovril" }
     }
 };
 
 const CENTRO_DATA = {
     primera: {
-        "1": { partidos: [{ L: "Atlético Hasenkamp", V: "Segui FC", R: "3-0" }, { L: "Atlético Litoral", V: "Juventud Sarmiento", R: "5-0" }, { L: "Cañadita Central", V: "Escuela Diego Maradona", R: "2-0" }], libre: "Atlético María Grande" },
-        "2": { partidos: [{ L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "2-1" }, { L: "Segui FC", V: "Cañadita Central", R: "0-2" }, { L: "Escuela Diego Maradona", V: "Atlético Litoral", R: "1-2" }], libre: "Juventud Sarmiento" },
-        "3": { partidos: [{ L: "Juventud Sarmiento", V: "Escuela Diego Maradona", R: "1-0" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "1-5" }, { L: "Atlético Litoral", V: "Segui FC", R: "3-1" }], libre: "Atlético Hasenkamp" },
-        "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "1-1" }, { L: "Segui FC", V: "Juventud Sarmiento", R: "2-2" }, { L: "Atlético María Grande", V: "Atlético Litoral", R: "1-0" }], libre: "Escuela Diego Maradona" },
-        "5": { partidos: [{ L: "Juventud Sarmiento", V: "Atlético María Grande", R: "1-1" }, { L: "Atlético Litoral", V: "Atlético Hasenkamp", R: "3-0" }, { L: "Escuela Diego Maradona", V: "Segui FC", R: "1-0" }], libre: "Cañadita Central" },
-        "6": { partidos: [{ L: "Atlético Hasenkamp", V: "Juventud Sarmiento", R: "-" }, { L: "Cañadita Central", V: "Atlético Litoral", R: "-" }, { L: "Atlético María Grande", V: "Escuela Diego Maradona", R: "-" }], libre: "Segui FC" },
-        "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "-" }, { L: "Escuela Diego Maradona", V: "Atlético Hasenkamp", R: "-" }, { L: "Segui FC", V: "Atlético María Grande", R: "-" }], libre: "Atlético Litoral" }
+        "1": { partidos: [{ L: "Atlético Hasenkamp", V: "Segui FC", R: "3-0" }, { L: "Litoral María Grande", V: "Juventud Sarmiento", R: "5-0" }, { L: "Cañadita Central", V: "Escuela Diego Maradona", R: "2-0" }], libre: "Atlético María Grande" },
+        "2": { partidos: [{ L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "2-1" }, { L: "Segui FC", V: "Cañadita Central", R: "0-2" }, { L: "Escuela Diego Maradona", V: "Litoral María Grande", R: "1-2" }], libre: "Juventud Sarmiento" },
+        "3": { partidos: [{ L: "Juventud Sarmiento", V: "Escuela Diego Maradona", R: "1-0" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "1-5" }, { L: "Litoral María Grande", V: "Segui FC", R: "3-1" }], libre: "Atlético Hasenkamp" },
+        "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "1-1" }, { L: "Segui FC", V: "Juventud Sarmiento", R: "2-2" }, { L: "Atlético María Grande", V: "Litoral María Grande", R: "1-0" }], libre: "Escuela Diego Maradona" },
+        "5": { partidos: [{ L: "Juventud Sarmiento", V: "Atlético María Grande", R: "1-1" }, { L: "Litoral María Grande", V: "Atlético Hasenkamp", R: "3-0" }, { L: "Escuela Diego Maradona", V: "Segui FC", R: "1-0" }], libre: "Cañadita Central" },
+        "6": { partidos: [{ L: "Atlético Hasenkamp", V: "Juventud Sarmiento", R: "0-0" }, { L: "Cañadita Central", V: "Litoral María Grande", R: "0-0" }, { L: "Atlético María Grande", V: "Escuela Diego Maradona", R: "2-0" }], libre: "Segui FC" },
+        "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "-" }, { L: "Escuela Diego Maradona", V: "Atlético Hasenkamp", R: "-" }, { L: "Segui FC", V: "Atlético María Grande", R: "-" }], libre: "Litoral María Grande" }
     },
     sub20: {
-        "1": { partidos: [{ L: "Cañadita Central", V: "Escuela Diego Maradona", R: "1-0" }, { L: "Atlético Litoral", V: "Juventud Sarmiento", R: "2-1" }, { L: "Atlético Hasenkamp", V: "Segui FC", R: "1-1" }], libre: "Atlético María Grande" },
-        "2": { partidos: [{ L: "Segui FC", V: "Cañadita Central", R: "0-1" }, { L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "4-0" }, { L: "Escuela Diego Maradona", V: "Atlético Litoral", R: "0-1" }], libre: "Juventud Sarmiento" },
-        "3": { partidos: [{ L: "Juventud Sarmiento", V: "Escuela Diego Maradona", R: "1-4" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "0-3" }, { L: "Atlético Litoral", V: "Segui FC", R: "6-0" }], libre: "Atlético Hasenkamp" },
-        "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "0-4" }, { L: "Segui FC", V: "Juventud Sarmiento", R: "6-1" }, { L: "Atlético María Grande", V: "Atlético Litoral", R: "0-0" }], libre: "Escuela Diego Maradona" },
-        "5": { partidos: [{ L: "Juventud Sarmiento", V: "Atlético María Grande", R: "0-0" }, { L: "Atlético Litoral", V: "Atlético Hasenkamp", R: "2-0" }, { L: "Escuela Diego Maradona", V: "Segui FC", R: "2-1" }], libre: "Cañadita Central" },
-        "6": { partidos: [{ L: "Atlético Hasenkamp", V: "Juventud Sarmiento", R: "-" }, { L: "Cañadita Central", V: "Atlético Litoral", R: "-" }, { L: "Atlético María Grande", V: "Escuela Diego Maradona", R: "-" }], libre: "Segui FC" },
-        "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "-" }, { L: "Escuela Diego Maradona", V: "Atlético Hasenkamp", R: "-" }, { L: "Segui FC", V: "Atlético María Grande", R: "-" }], libre: "Atlético Litoral" }
+        "1": { partidos: [{ L: "Cañadita Central", V: "Escuela Diego Maradona", R: "1-0" }, { L: "Litoral María Grande", V: "Juventud Sarmiento", R: "2-1" }, { L: "Atlético Hasenkamp", V: "Segui FC", R: "1-1" }], libre: "Atlético María Grande" },
+        "2": { partidos: [{ L: "Segui FC", V: "Cañadita Central", R: "0-1" }, { L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "4-0" }, { L: "Escuela Diego Maradona", V: "Litoral María Grande", R: "0-1" }], libre: "Juventud Sarmiento" },
+        "3": { partidos: [{ L: "Juventud Sarmiento", V: "Escuela Diego Maradona", R: "1-4" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "0-3" }, { L: "Litoral María Grande", V: "Segui FC", R: "6-0" }], libre: "Atlético Hasenkamp" },
+        "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "0-4" }, { L: "Segui FC", V: "Juventud Sarmiento", R: "6-1" }, { L: "Atlético María Grande", V: "Litoral María Grande", R: "0-0" }], libre: "Escuela Diego Maradona" },
+        "5": { partidos: [{ L: "Juventud Sarmiento", V: "Atlético María Grande", R: "0-0" }, { L: "Litoral María Grande", V: "Atlético Hasenkamp", R: "2-0" }, { L: "Escuela Diego Maradona", V: "Segui FC", R: "2-1" }], libre: "Cañadita Central" },
+        "6": { partidos: [{ L: "Atlético Hasenkamp", V: "Juventud Sarmiento", R: "2-1" }, { L: "Cañadita Central", V: "Litoral María Grande", R: "0-0" }, { L: "Atlético María Grande", V: "Escuela Diego Maradona", R: "0-0" }], libre: "Segui FC" },
+        "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "-" }, { L: "Escuela Diego Maradona", V: "Atlético Hasenkamp", R: "-" }, { L: "Segui FC", V: "Atlético María Grande", R: "-" }], libre: "Litoral María Grande" }
     },
     sub17: {
-        "1": { partidos: [{ L: "Cañadita Central", V: "Escuela Diego Maradona", R: "1-1" }, { L: "Atlético Litoral", V: "Juventud Sarmiento", R: "2-0" }, { L: "Atlético Hasenkamp", V: "Segui FC", R: "5-0" }], libre: "Atlético María Grande" },
-        "2": { partidos: [{ L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "2-0" }, { L: "Escuela Diego Maradona", V: "Atlético Litoral", R: "0-2" }, { L: "Segui FC", V: "Cañadita Central", R: "1-0" }], libre: "Juventud Sarmiento" },
-        "3": { partidos: [{ L: "Juventud Sarmiento", V: "Escuela Diego Maradona", R: "1-1" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "0-2" }, { L: "Atlético Litoral", V: "Segui FC", R: "5-1" }], libre: "Atlético Hasenkamp" },
-        "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "1-2" }, { L: "Segui FC", V: "Juventud Sarmiento", R: "2-2" }, { L: "Atlético María Grande", V: "Atlético Litoral", R: "2-0" }], libre: "Escuela Diego Maradona" },
-        "5": { partidos: [{ L: "Juventud Sarmiento", V: "Atlético María Grande", R: "0-2" }, { L: "Atlético Litoral", V: "Atlético Hasenkamp", R: "3-0" }, { L: "Escuela Diego Maradona", V: "Segui FC", R: "3-0" }], libre: "Cañadita Central" },
-        "6": { partidos: [{ L: "Atlético Hasenkamp", V: "Juventud Sarmiento", R: "-" }, { L: "Cañadita Central", V: "Atlético Litoral", R: "-" }, { L: "Atlético María Grande", V: "Escuela Diego Maradona", R: "-" }], libre: "Segui FC" },
-        "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "-" }, { L: "Escuela Diego Maradona", V: "Atlético Hasenkamp", R: "-" }, { L: "Segui FC", V: "Atlético María Grande", R: "-" }], libre: "Atlético Litoral" }
+        "1": { partidos: [{ L: "Cañadita Central", V: "Escuela Diego Maradona", R: "1-1" }, { L: "Litoral María Grande", V: "Juventud Sarmiento", R: "2-0" }, { L: "Atlético Hasenkamp", V: "Segui FC", R: "5-0" }], libre: "Atlético María Grande" },
+        "2": { partidos: [{ L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "2-0" }, { L: "Escuela Diego Maradona", V: "Litoral María Grande", R: "0-2" }, { L: "Segui FC", V: "Cañadita Central", R: "1-0" }], libre: "Juventud Sarmiento" },
+        "3": { partidos: [{ L: "Juventud Sarmiento", V: "Escuela Diego Maradona", R: "1-1" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "0-2" }, { L: "Litoral María Grande", V: "Segui FC", R: "5-1" }], libre: "Atlético Hasenkamp" },
+        "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "1-2" }, { L: "Segui FC", V: "Juventud Sarmiento", R: "2-2" }, { L: "Atlético María Grande", V: "Litoral María Grande", R: "2-0" }], libre: "Escuela Diego Maradona" },
+        "5": { partidos: [{ L: "Juventud Sarmiento", V: "Atlético María Grande", R: "0-2" }, { L: "Litoral María Grande", V: "Atlético Hasenkamp", R: "3-0" }, { L: "Escuela Diego Maradona", V: "Segui FC", R: "3-0" }], libre: "Cañadita Central" },
+        "6": { partidos: [{ L: "Atlético Hasenkamp", V: "Juventud Sarmiento", R: "2-0" }, { L: "Cañadita Central", V: "Litoral María Grande", R: "3-2" }, { L: "Atlético María Grande", V: "Escuela Diego Maradona", R: "3-0" }], libre: "Segui FC" },
+        "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "-" }, { L: "Escuela Diego Maradona", V: "Atlético Hasenkamp", R: "-" }, { L: "Segui FC", V: "Atlético María Grande", R: "-" }], libre: "Litoral María Grande" }
     }
 };
 
 const SUR_DATA = { 
     primera: {
-        "1": { partidos: [{ L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "4-0" }, { L: "Atlético Unión", V: "Atlético Unión de Viale", R: "7-0" }, { L: "Viale Football Club", V: "Asociación Cultural", R: "5-1" }], libre: "Atlético Sarmiento" },
-        "2": { partidos: [{ L: "Atlético Sarmiento", V: "Atlético Arsenal", R: "1-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "1-3" }, { L: "Asociación Cultural", V: "Atlético Unión", R: "1-0" }], libre: "Atlético Unión de Viale" },
-        "3": { partidos: [{ L: "Atlético Unión de Viale", V: "Asociación Cultural", R: "0-8" }, { L: "Viale Football Club", V: "Atlético Sarmiento", R: "3-0" }, { L: "Atlético Unión", V: "Deportivo Tabossi", R: "3-0" }], libre: "Atlético Arsenal" },
-        "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "1-2" }, { L: "Deportivo Tabossi", V: "Atlético Unión de Viale", R: "2-0" }, { L: "Atlético Sarmiento", V: "Atlético Unión", R: "0-1" }], libre: "Asociación Cultural" },
-        "5": { partidos: [{ L: "Atlético Unión de Viale", V: "Atlético Sarmiento", R: "2-6" }, { L: "Atlético Unión", V: "Atlético Arsenal", R: "3-4" }, { L: "Asociación Cultural", V: "Deportivo Tabossi", R: "6-0" }], libre: "Viale Football Club" },
-        "6": { partidos: [{ L: "Atlético Arsenal", V: "Atlético Unión de Viale", R: "-" }, { L: "Viale Football Club", V: "Atlético Unión", R: "-" }, { L: "Atlético Sarmiento", V: "Asociación Cultural", R: "-" }], libre: "Deportivo Tabossi" },
-        "7": { partidos: [{ L: "Atlético Unión de Viale", V: "Viale Football Club", R: "-" }, { L: "Asociación Cultural", V: "Atlético Arsenal", R: "-" }, { L: "Deportivo Tabossi", V: "Atlético Sarmiento", R: "-" }], libre: "Atlético Unión" }
+        "1": { partidos: [{ L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "4-0" }, { L: "Union de Crespo", V: "Union de Viale", R: "7-0" }, { L: "Viale Football Club", V: "Cultural de Crespo", R: "5-1" }], libre: "Sarmiento de Crespo" },
+        "2": { partidos: [{ L: "Sarmiento de Crespo", V: "Atlético Arsenal", R: "1-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "1-3" }, { L: "Cultural de Crespo", V: "Union de Crespo", R: "1-0" }], libre: "Union de Viale" },
+        "3": { partidos: [{ L: "Union de Viale", V: "Cultural de Crespo", R: "0-8" }, { L: "Viale Football Club", V: "Sarmiento de Crespo", R: "3-0" }, { L: "Union de Crespo", V: "Deportivo Tabossi", R: "3-0" }], libre: "Atlético Arsenal" },
+        "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "1-2" }, { L: "Deportivo Tabossi", V: "Union de Viale", R: "2-0" }, { L: "Sarmiento de Crespo", V: "Union de Crespo", R: "0-1" }], libre: "Cultural de Crespo" },
+        "5": { partidos: [{ L: "Union de Viale", V: "Sarmiento de Crespo", R: "2-6" }, { L: "Union de Crespo", V: "Atlético Arsenal", R: "3-4" }, { L: "Cultural de Crespo", V: "Deportivo Tabossi", R: "6-0" }], libre: "Viale Football Club" },
+        "6": { partidos: [{ L: "Atlético Arsenal", V: "Union de Viale", R: "2-1" }, { L: "Viale Football Club", V: "Union de Crespo", R: "1-0" }, { L: "Sarmiento de Crespo", V: "Cultural de Crespo", R: "1-1" }], libre: "Deportivo Tabossi" },
+        "7": { partidos: [{ L: "Union de Viale", V: "Viale Football Club", R: "-" }, { L: "Cultural de Crespo", V: "Atlético Arsenal", R: "-" }, { L: "Deportivo Tabossi", V: "Sarmiento de Crespo", R: "-" }], libre: "Union de Crespo" }
     }, 
     sub20: {
-        "1": { partidos: [{ L: "Viale Football Club", V: "Asociación Cultural", R: "1-1" }, { L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "2-0" }, { L: "Atlético Unión", V: "Atlético Unión de Viale", R: "1-0" }], libre: "Atlético Sarmiento" },
-        "2": { partidos: [{ L: "Asociación Cultural", V: "Atlético Unión", R: "3-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "0-3" }, { L: "Atlético Sarmiento", V: "Atlético Arsenal", R: "1-3" }], libre: "Atlético Unión de Viale" },
-        "3": { partidos: [{ L: "Atlético Unión de Viale", V: "Asociación Cultural", R: "0-3" }, { L: "Viale Football Club", V: "Atlético Sarmiento", R: "3-1" }, { L: "Atlético Unión", V: "Deportivo Tabossi", R: "2-0" }], libre: "Atlético Arsenal" },
-        "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "1-2" }, { L: "Deportivo Tabossi", V: "Atlético Unión de Viale", R: "5-1" }, { L: "Atlético Sarmiento", V: "Atlético Unión", R: "2-4" }], libre: "Asociación Cultural" },
-        "5": { partidos: [{ L: "Atlético Unión de Viale", V: "Atlético Sarmiento", R: "2-5" }, { L: "Atlético Unión", V: "Atlético Arsenal", R: "2-3" }, { L: "Asociación Cultural", V: "Deportivo Tabossi", R: "0-2" }], libre: "Viale Football Club" },
-        "6": { partidos: [{ L: "Atlético Arsenal", V: "Atlético Unión de Viale", R: "-" }, { L: "Viale Football Club", V: "Atlético Unión", R: "-" }, { L: "Atlético Sarmiento", V: "Asociación Cultural", R: "-" }], libre: "Deportivo Tabossi" },
-        "7": { partidos: [{ L: "Atlético Unión de Viale", V: "Viale Football Club", R: "-" }, { L: "Asociación Cultural", V: "Atlético Arsenal", R: "-" }, { L: "Deportivo Tabossi", V: "Atlético Sarmiento", R: "-" }], libre: "Atlético Unión" }
+        "1": { partidos: [{ L: "Viale Football Club", V: "Cultural de Crespo", R: "1-1" }, { L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "2-0" }, { L: "Union de Crespo", V: "Union de Viale", R: "1-0" }], libre: "Sarmiento de Crespo" },
+        "2": { partidos: [{ L: "Cultural de Crespo", V: "Union de Crespo", R: "3-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "0-3" }, { L: "Sarmiento de Crespo", V: "Atlético Arsenal", R: "1-3" }], libre: "Union de Viale" },
+        "3": { partidos: [{ L: "Union de Viale", V: "Cultural de Crespo", R: "0-3" }, { L: "Viale Football Club", V: "Sarmiento de Crespo", R: "3-1" }, { L: "Union de Crespo", V: "Deportivo Tabossi", R: "2-0" }], libre: "Atlético Arsenal" },
+        "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "1-2" }, { L: "Deportivo Tabossi", V: "Union de Viale", R: "5-1" }, { L: "Sarmiento de Crespo", V: "Union de Crespo", R: "2-4" }], libre: "Cultural de Crespo" },
+        "5": { partidos: [{ L: "Union de Viale", V: "Sarmiento de Crespo", R: "2-5" }, { L: "Union de Crespo", V: "Atlético Arsenal", R: "2-3" }, { L: "Cultural de Crespo", V: "Deportivo Tabossi", R: "0-2" }], libre: "Viale Football Club" },
+        "6": { partidos: [{ L: "Atlético Arsenal", V: "Union de Viale", R: "1-0" }, { L: "Viale Football Club", V: "Union de Crespo", R: "0-0" }, { L: "Sarmiento de Crespo", V: "Cultural de Crespo", R: "0-3" }], libre: "Deportivo Tabossi" },
+        "7": { partidos: [{ L: "Union de Viale", V: "Viale Football Club", R: "-" }, { L: "Cultural de Crespo", V: "Atlético Arsenal", R: "-" }, { L: "Deportivo Tabossi", V: "Sarmiento de Crespo", R: "-" }], libre: "Union de Crespo" }
     }, 
     sub17: {
-        "1": { partidos: [{ L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "0-0" }, { L: "Atlético Unión", V: "Atlético Unión de Viale", R: "12-0" }, { L: "Viale Football Club", V: "Asociación Cultural", R: "1-0" }], libre: "Atlético Sarmiento" },
-        "2": { partidos: [{ L: "Atlético Sarmiento", V: "Atlético Arsenal", R: "2-0" }, { L: "Asociación Cultural", V: "Atlético Unión", R: "0-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "0-2" }], libre: "Atlético Unión de Viale" },
-        "3": { partidos: [{ L: "Atlético Unión de Viale", V: "Asociación Cultural", R: "0-5" }, { L: "Viale Football Club", V: "Atlético Sarmiento", R: "0-0" }, { L: "Atlético Unión", V: "Deportivo Tabossi", R: "3-1" }], libre: "Atlético Arsenal" },
-        "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "2-0" }, { L: "Deportivo Tabossi", V: "Atlético Unión de Viale", R: "4-0" }, { L: "Atlético Sarmiento", V: "Atlético Unión", R: "0-2" }], libre: "Asociación Cultural" },
-        "5": { partidos: [{ L: "Atlético Unión de Viale", V: "Atlético Sarmiento", R: "2-5" }, { L: "Atlético Unión", V: "Atlético Arsenal", R: "2-0" }, { L: "Asociación Cultural", V: "Deportivo Tabossi", R: "1-1" }], libre: "Viale Football Club" },
-        "6": { partidos: [{ L: "Atlético Arsenal", V: "Atlético Unión de Viale", R: "-" }, { L: "Viale Football Club", V: "Atlético Unión", R: "-" }, { L: "Atlético Sarmiento", V: "Asociación Cultural", R: "-" }], libre: "Deportivo Tabossi" },
-        "7": { partidos: [{ L: "Atlético Unión de Viale", V: "Viale Football Club", R: "-" }, { L: "Asociación Cultural", V: "Atlético Arsenal", R: "-" }, { L: "Deportivo Tabossi", V: "Atlético Sarmiento", R: "-" }], libre: "Atlético Unión" }
+        "1": { partidos: [{ L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "0-0" }, { L: "Union de Crespo", V: "Union de Viale", R: "12-0" }, { L: "Viale Football Club", V: "Cultural de Crespo", R: "1-0" }], libre: "Sarmiento de Crespo" },
+        "2": { partidos: [{ L: "Sarmiento de Crespo", V: "Atlético Arsenal", R: "2-0" }, { L: "Cultural de Crespo", V: "Union de Crespo", R: "0-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "0-2" }], libre: "Union de Viale" },
+        "3": { partidos: [{ L: "Union de Viale", V: "Cultural de Crespo", R: "0-5" }, { L: "Viale Football Club", V: "Sarmiento de Crespo", R: "0-0" }, { L: "Union de Crespo", V: "Deportivo Tabossi", R: "3-1" }], libre: "Atlético Arsenal" },
+        "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "2-0" }, { L: "Deportivo Tabossi", V: "Union de Viale", R: "4-0" }, { L: "Sarmiento de Crespo", V: "Union de Crespo", R: "0-2" }], libre: "Cultural de Crespo" },
+        "5": { partidos: [{ L: "Union de Viale", V: "Sarmiento de Crespo", R: "2-5" }, { L: "Union de Crespo", V: "Atlético Arsenal", R: "2-0" }, { L: "Cultural de Crespo", V: "Deportivo Tabossi", R: "1-1" }], libre: "Viale Football Club" },
+        "6": { partidos: [{ L: "Atlético Arsenal", V: "Union de Viale", R: "4-0" }, { L: "Viale Football Club", V: "Union de Crespo", R: "0-1" }, { L: "Sarmiento de Crespo", V: "Cultural de Crespo", R: "1-3" }], libre: "Deportivo Tabossi" },
+        "7": { partidos: [{ L: "Union de Viale", V: "Viale Football Club", R: "-" }, { L: "Cultural de Crespo", V: "Atlético Arsenal", R: "-" }, { L: "Deportivo Tabossi", V: "Sarmiento de Crespo", R: "-" }], libre: "Union de Crespo" }
     } 
 };
 
-        const SPONSORS = ["DAR+, la tarjeta para comprar", "Municipalidad de Cerrito", "YPF El Empalme", "AUTOSERVICIO LA CALABAZA", "Masquito reparaciones", "HR-Netcom", "Corralon El Rafa", "Emi Pérez Motos", "APAPACHA-Pañalera", "FARMACIA PALACIOS", "Don Charo AUTOSERVICIO", "Hielos Celestiales", "Daniel Guetti Odontólogo"];
+const SPONSORS = ["DAR+, la tarjeta para comprar", "Municipalidad de Cerrito", "YPF El Empalme", "AUTOSERVICIO LA CALABAZA", "Masquito reparaciones", "HR-Netcom", "Corralon El Rafa", "Emi Pérez Motos", "APAPACHA-Pañalera", "FARMACIA PALACIOS", "Don Charo AUTOSERVICIO", "Hielos Celestiales", "Daniel Guetti Odontólogo"];
+
+const sponsorsGrid = document.getElementById('sponsors-grid');
+
+if (sponsorsGrid) {
+    sponsorsGrid.innerHTML = ''; 
+    SPONSORS.forEach(nombre => {
+        const card = document.createElement('div');
+        // Usamos la clase sponsor-card para el fondo y hover
+        card.className = "sponsor-card group flex items-center justify-center p-6 bg-slate-900/50 border border-white/10 rounded-3xl hover:border-emerald-500/50 transition-all duration-300";
         
+        // ACÁ ESTÁ EL CAMBIO: Usamos las mismas clases del Staff pero más grandes (text-lg)
+        card.innerHTML = `
+            <p class="text-white font-black italic uppercase text-lg tracking-tighter group-hover:text-emerald-500 transition-colors">
+                ${nombre}
+            </p>
+        `;
+        
+        sponsorsGrid.appendChild(card);
+    });
+}
+
         function intentarAcceso() {
     const ingreso = document.getElementById('pass-usuario').value.toUpperCase();
     const CLAVE_POSTA = "DOMINGO"; 
@@ -549,31 +598,32 @@ function aplicarAcceso(videoID) {
         }
 
         function cambiarZona(z) {
-            zonaActual = z;
-            document.querySelectorAll('.zone-button').forEach(b => b.classList.remove('active-btn'));
-            document.getElementById('zone-' + z).classList.add('active-btn');
-            
-            const subTexts = {
-                'norte': 'Zona Norte',
-                'centro': 'Zona Centro',
-                'sur': 'Zona Sur',
-            };
-            document.getElementById('sub-header-text').innerText = subTexts[z];
-            renderizar();
-        }
+    zonaActual = z;
+    document.querySelectorAll('.zone-button').forEach(b => b.classList.remove('active-btn'));
+    document.getElementById('zone-' + z).classList.add('active-btn');
+    
+    const subTexts = {
+        'norte': 'Zona Norte',
+        'centro': 'Zona Centro',
+        'sur': 'Zona Sur',
+    };
+    document.getElementById('sub-header-text').innerText = subTexts[z];
+    renderizar();
+}
 
-        function cambiarCategoria(cat) {
-            categoriaActual = cat;
-            document.querySelectorAll('.category-button').forEach(b => b.classList.remove('active-btn'));
-            document.getElementById('cat-' + cat).classList.add('active-btn');
-            renderizar();
-        }
+function cambiarCategoria(cat) {
+    categoriaActual = cat;
+    document.querySelectorAll('.category-button').forEach(b => b.classList.remove('active-btn'));
+    document.getElementById('cat-' + cat).classList.add('active-btn');
+    renderizar();
+}
 
-        function cambiarFecha(f) {
-            fechaActual = f;
-            renderizar();
-        }
-        function obtenerTablaPorZona(zona, categoria) {
+function cambiarFecha(f) {
+    fechaActual = f;
+    renderizar();
+}
+
+function obtenerTablaPorZona(zona, categoria) {
     let equipos = zona === 'norte' ? EQUIPOS_NORTE : (zona === 'centro' ? EQUIPOS_CENTRO : EQUIPOS_SUR);
     let data = (zona === 'norte' ? NORTE_DATA : (zona === 'centro' ? CENTRO_DATA : SUR_DATA))[categoria];
     
@@ -636,13 +686,11 @@ function renderizar() {
         </div>
     `;
 
-    // Calculamos el mejor sexto antes de renderizar la tabla para comparar
     const sextosAux = [tNorte[5], tCentro[5], tSur[5]].filter(Boolean);
     const globalMejor6 = sextosAux.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg)[0];
 
     document.getElementById('tabla-render').innerHTML = header + tablaMostrar.map((eq, i) => {
         const esTop5 = i < 5;
-        // Condición clave: ¿Es el 6to de esta tabla Y TAMBIÉN el mejor de los tres 6tos?
         const esElMejorSextoEntrando = i === 5 && globalMejor6 && eq.nombre === globalMejor6.nombre;
         
         let bg = 'bg-white/5 border-white/10';
@@ -653,16 +701,19 @@ function renderizar() {
             bg = 'bg-emerald-500/10 border-emerald-500/20';
             txt = 'text-emerald-400';
         } else if (esElMejorSextoEntrando) {
-            // Pintamos de verde al 6to "afortunado"
             bg = 'bg-emerald-600/20 border-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.1)]';
             txt = 'text-emerald-400';
-            badge = '<span class="ml-2 text-[7px] bg-emerald-500 text-white px-1 rounded animate-pulse">CLASIFICANDO</span>';
+            badge = '<span class="ml-1 text-[6px] bg-emerald-500 text-white px-1 rounded animate-pulse">CLASIF.</span>';
         }
 
         return `
             <div class="grid grid-cols-12 gap-1 items-center ${bg} p-3 mb-1 rounded-xl border transition-all">
                 <div class="col-span-1 ${(esTop5 || esElMejorSextoEntrando) ? 'text-emerald-500' : 'text-slate-500'} font-black text-[10px]">${i+1}</div>
-                <div class="col-span-4 font-black italic uppercase text-[10px] ${txt} truncate">${eq.nombre} ${badge}</div>
+                <div class="col-span-4 font-black italic uppercase text-[10px] ${txt} flex items-center gap-1.5 overflow-hidden">
+                    ${obtenerEscudo(eq.nombre)}
+                    <span class="truncate">${eq.nombre}</span>
+                    ${badge}
+                </div>
                 <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pj}</div>
                 <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pg}</div>
                 <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pe}</div>
@@ -682,16 +733,22 @@ function renderizar() {
         document.getElementById('fixture-render').innerHTML = `
             <div class="flex flex-col items-center justify-center py-10 opacity-30">
                 <i data-lucide="info" class="w-8 h-8 mb-4 text-emerald-500"></i>
-                <p class="text-center text-slate-600 text-[10px] uppercase font-black italic">No hay partidos cargados para esta fecha</p>
+                <p class="text-center text-slate-600 text-[10px] uppercase font-black italic">No hay partidos cargados</p>
             </div>`;
     } else {
         document.getElementById('fixture-render').innerHTML = fecha.partidos.map(p => `
             <div class="bg-slate-950/50 p-4 rounded-2xl border border-white/5 flex justify-between items-center text-[10px] font-black italic uppercase tracking-tighter shadow-inner mb-2">
-                <span class="flex-1 text-right text-slate-400 leading-none">${p.L}</span>
-                <div class="mx-4 px-3 py-1.5 rounded-lg ${p.R === '-' ? 'bg-white/5 text-slate-600' : 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20'} min-w-[55px] text-center">
+                <div class="flex items-center w-[40%]">
+                    ${obtenerEscudo(p.L)}
+                    <span class="truncate">${p.L}</span>
+                </div>
+                <div class="mx-2 px-3 py-1.5 rounded-lg ${p.R === '-' ? 'bg-white/5 text-slate-600' : 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20'} min-w-[55px] text-center">
                     ${p.R === '-' ? 'VS' : p.R.replace('|', '-')}
                 </div>
-                <span class="flex-1 text-left text-slate-400 leading-none">${p.V}</span>
+                <div class="flex items-center w-[40%] justify-end text-right">
+                    <span class="truncate">${p.V}</span>
+                    ${obtenerEscudo(p.V, 'ml-2')}
+                </div>
             </div>
         `).join('');
     }
@@ -700,160 +757,245 @@ function renderizar() {
         document.getElementById('libre-render').innerHTML = `
             <div class="text-center p-4 border border-dashed border-emerald-500/20 rounded-2xl bg-emerald-500/[0.02]">
                 <p class="text-[8px] font-black uppercase text-slate-600 tracking-widest mb-1">Equipo Libre</p>
-                <p class="text-[11px] font-black text-emerald-500 uppercase italic">${fecha.libre}</p>
+                <div class="flex items-center justify-center gap-2 text-[11px] font-black text-emerald-500 uppercase italic">
+                    ${obtenerEscudo(fecha.libre)}
+                    ${fecha.libre}
+                </div>
             </div>`;
     } else {
         document.getElementById('libre-render').innerHTML = '';
     }
 
-    // 4. LÓGICA DE FASE FINAL (OCTAVOS)
-const clasificadosSur = tSur.slice(0, 5);
-const clasificadosNorte = tNorte.slice(0, 5);
-const clasificadosCentro = tCentro.slice(0, 5);
+    // 4. LÓGICA DE FASE FINAL
+    const clasificadosSur = tSur.slice(0, 5);
+    const clasificadosNorte = tNorte.slice(0, 5);
+    const clasificadosCentro = tCentro.slice(0, 5);
+    const sextos = [tNorte[5], tCentro[5], tSur[5]].filter(Boolean);
+    const mejor6 = sextos.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg)[0];
 
-const sextos = [tNorte[5], tCentro[5], tSur[5]].filter(Boolean);
-const mejor6 = sextos.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg)[0];
+    const equiposSegui = ["SEGUI", "CAÑADITA"]; 
+    const equiposHasenkamp = ["HASENKAMP", "SARMIENTO"];
+    const centroParaA = clasificadosCentro.filter(eq => equiposSegui.some(s => eq.nombre.toUpperCase().includes(s.toUpperCase())));
+    const centroParaB = clasificadosCentro.filter(eq => equiposHasenkamp.some(h => eq.nombre.toUpperCase().includes(h.toUpperCase())));
+    const restoCentro = clasificadosCentro.filter(eq => !centroParaA.some(a => a.nombre === eq.nombre) && !centroParaB.some(b => b.nombre === eq.nombre));
 
-// Usamos palabras clave para que no importe si falta una tilde o hay un espacio
-console.log("EQUIPOS EN CLASIFICADOS CENTRO:");
-console.table(clasificadosCentro.map(e => ({nombre: e.nombre, pts: e.pts})));
-console.log("¿ESTA SEGUI EN EL FILTRO?:", clasificadosCentro.filter(eq => eq.nombre.toUpperCase().includes("SEGUI")));
-const equiposSegui = ["SEGUI", "CAÑADITA"]; 
-const equiposHasenkamp = ["HASENKAMP", "SARMIENTO"];
-
-// Filtramos el Centro para el Grupo A (Seguí)
-const centroParaA = clasificadosCentro.filter(eq => 
-    equiposSegui.some(s => eq.nombre.toUpperCase().includes(s.toUpperCase()))
-);
-
-// Filtramos el Centro para el Grupo B (Hasenkamp)
-const centroParaB = clasificadosCentro.filter(eq => 
-    equiposHasenkamp.some(h => eq.nombre.toUpperCase().includes(h.toUpperCase()))
-);
-
-// Sacamos a los que ya asignamos para que no se repitan
-const restoCentro = clasificadosCentro.filter(eq => 
-    !centroParaA.some(a => a.nombre === eq.nombre) && 
-    !centroParaB.some(b => b.nombre === eq.nombre)
-);
-
-// 1. Cargamos la base: los 5 fijos de cada zona + sus invitados del Centro
-let grupoA = [...clasificadosSur, ...centroParaA];
+    let grupoA = [...clasificadosSur, ...centroParaA];
     let grupoB = [...clasificadosNorte, ...centroParaB];
 
-    // 2. Ubicamos al MEJOR SEXTO (donde pertenece)
     if (mejor6) {
-        // Si el mejor sexto es del SUR o del CENTRO (Seguí/Cañadita), lo mandamos al A
-        const esDelSurOCentro = tSur.some(e => e.nombre === mejor6.nombre) || 
-                                centroParaA.some(e => e.nombre === mejor6.nombre);
-        
-        if (esDelSurOCentro && grupoA.length < 8) {
-            grupoA.push(mejor6);
-        } else if (grupoB.length < 8) {
-            // Si es del Norte o el A ya se llenó, va al B
-            grupoB.push(mejor6);
-        } else {
-            // Último recurso: si el B está lleno, vuelve al A
-            grupoA.push(mejor6);
-        }
+        const esDelSurOCentro = tSur.some(e => e.nombre === mejor6.nombre) || centroParaA.some(e => e.nombre === mejor6.nombre);
+        if (esDelSurOCentro && grupoA.length < 8) { grupoA.push(mejor6); } 
+        else if (grupoB.length < 8) { grupoB.push(mejor6); } 
+        else { grupoA.push(mejor6); }
     }
 
-    // 3. Completamos con el resto del Centro que haya quedado boyando
     restoCentro.forEach(eq => {
-        // Evitamos duplicados por las dudas
         if (grupoA.some(a => a.nombre === eq.nombre) || grupoB.some(b => b.nombre === eq.nombre)) return;
-
-        if (grupoA.length < 8) {
-            grupoA.push(eq);
-        } else if (grupoB.length < 8) {
-            grupoB.push(eq);
-        }
+        if (grupoA.length < 8) grupoA.push(eq); else if (grupoB.length < 8) grupoB.push(eq);
     });
 
-    // 4. Orden Final por promedio
     const ordenarG = (g) => g.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg);
-    grupoA = ordenarG(grupoA); 
-    grupoB = ordenarG(grupoB);
+    grupoA = ordenarG(grupoA); grupoB = ordenarG(grupoB);
 
-    // --- RENDER TOP 16 (IZQUIERDA) ---
-    const cont16 = document.getElementById('top-16-render');
-    if(cont16) {
-        cont16.innerHTML = `
-            <div class="mb-4"><div class="text-[9px] font-black text-yellow-500 mb-2">GRUPO A (SUR/CENTRO)</div>
-            ${grupoA.map((eq, i) => `<div class="flex justify-between p-2 bg-white/5 mb-1 rounded border-l-2 border-yellow-500 text-[10px] uppercase font-bold text-slate-200"><span>${i+1}. ${eq.nombre}</span> <span class="text-slate-500">${(eq.pts/eq.pj).toFixed(2)}</span></div>`).join('')}</div>
-            <div><div class="text-[9px] font-black text-emerald-500 mb-2">GRUPO B (NORTE/CENTRO)</div>
-            ${grupoB.map((eq, i) => `<div class="flex justify-between p-2 bg-white/5 mb-1 rounded border-l-2 border-emerald-500 text-[10px] uppercase font-bold text-slate-200"><span>${i+1}. ${eq.nombre}</span> <span class="text-slate-500">${(eq.pts/eq.pj).toFixed(2)}</span></div>`).join('')}</div>`;
-    }
+   // ==========================================
+// 1. RESULTADOS (Cargá acá tus datos)
+// ==========================================
+const resultadosPlayoffs = {
+    a1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] }, // Ejemplo penales
+    a2: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    a3: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    a4: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    b1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    b2: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    b3: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    b4: { ida: [0, 0], vta: [0, 0], penales: [0, 0] }
+};
 
-    // --- RENDER CUADRO VISUAL (DERECHA) ---
-    const contCuadro = document.getElementById('cuadro-render');
-    if(contCuadro) {
-        const crearPartido = (p1, r1, p2, r2) => `
-            <div class="bg-slate-900/80 border border-white/5 rounded-lg overflow-hidden mb-2 shadow-lg">
-                <div class="flex justify-between items-center p-2 border-b border-white/5">
-                    <span class="text-[10px] font-bold text-slate-200 truncate uppercase w-32">${p1 || '---'}</span>
-                    <span class="text-[8px] font-black text-emerald-500 bg-emerald-500/10 px-1 rounded">${r1}º</span>
+// ==========================================
+// 2. FUNCIONES DE APOYO (No tocar)
+// ==========================================
+const renderEscudo = (nombre) => {
+    if (typeof obtenerEscudo === 'function') return obtenerEscudo(nombre);
+    return `<div class="w-full h-full bg-slate-700 rounded-full flex items-center justify-center text-[6px] text-white/20">X</div>`;
+};
+
+const obtenerGanadorLlave = (p1, p2, llaveId) => {
+    const res = resultadosPlayoffs[llaveId];
+    if (!res) return null;
+    const g1 = res.ida[0] + res.vta[0];
+    const g2 = res.ida[1] + res.vta[1];
+    if (g1 === 0 && g2 === 0 && res.vta[0] === 0) return null;
+    if (g1 > g2) return p1;
+    if (g2 > g1) return p2;
+    if (res.penales[0] > res.penales[1]) return p1;
+    if (res.penales[1] > res.penales[0]) return p2;
+    return "PENALES";
+};
+
+// Tu función de Cuartos con el tuneo de escudos que hiciste
+const cajaCuartos = (g1, g2, label) => {
+    const miniEscudo = (nombre) => {
+        if (!nombre || nombre === "---" || nombre === "PENALES") return `<div class="w-4 h-4 bg-white/5 rounded-full"></div>`;
+        return `<div class="w-6 h-6 flex-shrink-0">${renderEscudo(nombre)}</div>`;
+    };
+    return `
+    <div class="h-28 border-2 border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center bg-slate-800/20 p-2 shadow-inner">
+        <span class="text-[6px] text-slate-600 font-black mb-2 uppercase italic">${label}</span>
+        <div class="flex items-center gap-2 justify-center w-full mb-1">
+            ${miniEscudo(g1)}
+            <div class="text-[10px] font-black text-white uppercase truncate">${g1 || '---'}</div>
+        </div>
+        <div class="text-[7px] font-bold text-white/10 my-0.5 italic">vs</div>
+        <div class="flex items-center gap-2 justify-center w-full mt-1">
+            ${miniEscudo(g2)}
+            <div class="text-[10px] font-black text-white uppercase truncate">${g2 || '---'}</div>
+        </div>
+    </div>`;
+};
+
+// ==========================================
+// 3. RENDER FINAL (Cuadro y Tablas)
+// ==========================================
+const contCuadro = document.getElementById('cuadro-render');
+if(contCuadro) {
+    const crearPartidoFinal = (p1, p2, llaveId) => {
+        const res = resultadosPlayoffs[llaveId] || { ida: [0,0], vta: [0,0], penales: [0,0] };
+        const g1 = res.ida[0] + res.vta[0];
+        const g2 = res.ida[1] + res.vta[1];
+        const hayPenales = (g1 === g2 && (res.penales[0] > 0 || res.penales[1] > 0));
+
+        return `
+        <div class="flex flex-col w-full bg-slate-900/95 border border-white/10 rounded shadow-xl mb-3 overflow-hidden">
+            <div class="flex justify-between items-center px-2 py-1 bg-white/5 border-b border-white/10 text-[7px] font-black italic">
+                <span class="text-slate-500">${llaveId.toUpperCase()}</span>
+                <span class="text-white/30 font-normal text-[6px]">I: ${res.ida[0]}-${res.ida[1]} | V: ${res.vta[0]}-${res.vta[1]}</span>
+            </div>
+            <div class="flex items-center justify-between p-2 border-b border-white/5">
+                <div class="flex items-center gap-2 truncate">
+                    <div class="w-7 h-7 flex-shrink-0">${renderEscudo(p1)}</div>
+                    <span class="text-[10px] font-black text-slate-100 uppercase truncate">${p1 || '---'}</span>
                 </div>
-                <div class="flex justify-between items-center p-2">
-                    <span class="text-[10px] font-bold text-slate-200 truncate uppercase w-32">${p2 || '---'}</span>
-                    <span class="text-[8px] font-black text-emerald-500 bg-emerald-500/10 px-1 rounded">${r2}º</span>
+                <div class="flex flex-col items-center min-w-[20px]">
+                    <span class="text-white font-black text-[11px] leading-none">${g1}</span>
+                    ${hayPenales ? `<span class="text-yellow-500 font-bold text-[8px] mt-1 italic">(${res.penales[0]})</span>` : ''}
                 </div>
             </div>
-        `;
-
-        contCuadro.innerHTML = `
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="space-y-6">
-                    <h5 class="text-[9px] font-black text-yellow-500 uppercase tracking-widest text-center border-b border-yellow-500/20 pb-2">Llaves Grupo A</h5>
-                    <div class="grid grid-cols-1 gap-2">
-                        <div class="relative">
-                            ${crearPartido(grupoA[0]?.nombre, 1, grupoA[7]?.nombre, 8)}
-                            ${crearPartido(grupoA[3]?.nombre, 4, grupoA[4]?.nombre, 5)}
-                            <div class="absolute -right-4 top-1/2 -translate-y-1/2 w-4 h-24 border-y border-r border-white/20 rounded-r-lg"></div>
-                        </div>
-                        <div class="relative mt-4">
-                            ${crearPartido(grupoA[1]?.nombre, 2, grupoA[6]?.nombre, 7)}
-                            ${crearPartido(grupoA[2]?.nombre, 3, grupoA[5]?.nombre, 6)}
-                            <div class="absolute -right-4 top-1/2 -translate-y-1/2 w-4 h-24 border-y border-r border-white/20 rounded-r-lg"></div>
-                        </div>
-                    </div>
+            <div class="flex items-center justify-between p-2">
+                <div class="flex items-center gap-2 truncate">
+                    <div class="w-7 h-7 flex-shrink-0">${renderEscudo(p2)}</div>
+                    <span class="text-[10px] font-black text-slate-100 uppercase truncate">${p2 || '---'}</span>
                 </div>
-
-                <div class="space-y-6">
-                    <h5 class="text-[9px] font-black text-emerald-500 uppercase tracking-widest text-center border-b border-emerald-500/20 pb-2">Llaves Grupo B</h5>
-                    <div class="grid grid-cols-1 gap-2">
-                        <div class="relative">
-                            ${crearPartido(grupoB[0]?.nombre, 1, grupoB[7]?.nombre, 8)}
-                            ${crearPartido(grupoB[3]?.nombre, 4, grupoB[4]?.nombre, 5)}
-                            <div class="absolute -left-4 top-1/2 -translate-y-1/2 w-4 h-24 border-y border-l border-white/20 rounded-l-lg"></div>
-                        </div>
-                        <div class="relative mt-4">
-                            ${crearPartido(grupoB[1]?.nombre, 2, grupoB[6]?.nombre, 7)}
-                            ${crearPartido(grupoB[2]?.nombre, 3, grupoB[5]?.nombre, 6)}
-                            <div class="absolute -left-4 top-1/2 -translate-y-1/2 w-4 h-24 border-y border-l border-white/20 rounded-l-lg"></div>
-                        </div>
-                    </div>
+                <div class="flex flex-col items-center min-w-[20px]">
+                    <span class="text-white font-black text-[11px] leading-none">${g2}</span>
+                    ${hayPenales ? `<span class="text-yellow-500 font-bold text-[8px] mt-1 italic">(${res.penales[1]})</span>` : ''}
                 </div>
             </div>
-            <div class="mt-6 text-center">
-                <div class="inline-block bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-full">
-                    <span class="text-[9px] font-black text-emerald-500 uppercase tracking-widest">Camino a Cuartos de Final</span>
+        </div>`;
+    };
+
+    contCuadro.innerHTML = `
+        <div class="grid grid-cols-5 gap-6 items-center min-w-[1000px] py-4 px-2">
+            <div>
+                <h4 class="text-center text-yellow-500 font-black text-[9px] uppercase mb-3 italic">Octavos A</h4>
+                ${crearPartidoFinal(grupoA[0]?.nombre, grupoA[7]?.nombre, "a1")}
+                ${crearPartidoFinal(grupoA[3]?.nombre, grupoA[4]?.nombre, "a2")}
+                <div class="h-6"></div>
+                ${crearPartidoFinal(grupoA[1]?.nombre, grupoA[6]?.nombre, "a3")}
+                ${crearPartidoFinal(grupoA[2]?.nombre, grupoA[5]?.nombre, "a4")}
+            </div>
+            <div class="flex flex-col justify-around h-full py-14">
+                ${cajaCuartos(obtenerGanadorLlave(grupoA[0]?.nombre, grupoA[7]?.nombre, "a1"), obtenerGanadorLlave(grupoA[3]?.nombre, grupoA[4]?.nombre, "a2"), "Llave 1A")}
+                ${cajaCuartos(obtenerGanadorLlave(grupoA[1]?.nombre, grupoA[6]?.nombre, "a3"), obtenerGanadorLlave(grupoA[2]?.nombre, grupoA[5]?.nombre, "a4"), "Llave 2A")}
+            </div>
+            <div class="flex flex-col items-center justify-center">
+                <div class="p-6 bg-gradient-to-b from-yellow-600/20 to-slate-900 border-2 border-yellow-500 rounded-3xl shadow-2xl min-w-[200px] text-center">
+                    <span class="block text-[10px] font-black text-yellow-500 mb-3 uppercase tracking-widest italic">Campeón</span>
+                    <input type="text" class="bg-transparent text-white text-center font-black text-sm w-full outline-none uppercase" placeholder="...">
                 </div>
             </div>
-        `;
-    }
-    lucide.createIcons();
+            <div class="flex flex-col justify-around h-full py-14">
+                ${cajaCuartos(obtenerGanadorLlave(grupoB[0]?.nombre, grupoB[7]?.nombre, "b1"), obtenerGanadorLlave(grupoB[3]?.nombre, grupoB[4]?.nombre, "b2"), "Llave 1B")}
+                ${cajaCuartos(obtenerGanadorLlave(grupoB[1]?.nombre, grupoB[6]?.nombre, "b3"), obtenerGanadorLlave(grupoB[2]?.nombre, grupoB[5]?.nombre, "b4"), "Llave 2B")}
+            </div>
+            <div>
+                <h4 class="text-center text-emerald-400 font-black text-[9px] uppercase mb-3 italic">Octavos B</h4>
+                ${crearPartidoFinal(grupoB[0]?.nombre, grupoB[7]?.nombre, "b1")}
+                ${crearPartidoFinal(grupoB[3]?.nombre, grupoB[4]?.nombre, "b2")}
+                <div class="h-6"></div>
+                ${crearPartidoFinal(grupoB[1]?.nombre, grupoB[6]?.nombre, "b3")}
+                ${crearPartidoFinal(grupoB[2]?.nombre, grupoB[5]?.nombre, "b4")}
+            </div>
+        </div>`;
+}
+// ==========================================
+// 4. RENDER DE TABLAS DE MÉRITO (LOS 16)
+// ==========================================
+const cont16 = document.getElementById('top-16-render');
+if(cont16) {
+    // Forzamos el diseño en columnas para que entren los dos grupos
+    cont16.className = "flex flex-col md:flex-row gap-6 w-full mb-8";
+    
+    const generarHTMLGrupo = (titulo, lista, color) => `
+        <div class="flex-1">
+            <div class="text-[10px] font-black ${color} mb-3 uppercase tracking-widest border-b border-white/10 pb-1 italic">
+                ${titulo}
+            </div>
+            ${lista.map((eq, i) => `
+                <div class="flex justify-between items-center p-2 bg-white/5 mb-1 rounded border-l-2 ${color.replace('text-', 'border-')} text-[11px] uppercase font-bold text-slate-200">
+                    <span class="flex items-center gap-3 truncate">
+                        <span class="text-slate-500 w-3 font-black text-[9px]">${i+1}</span>
+                        <div class="w-6 h-6 flex-shrink-0">${renderEscudo(eq.nombre)}</div>
+                        <span class="truncate">${eq.nombre}</span>
+                    </span> 
+                    <span class="text-slate-500 font-black text-[9px]">
+                        ${(eq.pts/eq.pj).toFixed(2)}
+                    </span>
+                </div>
+            `).join('')}
+        </div>`;
+
+    cont16.innerHTML = `
+        ${generarHTMLGrupo('Grupo A (Sur/Centro)', grupoA, 'text-yellow-500')} 
+        ${generarHTMLGrupo('Grupo B (Norte/Centro)', grupoB, 'text-emerald-500')}
+    `;
+}
+// Inicializar iconos
+if(typeof lucide !== 'undefined') lucide.createIcons();
+
+// Re-inicializar iconos
+if(typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-window.onload = () => {
-    lucide.createIcons();
-    document.getElementById('sponsors-grid').innerHTML = SPONSORS.map(s => `
-        <div class="sponsor-card">
-            <span class="text-[9px] font-black uppercase italic text-slate-400 text-center leading-tight">${s}</span>
-        </div>
-    `).join('');
-    renderizar();
+const ESCUDOS_MAP = {
+    "U. Agrarios Cerrito": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cuac.png",
+    "Atlético Hernandarias": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cah.png",
+    "J. Unida de Bovril": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/juventudc.png",
+    "Deportivo Tuyango": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/tuyango.png",
+    "Deportivo Bovril": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cdb.png",
+    "Independiente FC": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/ifbc.png",
+    "Union Alcaraz": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/ufc.png",
+    "Atlético Hasenkamp": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cahr.png",
+    "Litoral María Grande": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/litoral.png",
+    "Cañadita Central": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cacc.png",
+    "Atlético María Grande": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/camg.png",
+    "Segui FC": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/segui.png",
+    "Escuela Diego Maradona": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/maradona.png",
+    "Juventud Sarmiento": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cjs.png",
+    "Atlético Arsenal": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/caa.png",
+    "Viale Football Club": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/viale.png",
+    "Sarmiento de Crespo": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/sarmientoc.png",
+    "Union de Crespo": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/unionc.png",
+    "Deportivo Tabossi": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cadt.png",
+    "Cultural de Crespo": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/culturalc.png",
+    "Union de Viale": "data:image/jpeg;base64,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"
 };
+
+function obtenerEscudo(nombre, clasesAdicionales = '') {
+    const url = ESCUDOS_MAP[nombre] || 'ruta/a/escudo/generico.png';
+    // Cambié w-5 h-5 por w-8 h-8 (puedes probar con w-10 si los quieres más grandes)
+    return `<img src="${url}" class="w-8 h-8 object-contain inline-block ${clasesAdicionales}" 
+            onerror="this.style.display='none'" alt="">`;
+}
 </script>
 </body>
 </html>

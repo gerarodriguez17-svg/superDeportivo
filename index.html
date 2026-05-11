@@ -1028,6 +1028,19 @@ function obtenerEscudo(nombre, clasesAdicionales = '') {
     return `<img src="${url}" class="w-8 h-8 object-contain inline-block ${clasesAdicionales}" 
             onerror="this.style.display='none'" alt="">`;
 }
+// Al final de todo tu JS
+window.onload = function() {
+    // 1. Obtenemos el valor que tenga el selector (en este caso será "7")
+    const fechaInicial = document.getElementById('fecha-selector').value;
+    
+    // 2. Forzamos la ejecución de la función de los partidos
+    cambiarFecha(fechaInicial);
+    
+    // 3. Forzamos el render de las tablas de mérito y el cuadro
+    // Si tus funciones de las tablas están dentro de un bloque, 
+    // asegúrate de que se llamen aquí también.
+    console.log("Sistema inicializado en Fecha " + fechaInicial);
+};
 </script>
 </body>
 </html>

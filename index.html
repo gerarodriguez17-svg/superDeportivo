@@ -622,7 +622,20 @@ function cambiarFecha(f) {
     fechaActual = f;
     renderizar();
 }
+// ACTIVADOR AUTOMÁTICO AL ENTRAR
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Ejecuta el fixture de la fecha 7 que tenés seleccionada
+    const selector = document.getElementById('fecha-selector');
+    if (selector) {
+        cambiarFecha(selector.value);
+    }
 
+    // 2. Ejecuta el render de las tablas de mérito (Paso 4)
+    // Si metiste el código de las tablas en una función, llamala acá.
+    // Si el código está "suelto", este disparador DOMContentLoaded 
+    // se asegurará de que corra apenas el HTML esté listo.
+    console.log("Tablas y Fixture inicializados automáticamente.");
+});
 function obtenerTablaPorZona(zona, categoria) {
     let equipos = zona === 'norte' ? EQUIPOS_NORTE : (zona === 'centro' ? EQUIPOS_CENTRO : EQUIPOS_SUR);
     let data = (zona === 'norte' ? NORTE_DATA : (zona === 'centro' ? CENTRO_DATA : SUR_DATA))[categoria];

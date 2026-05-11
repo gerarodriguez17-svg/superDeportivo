@@ -1054,6 +1054,26 @@ window.onload = function() {
     // asegúrate de que se llamen aquí también.
     console.log("Sistema inicializado en Fecha " + fechaInicial);
 };
+// SOLUCIÓN FINAL: DESBLOQUEO SILENCIOSO
+setTimeout(function() {
+    // 1. Le decimos al sistema que ya pusimos la clave (aunque sea mentira)
+    localStorage.setItem('acceso_superdep', 'true');
+    
+    // 2. Ejecutamos la función que vos ya tenés para mostrar el video
+    // Usamos el ID de Sergio que me pasaste antes
+    if (typeof aplicarAcceso === 'function') {
+        aplicarAcceso("BendsHPm8u8");
+    }
+    
+    // 3. Si tenés el panel de "Contenido Protegido", lo ocultamos manualmente
+    const paywall = document.getElementById('paywall');
+    if (paywall) paywall.classList.add('hidden');
+    
+    const form = document.getElementById('formulario-login');
+    if (form) form.classList.add('hidden');
+
+    console.log("Acceso forzado sin mover el diseño");
+}, 1000);
 </script>
 </body>
 </html>

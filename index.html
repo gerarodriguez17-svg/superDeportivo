@@ -854,7 +854,7 @@ const cajaCuartos = (g1, g2, label) => {
 };
 
 // ==========================================
-// 3. RENDER FINAL (Cuadro y Tablas)
+// 3. RENDER DEL CUADRO DE PLAY-OFFS
 // ==========================================
 const contCuadro = document.getElementById('cuadro-render');
 if(contCuadro) {
@@ -875,20 +875,14 @@ if(contCuadro) {
                     <div class="w-7 h-7 flex-shrink-0">${renderEscudo(p1)}</div>
                     <span class="text-[10px] font-black text-slate-100 uppercase truncate">${p1 || '---'}</span>
                 </div>
-                <div class="flex flex-col items-center min-w-[20px]">
-                    <span class="text-white font-black text-[11px] leading-none">${g1}</span>
-                    ${hayPenales ? `<span class="text-yellow-500 font-bold text-[8px] mt-1 italic">(${res.penales[0]})</span>` : ''}
-                </div>
+                <span class="text-white font-black text-[11px]">${g1} ${hayPenales ? `<span class="text-yellow-500 text-[8px]">(${res.penales[0]})</span>` : ''}</span>
             </div>
             <div class="flex items-center justify-between p-2">
                 <div class="flex items-center gap-2 truncate">
                     <div class="w-7 h-7 flex-shrink-0">${renderEscudo(p2)}</div>
                     <span class="text-[10px] font-black text-slate-100 uppercase truncate">${p2 || '---'}</span>
                 </div>
-                <div class="flex flex-col items-center min-w-[20px]">
-                    <span class="text-white font-black text-[11px] leading-none">${g2}</span>
-                    ${hayPenales ? `<span class="text-yellow-500 font-bold text-[8px] mt-1 italic">(${res.penales[1]})</span>` : ''}
-                </div>
+                <span class="text-white font-black text-[11px]">${g2} ${hayPenales ? `<span class="text-yellow-500 text-[8px]">(${res.penales[1]})</span>` : ''}</span>
             </div>
         </div>`;
     };
@@ -908,10 +902,7 @@ if(contCuadro) {
                 ${cajaCuartos(obtenerGanadorLlave(grupoA[1]?.nombre, grupoA[6]?.nombre, "a3"), obtenerGanadorLlave(grupoA[2]?.nombre, grupoA[5]?.nombre, "a4"), "Llave 2A")}
             </div>
             <div class="flex flex-col items-center justify-center">
-                <div class="p-6 bg-gradient-to-b from-yellow-600/20 to-slate-900 border-2 border-yellow-500 rounded-3xl shadow-2xl min-w-[200px] text-center">
-                    <span class="block text-[10px] font-black text-yellow-500 mb-3 uppercase tracking-widest italic">Campeón</span>
-                    <input type="text" class="bg-transparent text-white text-center font-black text-sm w-full outline-none uppercase" placeholder="...">
-                </div>
+                <div class="p-6 bg-gradient-to-b from-yellow-600/20 to-slate-900 border-2 border-yellow-500 rounded-3xl shadow-2xl min-w-[200px] text-center text-white font-black italic">CAMPEÓN</div>
             </div>
             <div class="flex flex-col justify-around h-full py-14">
                 ${cajaCuartos(obtenerGanadorLlave(grupoB[0]?.nombre, grupoB[7]?.nombre, "b1"), obtenerGanadorLlave(grupoB[3]?.nombre, grupoB[4]?.nombre, "b2"), "Llave 1B")}
@@ -927,38 +918,79 @@ if(contCuadro) {
             </div>
         </div>`;
 }
+
 // ==========================================
-// 4. RENDER DE TABLAS DE MÉRITO (LOS 16)
+// 4. RENDER DE TABLAS DE MÉRITO (ESTRUCTURA DE 3)
 // ==========================================
 const cont16 = document.getElementById('top-16-render');
 if(cont16) {
-    // Forzamos el diseño en columnas para que entren los dos grupos
-    cont16.className = "flex flex-col md:flex-row gap-6 w-full mb-8";
-    
-    const generarHTMLGrupo = (titulo, lista, color) => `
-        <div class="flex-1">
-            <div class="text-[10px] font-black ${color} mb-3 uppercase tracking-widest border-b border-white/10 pb-1 italic">
-                ${titulo}
-            </div>
-            ${lista.map((eq, i) => `
-                <div class="flex justify-between items-center p-2 bg-white/5 mb-1 rounded border-l-2 ${color.replace('text-', 'border-')} text-[11px] uppercase font-bold text-slate-200">
-                    <span class="flex items-center gap-3 truncate">
-                        <span class="text-slate-500 w-3 font-black text-[9px]">${i+1}</span>
-                        <div class="w-6 h-6 flex-shrink-0">${renderEscudo(eq.nombre)}</div>
-                        <span class="truncate">${eq.nombre}</span>
-                    </span> 
-                    <span class="text-slate-500 font-black text-[9px]">
-                        ${(eq.pts/eq.pj).toFixed(2)}
-                    </span>
+    cont16.className = "flex flex-col lg:flex-row gap-6 w-full mb-8";
+
+    // 1. Armamos la tabla de 16 (Posición > Promedio)
+    let tabla16Jerarquica = [];
+    for (let i = 0; i < 6; i++) {
+        let nivel = [tSur[i], tNorte[i], tCentro[i]].filter(Boolean);
+        nivel.sort((a, b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg);
+        tabla16Jerarquica.push(...nivel);
+    }
+    const clasificados16 = tabla16Jerarquica.slice(0, 16);
+
+    const equiposSorteo = ["ATLÉTICO MARÍA GRANDE", "LITORAL", "DIEGO MARADONA"];
+
+    // Función auxiliar para renderizar cada fila
+    const generarFila = (eq, i, colorClase, esColumnaGrupo) => {
+        const enSorteo = equiposSorteo.some(s => eq.nombre.toUpperCase().includes(s));
+        const aplicarEfectoSorteo = esColumnaGrupo && enSorteo;
+        
+        const estiloBorde = aplicarEfectoSorteo 
+            ? 'border-slate-600 opacity-50 bg-slate-800' 
+            : `${colorClase.replace('text-', 'border-')} bg-white/5`;
+        
+        const nombreFinal = aplicarEfectoSorteo 
+            ? `${eq.nombre} <span class="text-[7px] text-yellow-500 block">ESPERANDO SORTEO</span>` 
+            : eq.nombre;
+
+        return `
+        <div class="flex justify-between items-center p-2 mb-1 rounded border-l-2 ${estiloBorde} text-[10px] uppercase font-bold text-slate-200">
+            <span class="flex items-center gap-3 truncate min-w-0">
+                <span class="text-slate-500 w-3 font-black text-[8px] flex-shrink-0">${i+1}</span>
+                
+                <!-- CONTENEDOR DE ESCUDO CORREGIDO -->
+                <div class="w-6 h-6 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                    ${renderEscudo(eq.nombre)}
                 </div>
-            `).join('')}
+
+                <span class="truncate leading-tight">${nombreFinal}</span>
+            </span> 
+            <span class="${aplicarEfectoSorteo ? 'text-slate-500' : 'text-yellow-500'} font-black text-[9px] ml-2">
+                ${(eq.pts/eq.pj).toFixed(2)}
+            </span>
         </div>`;
+    };
 
     cont16.innerHTML = `
-        ${generarHTMLGrupo('Grupo A (Sur/Centro)', grupoA, 'text-yellow-500')} 
-        ${generarHTMLGrupo('Grupo B (Norte/Centro)', grupoB, 'text-emerald-500')}
-    `;
+        <!-- COLUMNA IZQUIERDA: GENERAL 16 (Acá NO se grisan) -->
+        <div class="flex-[1.2] bg-black/20 p-4 rounded-xl border border-white/5">
+            <div class="text-[10px] font-black text-white mb-4 uppercase tracking-widest border-b border-yellow-500 pb-1 italic flex justify-between">
+                <span>Orden de Mérito</span>
+                <span class="text-[8px] text-slate-500 font-normal">Posición + Promedio</span>
+            </div>
+            ${clasificados16.map((eq, i) => generarFila(eq, i, 'text-yellow-500', false)).join('')}
+        </div>
+
+        <!-- COLUMNA DERECHA: GRUPOS A Y B (Acá SÍ se grisan los de sorteo) -->
+        <div class="flex-1 flex flex-col gap-4">
+            <div class="bg-black/20 p-4 rounded-xl border border-white/5">
+                <div class="text-[10px] font-black text-emerald-400 mb-2 uppercase tracking-widest border-b border-emerald-400/30 pb-1 italic">Grupo A (Sur/Centro)</div>
+                ${grupoA.map((eq, i) => generarFila(eq, i, 'text-emerald-500', true)).join('')}
+            </div>
+            <div class="bg-black/20 p-4 rounded-xl border border-white/5">
+                <div class="text-[10px] font-black text-blue-400 mb-2 uppercase tracking-widest border-b border-blue-400/30 pb-1 italic">Grupo B (Norte/Centro)</div>
+                ${grupoB.map((eq, i) => generarFila(eq, i, 'text-blue-500', true)).join('')}
+            </div>
+        </div>`;
 }
+
 // Inicializar iconos
 if(typeof lucide !== 'undefined') lucide.createIcons();
 

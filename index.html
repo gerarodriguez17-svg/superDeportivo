@@ -555,7 +555,7 @@ if (sponsorsGrid) {
         function intentarAcceso() {
     const ingreso = document.getElementById('pass-usuario').value.toUpperCase();
     const CLAVE_POSTA = "DOMINGO"; 
-    const ID_YOUTUBE = "o0vlIiJaj20"; // El ID de tu video
+    const ID_YOUTUBE = "BendsHPm8u8"; // El ID de tu video
 
     if (ingreso === CLAVE_POSTA) {
         localStorage.setItem('acceso_superdep', 'true');
@@ -778,51 +778,167 @@ function renderizar() {
     } else {
         document.getElementById('libre-render').innerHTML = '';
     }
-
-    // 4. LÓGICA DE FASE FINAL
-    const clasificadosSur = tSur.slice(0, 5);
-    const clasificadosNorte = tNorte.slice(0, 5);
-    const clasificadosCentro = tCentro.slice(0, 5);
-    const sextos = [tNorte[5], tCentro[5], tSur[5]].filter(Boolean);
-    const mejor6 = sextos.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg)[0];
-
-    const equiposSegui = ["SEGUI", "CAÑADITA"]; 
-    const equiposHasenkamp = ["HASENKAMP", "SARMIENTO"];
-    const centroParaA = clasificadosCentro.filter(eq => equiposSegui.some(s => eq.nombre.toUpperCase().includes(s.toUpperCase())));
-    const centroParaB = clasificadosCentro.filter(eq => equiposHasenkamp.some(h => eq.nombre.toUpperCase().includes(h.toUpperCase())));
-    const restoCentro = clasificadosCentro.filter(eq => !centroParaA.some(a => a.nombre === eq.nombre) && !centroParaB.some(b => b.nombre === eq.nombre));
-
-    let grupoA = [...clasificadosSur, ...centroParaA];
-    let grupoB = [...clasificadosNorte, ...centroParaB];
-
-    if (mejor6) {
-        const esDelSurOCentro = tSur.some(e => e.nombre === mejor6.nombre) || centroParaA.some(e => e.nombre === mejor6.nombre);
-        if (esDelSurOCentro && grupoA.length < 8) { grupoA.push(mejor6); } 
-        else if (grupoB.length < 8) { grupoB.push(mejor6); } 
-        else { grupoA.push(mejor6); }
-    }
-
-    restoCentro.forEach(eq => {
-        if (grupoA.some(a => a.nombre === eq.nombre) || grupoB.some(b => b.nombre === eq.nombre)) return;
-        if (grupoA.length < 8) grupoA.push(eq); else if (grupoB.length < 8) grupoB.push(eq);
-    });
-
-    const ordenarG = (g) => g.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg);
-    grupoA = ordenarG(grupoA); grupoB = ordenarG(grupoB);
-
-   // ==========================================
-// 1. RESULTADOS (Cargá acá tus datos)
 // ==========================================
+// 1. RESULTADOS Y LOGICA DE FASE FINAL
+// ==========================================
+// Se unificó la carga de resultados expandiendo las llaves para Primera, Sub-17 y Sub-20
 const resultadosPlayoffs = {
-    a1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] }, // Ejemplo penales
+    // PRIMERA DIVISIÓN
+    a1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
     a2: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
     a3: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
     a4: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
     b1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
     b2: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
     b3: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
-    b4: { ida: [0, 0], vta: [0, 0], penales: [0, 0] }
+    b4: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+
+    // SUB 17
+    sub17_a1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub17_a2: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub17_a3: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub17_a4: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub17_b1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub17_b2: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub17_b3: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub17_b4: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+
+    // SUB 20
+    sub20_a1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub20_a2: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub20_a3: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub20_a4: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub20_b1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub20_b2: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub20_b3: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub20_b4: { ida: [0, 0], vta: [0, 0], penales: [0, 0] }
 };
+
+const categoria = typeof categoriaActual !== 'undefined' ? categoriaActual.toUpperCase() : "PRIMERA";
+
+// ====================================================================
+// ANTES DE ARMAR LOS GRUPOS: Guardamos la posición original de cada zona
+// para usarla como criterio principal de ordenamiento.
+// ====================================================================
+const guardarPosicionOriginal = (tabla) => {
+    return tabla.map((equipo, indice) => ({
+        ...equipo,
+        posicionZona: indice + 1 // El primero se guarda como 1, el quinto como 5, etc.
+    }));
+};
+
+// Copias de las tablas registrando la posición que traían de su zona original
+let tablaNorteAjustada = guardarPosicionOriginal([...tNorte]);
+const tablaSurAjustada = guardarPosicionOriginal([...tSur]);
+const tablaCentroAjustada = guardarPosicionOriginal([...tCentro]);
+
+// Ajuste manual de posiciones en la tabla Norte antes de armar nada (Para Primera División)
+if (categoria === "PRIMERA") {
+    const idxMaradona = tablaNorteAjustada.findIndex(e => e.nombre.toUpperCase().includes("DIEGO MARADONA"));
+    const idxBovril = tablaNorteAjustada.findIndex(e => e.nombre.toUpperCase().includes("BOVRIL"));
+    
+    if (idxMaradona !== -1 && idxBovril !== -1) {
+        const [equipoMaradona] = tablaNorteAjustada.splice(idxMaradona, 1);
+        const nuevoIdxBovril = tablaNorteAjustada.findIndex(e => e.nombre.toUpperCase().includes("BOVRIL"));
+        const [equipoBovril] = tablaNorteAjustada.splice(nuevoIdxBovril, 1);
+        
+        // Forzamos posiciones en el array base
+        tablaNorteAjustada.splice(4, 0, equipoMaradona); // 5to
+        tablaNorteAjustada.splice(5, 0, equipoBovril);   // 6to
+        
+        // Re-calculamos las posiciones en base al nuevo orden manual de Primera
+        tablaNorteAjustada = tablaNorteAjustada.map((e, idx) => ({...e, posicionZona: idx + 1}));
+    }
+}
+
+// Armado inicial de clasificados utilizando las tablas con posiciones registradas
+const clasificadosSur = tablaSurAjustada.slice(0, 5);
+const clasificadosNorte = tablaNorteAjustada.slice(0, 5);
+const clasificadosCentro = tablaCentroAjustada.slice(0, 5);
+const sextos = [tablaNorteAjustada[5], tablaCentroAjustada[5], tablaSurAjustada[5]].filter(Boolean);
+const mejor6 = sextos.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg)[0];
+
+const equiposSegui = ["SEGUI", "CAÑADITA"]; 
+const equiposHasenkamp = ["HASENKAMP", "SARMIENTO"];
+
+// 1. Filtramos los equipos base de Seguí y Hasenkamp
+let centroParaA = clasificadosCentro.filter(eq => equiposSegui.some(s => eq.nombre.toUpperCase().includes(s.toUpperCase())));
+let centroParaB = clasificadosCentro.filter(eq => equiposHasenkamp.some(h => eq.nombre.toUpperCase().includes(h.toUpperCase())));
+
+// 2. Filtramos los tres equipos de María Grande de la zona Centro
+const mgAtletico = clasificadosCentro.filter(eq => eq.nombre.toUpperCase().includes("ATLETICO MARIA GRANDE") || (eq.nombre.toUpperCase().includes("MARIA GRANDE") && !eq.nombre.toUpperCase().includes("LITORAL")));
+const mgLitoral = clasificadosCentro.filter(eq => eq.nombre.toUpperCase().includes("LITORAL"));
+const mgMaradona = clasificadosCentro.filter(eq => eq.nombre.toUpperCase().includes("MARADONA"));
+
+// ====================================================================
+// REPARTO POR SORTEO SEGÚN CATEGORÍA (Primera, Sub-20 y Sub-17)
+// ====================================================================
+if (categoria === "SUB17") {
+    // SUB-17 (Al revés): Maradona al A | Atlético y Litoral al B
+    centroParaA = [...centroParaA, ...mgMaradona];
+    centroParaB = [...centroParaB, ...mgAtletico, ...mgLitoral];
+} else {
+    // PRIMERA y SUB-20: Atlético y Litoral al A | Maradona al B
+    centroParaA = [...centroParaA, ...mgAtletico, ...mgLitoral];
+    centroParaB = [...centroParaB, ...mgMaradona];
+}
+
+// El resto de la lógica de distribución sigue igual...
+let restoCentro = clasificadosCentro.filter(eq => !centroParaA.some(a => a.nombre === eq.nombre) && !centroParaB.some(b => b.nombre === eq.nombre));
+
+let grupoA = [...clasificadosSur, ...centroParaA];
+let grupoB = [...clasificadosNorte, ...centroParaB];
+
+if (mejor6) {
+    const esDelSurOCentro = tablaSurAjustada.some(e => e.nombre === mejor6.nombre) || centroParaA.some(e => e.nombre === mejor6.nombre);
+    if (esDelSurOCentro && grupoA.length < 8) { grupoA.push(mejor6); } 
+    else if (grupoB.length < 8) { grupoB.push(mejor6); } 
+    else { grupoA.push(mejor6); }
+}
+
+restoCentro.forEach(eq => {
+    if (grupoA.some(a => a.nombre === eq.nombre) || grupoB.some(b => b.nombre === eq.nombre)) return;
+    if (grupoA.length < 8) grupoA.push(eq); else if (grupoB.length < 8) grupoB.push(eq);
+});
+
+// ====================================================================
+// CORREGIDO: ORDEN POR REGLAMENTO (Posición en Zona -> Promedio -> DG)
+// ====================================================================
+const ordenarG = (g) => g.sort((a,b) => {
+    // CRITERIO 1: Posición original en su zona (Menor número = Mejor puesto. Ej: El 5to queda arriba del 6to)
+    const posA = a.posicionZona || 99;
+    const posB = b.posicionZona || 99;
+    if (posA !== posB) return posA - posB;
+
+    // CRITERIO 2: Si empatan en posición de zona (ej: dos que salieron 3ros), define el Promedio
+    const difPromedio = (b.pts/b.pj) - (a.pts/a.pj);
+    if (Math.abs(difPromedio) > 0.0001) return difPromedio; 
+
+    // CRITERIO 3: Si empatan en todo lo anterior, define Diferencia de Gol
+    return b.dg - a.dg;
+});
+
+grupoA = ordenarG(grupoA); 
+grupoB = ordenarG(grupoB);
+
+// ====================================================================
+// AJUSTES MANUALES DE POSICIONES POST-ORDENADO
+// ====================================================================
+
+// Forzar a Maradona 5to y Bovril 6to en el Grupo B (Solo para Primera División)
+if (categoria === "PRIMERA") {
+    const idxMaradona = grupoB.findIndex(e => e.nombre.toUpperCase().includes("ESCUELA DIEGO MARADONA"));
+    const idxBovril = grupoB.findIndex(e => e.nombre.toUpperCase().includes("DEPORTIVO BOVRIL"));
+
+    if (idxMaradona !== -1 && idxBovril !== -1) {
+        const [equipoMaradona] = grupoB.splice(idxMaradona, 1);
+        const nuevoIdxBovril = grupoB.findIndex(e => e.nombre.toUpperCase().includes("DEPORTIVO BOVRIL"));
+        const [equipoBovril] = grupoB.splice(nuevoIdxBovril, 1);
+
+        grupoB.splice(4, 0, equipoMaradona); // Posición 5
+        grupoB.splice(5, 0, equipoBovril);   // Posición 6
+    }
+}
 
 // ==========================================
 // 2. FUNCIONES DE APOYO (No tocar)
@@ -833,7 +949,11 @@ const renderEscudo = (nombre) => {
 };
 
 const obtenerGanadorLlave = (p1, p2, llaveId) => {
-    const res = resultadosPlayoffs[llaveId];
+    let idPrefijo = llaveId;
+    if (categoria === "SUB17") idPrefijo = `sub17_${llaveId}`;
+    if (categoria === "SUB20") idPrefijo = `sub20_${llaveId}`;
+
+    const res = resultadosPlayoffs[idPrefijo];
     if (!res) return null;
     const g1 = res.ida[0] + res.vta[0];
     const g2 = res.ida[1] + res.vta[1];
@@ -845,7 +965,6 @@ const obtenerGanadorLlave = (p1, p2, llaveId) => {
     return "PENALES";
 };
 
-// Tu función de Cuartos con el tuneo de escudos que hiciste
 const cajaCuartos = (g1, g2, label) => {
     const miniEscudo = (nombre) => {
         if (!nombre || nombre === "---" || nombre === "PENALES") return `<div class="w-4 h-4 bg-white/5 rounded-full"></div>`;
@@ -872,7 +991,11 @@ const cajaCuartos = (g1, g2, label) => {
 const contCuadro = document.getElementById('cuadro-render');
 if(contCuadro) {
     const crearPartidoFinal = (p1, p2, llaveId) => {
-        const res = resultadosPlayoffs[llaveId] || { ida: [0,0], vta: [0,0], penales: [0,0] };
+        let idPrefijo = llaveId;
+        if (categoria === "SUB17") idPrefijo = `sub17_${llaveId}`;
+        if (categoria === "SUB20") idPrefijo = `sub20_${llaveId}`;
+
+        const res = resultadosPlayoffs[idPrefijo] || { ida: [0,0], vta: [0,0], penales: [0,0] };
         const g1 = res.ida[0] + res.vta[0];
         const g2 = res.ida[1] + res.vta[1];
         const hayPenales = (g1 === g2 && (res.penales[0] > 0 || res.penales[1] > 0));
@@ -880,7 +1003,7 @@ if(contCuadro) {
         return `
         <div class="flex flex-col w-full bg-slate-900/95 border border-white/10 rounded shadow-xl mb-3 overflow-hidden">
             <div class="flex justify-between items-center px-2 py-1 bg-white/5 border-b border-white/10 text-[7px] font-black italic">
-                <span class="text-slate-500">${llaveId.toUpperCase()}</span>
+                <span class="text-slate-500">${idPrefijo.toUpperCase()}</span>
                 <span class="text-white/30 font-normal text-[6px]">I: ${res.ida[0]}-${res.ida[1]} | V: ${res.vta[0]}-${res.vta[1]}</span>
             </div>
             <div class="flex items-center justify-between p-2 border-b border-white/5">
@@ -939,19 +1062,18 @@ const cont16 = document.getElementById('top-16-render');
 if(cont16) {
     cont16.className = "flex flex-col lg:flex-row gap-6 w-full mb-8";
 
-    // 1. Armamos la tabla de 16 (Posición > Promedio)
+    // 1. Armamos la tabla de 16 usando la tabla Norte Ajustada por la categoría
     let tabla16Jerarquica = [];
     for (let i = 0; i < 6; i++) {
-        let nivel = [tSur[i], tNorte[i], tCentro[i]].filter(Boolean);
+        let nivel = [tSur[i], tablaNorteAjustada[i], tCentro[i]].filter(Boolean);
         nivel.sort((a, b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg);
         tabla16Jerarquica.push(...nivel);
     }
     const clasificados16 = tabla16Jerarquica.slice(0, 16);
+    const equiposSorteo = [];
 
-    const equiposSorteo = ["ATLÉTICO MARÍA GRANDE", "LITORAL", "DIEGO MARADONA"];
-
-    // Función auxiliar para renderizar cada fila
     const generarFila = (eq, i, colorClase, esColumnaGrupo) => {
+        if (!eq) return '';
         const enSorteo = equiposSorteo.some(s => eq.nombre.toUpperCase().includes(s));
         const aplicarEfectoSorteo = esColumnaGrupo && enSorteo;
         
@@ -967,12 +1089,9 @@ if(cont16) {
         <div class="flex justify-between items-center p-2 mb-1 rounded border-l-2 ${estiloBorde} text-[10px] uppercase font-bold text-slate-200">
             <span class="flex items-center gap-3 truncate min-w-0">
                 <span class="text-slate-500 w-3 font-black text-[8px] flex-shrink-0">${i+1}</span>
-                
-                <!-- CONTENEDOR DE ESCUDO CORREGIDO -->
                 <div class="w-6 h-6 flex-shrink-0 flex items-center justify-center overflow-hidden">
                     ${renderEscudo(eq.nombre)}
                 </div>
-
                 <span class="truncate leading-tight">${nombreFinal}</span>
             </span> 
             <span class="${aplicarEfectoSorteo ? 'text-slate-500' : 'text-yellow-500'} font-black text-[9px] ml-2">
@@ -982,28 +1101,27 @@ if(cont16) {
     };
 
     cont16.innerHTML = `
-        <!-- COLUMNA IZQUIERDA: GENERAL 16 (Acá NO se grisan) -->
+        <!-- COLUMNA IZQUIERDA: GENERAL 16 -->
         <div class="flex-[1.2] bg-black/20 p-4 rounded-xl border border-white/5">
-            <div class="text-[10px] font-black text-white mb-4 uppercase tracking-widest border-b border-yellow-500 pb-1 italic flex justify-between">
+            <div class="text-[10px] font-black text-white mb-4  tracking-widest border-b border-yellow-500 pb-1 italic flex justify-between">
                 <span>Orden de Mérito</span>
                 <span class="text-[8px] text-slate-500 font-normal">Posición + Promedio</span>
             </div>
             ${clasificados16.map((eq, i) => generarFila(eq, i, 'text-yellow-500', false)).join('')}
         </div>
 
-        <!-- COLUMNA DERECHA: GRUPOS A Y B (Acá SÍ se grisan los de sorteo) -->
+        <!-- COLUMNA DERECHA: GRUPOS A Y B -->
         <div class="flex-1 flex flex-col gap-4">
             <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                <div class="text-[10px] font-black text-emerald-400 mb-2 uppercase tracking-widest border-b border-emerald-400/30 pb-1 italic">Grupo A (Sur/Centro)</div>
+                <div class="text-[10px] font-black text-emerald-400 mb-2  tracking-widest border-b border-emerald-400/30 pb-1 italic">Grupo A (Sur/Centro)</div>
                 ${grupoA.map((eq, i) => generarFila(eq, i, 'text-emerald-500', true)).join('')}
             </div>
             <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                <div class="text-[10px] font-black text-blue-400 mb-2 uppercase tracking-widest border-b border-blue-400/30 pb-1 italic">Grupo B (Norte/Centro)</div>
+                <div class="text-[10px] font-black text-blue-400 mb-2  tracking-widest border-b border-blue-400/30 pb-1 italic">Grupo B (Norte/Centro)</div>
                 ${grupoB.map((eq, i) => generarFila(eq, i, 'text-blue-500', true)).join('')}
             </div>
         </div>`;
 }
-
 // Inicializar iconos
 if(typeof lucide !== 'undefined') lucide.createIcons();
 

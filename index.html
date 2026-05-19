@@ -189,7 +189,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
     
         <div class="lg:col-span-3 bg-black rounded-3xl overflow-hidden aspect-video shadow-2xl border border-white/5">
-            <iframe id="youtube-player" class="w-full h-full hidden" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe id="youtube-player" src="https://www.youtube.com/embed/KlfpcxTdGsI?autoplay=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             
             <div id="video-placeholder" class="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-slate-500">
                 <i data-lucide="lock" class="w-12 h-12 mb-2 opacity-20"></i>
@@ -241,7 +241,7 @@
                 </div>
             </div>
     
-            <<div class="bg-slate-900/50 border border-white/10 rounded-3xl p-6 flex flex-col justify-between">
+            <div class="bg-slate-900/50 border border-white/10 rounded-3xl p-6 flex flex-col justify-between">
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <h3 class="text-emerald-500 font-black italic uppercase text-sm tracking-widest">Partido ida octavos de final</h3>
@@ -432,7 +432,7 @@
         let zonaActual = 'norte';
         let categoriaActual = 'primera';
         let fechaActual = '5';
-        const VIDEO_ID = "dQw4w9WgXcQ";
+        const VIDEO_ID = "KlfpcxTdGsI";
 
         // --- LISTAS DE EQUIPOS ACTUALIZADAS ---
 const EQUIPOS_CENTRO = ["Litoral María Grande", "Cañadita Central", "Atlético María Grande", "Atlético Hasenkamp", "Segui FC", "Escuela Diego Maradona", "Juventud Sarmiento"];
@@ -555,7 +555,7 @@ if (sponsorsGrid) {
         function intentarAcceso() {
     const ingreso = document.getElementById('pass-usuario').value.toUpperCase();
     const CLAVE_POSTA = "DOMINGO"; 
-    const ID_YOUTUBE = "ujDB3k2IYnY"; // El ID de tu video
+    const ID_YOUTUBE = "KlfpcxTdGsI"; // El ID de tu video
 
     if (ingreso === CLAVE_POSTA) {
         localStorage.setItem('acceso_superdep', 'true');
@@ -576,7 +576,7 @@ function aplicarAcceso(videoID) {
 
         if (player) {
             player.classList.remove('hidden');
-            player.src = `https://www.youtube.com/embed/${videoID || "dQw4w9WgXcQ"}?autoplay=1`;
+            player.src = `https://www.youtube.com/embed/${videoID || "KlfpcxTdGsI"}?autoplay=1`;
         }
         if (placeholder) placeholder.classList.add('hidden');
         if (form) form.classList.add('hidden');
@@ -589,14 +589,17 @@ function aplicarAcceso(videoID) {
         }
 
         function validarAcceso() {
-            if(localStorage.getItem('acceso_superdep') === 'true') {
-                document.getElementById('paywall').classList.add('hidden');
-                const player = document.getElementById('youtube-player');
-                player.classList.remove('hidden');
-                player.src = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1`;
-            }
-        }
-
+    if(localStorage.getItem('acceso_superdep') === 'true') {
+        const paywall = document.getElementById('paywall');
+        if (paywall) paywall.classList.add('hidden');
+        
+        const player = document.getElementById('youtube-player');
+        if (player) player.classList.remove('hidden');
+        
+        // BORRÁ O COMENTÁ LA LÍNEA QUE DECÍA: player.src = ...
+        // De esta manera, el JavaScript no le pisa el link al HTML.
+    }
+}
         function cambiarZona(z) {
     zonaActual = z;
     document.querySelectorAll('.zone-button').forEach(b => b.classList.remove('active-btn'));
@@ -1174,13 +1177,12 @@ window.onload = function() {
 };
 // SOLUCIÓN FINAL: DESBLOQUEO SILENCIOSO
 setTimeout(function() {
-    // 1. Le decimos al sistema que ya pusimos la clave (aunque sea mentira)
+    // 1. Le decimos al sistema que ya pusimos la clave
     localStorage.setItem('acceso_superdep', 'true');
     
-    // 2. Ejecutamos la función que vos ya tenés para mostrar el video
-    // Usamos el ID de Sergio que me pasaste antes
+    // 2. Ejecutamos la función con el video de Sergio de HOY
     if (typeof aplicarAcceso === 'function') {
-        aplicarAcceso("BendsHPm8u8");
+        aplicarAcceso("KlfpcxTdGsI"); // <-- ¡ACTUALIZADO ACÁ TAMBIÉN!
     }
     
     // 3. Si tenés el panel de "Contenido Protegido", lo ocultamos manualmente

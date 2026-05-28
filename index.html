@@ -684,19 +684,30 @@ function cambiarFecha(f) {
     renderizar();
 }
 // ACTIVADOR AUTOMÁTICO AL ENTRAR
+// Inicialización global al cargar el DOM (Versión con Clave Manual Segura)
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Ejecuta el fixture de la fecha 7 que tenés seleccionada
+    // 1. Inicializar iconos de Lucide
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    // 2. CONTROL DE ACCESO ORIGINAL: Revisa si ya puso la clave antes
+    if (localStorage.getItem('acceso_superdep') === 'true') {
+        aplicarAcceso("sDjSIIbA-18"); // Desbloquea el video si ya está logueado
+    } else {
+        // Si no ha puesto la clave, el reproductor real se mantiene oculto por seguridad
+        const player = document.getElementById('youtube-player');
+        if (player) {
+            player.classList.add('hidden');
+            player.src = ""; 
+        }
+    }
+
+    // 3. Forzar el renderizado del fixture de la fecha seleccionada
     const selector = document.getElementById('fecha-selector');
     if (selector) {
         cambiarFecha(selector.value);
     }
-
-    // 2. Ejecuta el render de las tablas de mérito (Paso 4)
-    // Si metiste el código de las tablas en una función, llamala acá.
-    // Si el código está "suelto", este disparador DOMContentLoaded 
-    // se asegurará de que corra apenas el HTML esté listo.
-    console.log("Tablas y Fixture inicializados automáticamente.");
-});
+    console.log("Sistema y fixture inicializados con acceso por clave manual.");
+}); 
 function obtenerTablaPorZona(zona, categoria) {
     let equipos = zona === 'norte' ? EQUIPOS_NORTE : (zona === 'centro' ? EQUIPOS_CENTRO : EQUIPOS_SUR);
     let data = (zona === 'norte' ? NORTE_DATA : (zona === 'centro' ? CENTRO_DATA : SUR_DATA))[categoria];
@@ -1341,24 +1352,24 @@ window.onload = function() {
     console.log("Sistema inicializado en Fecha " + fechaInicial);
 };
 // SOLUCIÓN FINAL: DESBLOQUEO SILENCIOSO
-setTimeout(function() {
-    // 1. Le decimos al sistema que ya pusimos la clave
-    localStorage.setItem('acceso_superdep', 'true');
+// setTimeout(function() {
+//     // 1. Le decimos al sistema que ya pusimos la clave
+//     localStorage.setItem('acceso_superdep', 'true');
     
-    // 2. Ejecutamos la función con el video de Sergio de HOY
-    if (typeof aplicarAcceso === 'function') {
-        aplicarAcceso("sDjSIIbA-18"); // <-- ¡ACTUALIZADO ACÁ TAMBIÉN!
-    }
+//     // 2. Ejecutamos la función con el video de Sergio de HOY
+//     if (typeof aplicarAcceso === 'function') {
+//         aplicarAcceso("sDjSIIbA-18"); // <-- ¡ACTUALIZADO ACÁ TAMBIÉN!
+//     }
     
-    // 3. Si tenés el panel de "Contenido Protegido", lo ocultamos manualmente
-    const paywall = document.getElementById('paywall');
-    if (paywall) paywall.classList.add('hidden');
+//     // 3. Si tenés el panel de "Contenido Protegido", lo ocultamos manualmente
+//     const paywall = document.getElementById('paywall');
+//     if (paywall) paywall.classList.add('hidden');
     
-    const form = document.getElementById('formulario-login');
-    if (form) form.classList.add('hidden');
+//     const form = document.getElementById('formulario-login');
+//     if (form) form.classList.add('hidden');
 
-    console.log("Acceso forzado sin mover el diseño");
-}, 1000);
+//     console.log("Acceso forzado sin mover el diseño");
+// }, 1000);
 </script>
 </body>
 </html>

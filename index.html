@@ -251,8 +251,8 @@
                 </div>
     
                 <div class="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl flex-1 min-h-[180px]">
-                    <img src="https://scontent.faep36-2.fna.fbcdn.net/v/t39.30808-6/475753760_3084410991708257_3992826180135275557_n.jpg?..." 
-                         class="absolute inset-0 w-full h-full object-cover opacity-40" alt="Estadio">
+
+                    <img src="img/estadios/estadio_ifbc.jfif" class="absolute inset-0 w-full h-full object-cover opacity-30" alt="Estadio">
                     <div class="absolute inset-0 bg-slate-950/80"></div>
     
                     <div class="relative z-10 p-4 h-full flex items-center">
@@ -392,33 +392,41 @@
     </div>
 </div>
 
-</div>    <section class="panel-deportivo p-10 mt-12">
-        <h3 class="text-center text-[10px] font-black uppercase tracking-[0.4em] text-emerald-500 mb-10">Staff Profesional</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="text-center">
-                <p class="text-white font-black italic uppercase text-sm">Gerardo Rodriguez</p>
-                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Relatos</p>
-            </div>
-            <div class="text-center">
-                <p class="text-white font-black italic uppercase text-sm">Genaro Mendez</p>
-                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Comentarios</p>
-            </div>
-            <div class="text-center">
-                <p class="text-white font-black italic uppercase text-sm">Raul Mendez</p>
-                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Estudios Centrales</p>
-            </div>
-            <div class="text-center">
-                <p class="text-white font-black italic uppercase text-sm">Sergio Serrano</p>
-                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Producción General</p>
-            </div>
-            <div class="text-center">
-                <p class="text-white font-black italic uppercase text-sm">Guillermo Gegenschatz</p>
-                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Voz Comercial</p>
+<section class="panel-deportivo p-10 mt-12">
+    <h3 class="text-center text-lg font-black uppercase tracking-[0.3em] text-emerald-500 mb-10">Staff Profesional</h3>
+    
+    <div class="flex flex-wrap md:flex-nowrap justify-around items-center gap-6">
+        
+        <div class="text-center min-w-[120px] flex-1">
+            <p class="text-white font-black italic uppercase text-sm">Gerardo Rodriguez</p>
+            <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Relatos</p>
         </div>
-    </section>
+        
+        <div class="text-center min-w-[120px] flex-1">
+            <p class="text-white font-black italic uppercase text-sm">Genaro Mendez</p>
+            <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Comentarios</p>
+        </div>
+        
+        <div class="text-center min-w-[120px] flex-1">
+            <p class="text-white font-black italic uppercase text-sm">Raul Mendez</p>
+            <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Estudios Centrales</p>
+        </div>
+        
+        <div class="text-center min-w-[120px] flex-1">
+            <p class="text-white font-black italic uppercase text-sm">Sergio Serrano</p>
+            <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Producción General</p>
+        </div>
+        
+        <div class="text-center min-w-[120px] flex-1">
+            <p class="text-white font-black italic uppercase text-sm">Guillermo Gegenschatz</p>
+            <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Voz Comercial</p>
+        </div>
+
+    </div>
+</section>
 
     <div class="pt-12 border-t border-white/5">
-        <h4 class="text-center text-[10px] font-black uppercase tracking-[0.5em] text-slate-600 mb-10">Auspiciantes Oficiales</h4>
+        <h4 class="text-center text-lg font-black uppercase tracking-[0.3em] text-emerald-500 mb-10">Auspiciantes Oficiales</h4>
         <div id="sponsors-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
     </div>
 </main>
@@ -1310,7 +1318,7 @@ const ESCUDOS_MAP = {
     "Union de Crespo": "img/escudos/unionc.png",
     "Deportivo Tabossi": "img/escudos/cadt.png",
     "Cultural de Crespo": "img/escudos/culturalc.png",
-    "Union de Viale": "img/escudos/unionviale.png" 
+    "Union de Viale": "img/escudos/unionviale.jpg" 
 };
 
 function obtenerEscudo(nombre, clasesAdicionales = '') {

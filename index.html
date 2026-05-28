@@ -101,7 +101,7 @@
             color: #10b981; /* Letra verde al pasar el mouse */
         }
 
-        }
+        
 
         /* Nuevos estilos para secciones anexadas */
         .match-banner {
@@ -259,7 +259,7 @@
                         <div class="flex items-center justify-around w-full gap-2">
                             <div class="flex flex-col items-center flex-1">
                                 <div class="w-12 h-12 mb-2 rounded-full bg-white p-1 shadow-xl">
-                                    <img src="https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/ifbc.png" class="w-full h-full object-contain"> 
+                                    <img src="img/escudos/ifbc.png" class="w-full h-full object-contain"> 
                                 </div>
                                 <span class="text-center text-white/70 font-bold uppercase text-[8px] leading-tight">Independiente F.C</span>
                             </div>
@@ -271,7 +271,7 @@
     
                             <div class="flex flex-col items-center flex-1">
                                 <div class="w-12 h-12 mb-2 rounded-full bg-white p-1 shadow-xl">
-                                    <img src="https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cuac.png" class="w-full h-full object-contain"> 
+                                    <img src="img/escudos/cuac.png" class="w-full h-full object-contain">
                                 </div>
                                 <span class="text-center text-white/70 font-bold uppercase text-[8px] leading-tight">Unionn Agrarios Cerrito</span>
                             </div>
@@ -530,27 +530,77 @@ const SUR_DATA = {
     } 
 };
 
-const SPONSORS = ["DAR+, la tarjeta para comprar", "Municipalidad de Cerrito", "YPF El Empalme", "AUTOSERVICIO LA CALABAZA", "Masquito reparaciones", "HR-Netcom", "Corralon El Rafa", "Emi Pérez Motos", "APAPACHA-Pañalera", "FARMACIA PALACIOS", "Don Charo AUTOSERVICIO", "Hielos Celestiales", "Daniel Guetti Odontólogo"];
+//const SPONSORS = ["DAR+, la tarjeta para comprar", "Municipalidad de Cerrito", "YPF El Empalme", "AUTOSERVICIO LA CALABAZA", "Masquito reparaciones", "HR-Netcom", "Corralon El Rafa", "Emi Pérez Motos", "APAPACHA-Pañalera", "FARMACIA PALACIOS", "Don Charo AUTOSERVICIO", "Hielos Celestiales", "Daniel Guetti Odontólogo"];
+
+const SPONSORS = [
+    { nombre: "DAR+, la tarjeta para comprar", logo: "img/sponsors/Dar+.jpg" },
+    { nombre: "Municipalidad de Cerrito", logo: "img/sponsors/municipalidad.png" },
+    { nombre: "YPF El Empalme", logo: "img/sponsors/ypf.png" },
+    { nombre: "AUTOSERVICIO LA CALABAZA", logo: "img/sponsors/lacalabaza.png" },
+    { nombre: "Masquito reparaciones", logo: "img/sponsors/masquito reparaciones.png" },
+    { nombre: "HR-Netcom", logo: "img/sponsors/hrnetcom.jpg" },
+    { nombre: "Corralon El Rafa", logo: "img/sponsors/el rafa.png" },
+    { nombre: "Emi Pérez Motos", logo: "img/sponsors/emi perez motos.jpg" },
+    { nombre: "APAPACHA-Pañalera", logo: "img/sponsors/apapacho.png" },
+    { nombre: "FARMACIA PALACIOS", logo: "img/sponsors/farmacia palacios.jpg" },
+    { nombre: "Don Charo AUTOSERVICIO", logo: "img/sponsors/doncharro.jpg" },
+    { nombre: "Hielos Celestiales", logo: "img/sponsors/hielo.png" },
+    { nombre: "Daniel Guetti Odontólogo", logo: "img/sponsors/guetti.png" }
+];
 
 const sponsorsGrid = document.getElementById('sponsors-grid');
+const sponsorsCarousel = document.getElementById('sponsors-carousel'); // Llamamos también al carrusel de arriba
 
 if (sponsorsGrid) {
     sponsorsGrid.innerHTML = ''; 
-    SPONSORS.forEach(nombre => {
-        const card = document.createElement('div');
-        // Usamos la clase sponsor-card para el fondo y hover
-        card.className = "sponsor-card group flex items-center justify-center p-6 bg-slate-900/50 border border-white/10 rounded-3xl hover:border-emerald-500/50 transition-all duration-300";
+    if (sponsorsCarousel) sponsorsCarousel.innerHTML = '';
+
+    // Creamos la pista interna para el carrusel superior animado
+    const track = document.createElement('div');
+    track.className = "carousel-track";
+
+    // Función mágica: intenta cargar la imagen, si da error (404), oculta la imagen y muestra el texto
+    const generarHTMLSponsor = (sponsor, esGrande) => {
+        const claseTexto = esGrande
+            ? "text-white font-black italic uppercase text-lg tracking-tighter group-hover:text-emerald-500 transition-colors text-center"
+            : "text-slate-500 font-black italic uppercase text-xs tracking-tight whitespace-nowrap hover:text-emerald-500 transition-colors cursor-default";
         
-        // ACÁ ESTÁ EL CAMBIO: Usamos las mismas clases del Staff pero más grandes (text-lg)
-        card.innerHTML = `
-            <p class="text-white font-black italic uppercase text-lg tracking-tighter group-hover:text-emerald-500 transition-colors">
-                ${nombre}
-            </p>
+        const claseImagen = esGrande ? "max-h-16 max-w-full object-contain" : "max-h-8 max-w-[140px] object-contain";
+
+        return `
+            <img src="${sponsor.logo}" class="${claseImagen}" alt="${sponsor.nombre}" 
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <p class="${claseTexto}" style="display:none;">${sponsor.nombre}</p>
         `;
-        
+    };
+
+    // Recorremos cada sponsor de la lista
+    SPONSORS.forEach(sponsor => {
+        // 1. Render para la cuadrícula de abajo (Auspiciantes Oficiales)
+        const card = document.createElement('div');
+        card.className = "sponsor-card group flex flex-col items-center justify-center p-6 bg-slate-900/50 border border-white/10 rounded-3xl hover:border-emerald-500/50 transition-all duration-300 min-h-[120px]";
+        card.innerHTML = generarHTMLSponsor(sponsor, true);
         sponsorsGrid.appendChild(card);
+
+        // 2. Render para el carrusel animado de arriba
+        const itemCarousel = document.createElement('div');
+        itemCarousel.className = "sponsor-item flex items-center justify-center";
+        itemCarousel.innerHTML = generarHTMLSponsor(sponsor, false);
+        track.appendChild(itemCarousel);
     });
+
+    // Duplicamos el carrusel para que el bucle infinito sea fluido y no dé saltos saltos visuales
+    SPONSORS.forEach(sponsor => {
+        const itemCarouselClone = document.createElement('div');
+        itemCarouselClone.className = "sponsor-item flex items-center justify-center";
+        itemCarouselClone.innerHTML = generarHTMLSponsor(sponsor, false);
+        track.appendChild(itemCarouselClone);
+    });
+
+    if (sponsorsCarousel) sponsorsCarousel.appendChild(track);
 }
+
+
 
         function intentarAcceso() {
     const ingreso = document.getElementById('pass-usuario').value.toUpperCase();
@@ -1240,27 +1290,27 @@ if(typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 const ESCUDOS_MAP = {
-    "U. Agrarios Cerrito": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cuac.png",
-    "Atlético Hernandarias": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cah.png",
-    "J. Unida de Bovril": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/juventudc.png",
-    "Deportivo Tuyango": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/tuyango.png",
-    "Deportivo Bovril": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cdb.png",
-    "Independiente FC": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/ifbc.png",
-    "Union Alcaraz": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/ufc.png",
-    "Atlético Hasenkamp": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cahr.png",
-    "Litoral María Grande": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/litoral.png",
-    "Cañadita Central": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cacc.png",
-    "Atlético María Grande": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/camg.png",
-    "Segui FC": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/segui.png",
-    "Escuela Diego Maradona": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/maradona.png",
-    "Juventud Sarmiento": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cjs.png",
-    "Atlético Arsenal": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/caa.png",
-    "Viale Football Club": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/viale.png",
-    "Sarmiento de Crespo": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/sarmientoc.png",
-    "Union de Crespo": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/unionc.png",
-    "Deportivo Tabossi": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/cadt.png",
-    "Cultural de Crespo": "https://ligaparanacampaña.com.ar/wp-content/themes/ligaPC2020/img/escudos/culturalc.png",
-    "Union de Viale": "data:image/jpeg;base64,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"
+    "U. Agrarios Cerrito": "img/escudos/cuac.png",
+    "Atlético Hernandarias": "img/escudos/cah.png",
+    "J. Unida de Bovril": "img/escudos/juventudc.png",
+    "Deportivo Tuyango": "img/escudos/tuyango.png",
+    "Deportivo Bovril": "img/escudos/cdb.png",
+    "Independiente FC": "img/escudos/ifbc.png",
+    "Union Alcaraz": "img/escudos/ufc.png",
+    "Atlético Hasenkamp": "img/escudos/cahr.png",
+    "Litoral María Grande": "img/escudos/litoral.png",
+    "Cañadita Central": "img/escudos/cacc.png",
+    "Atlético María Grande": "img/escudos/camg.png",
+    "Segui FC": "img/escudos/segui.png",
+    "Escuela Diego Maradona": "img/escudos/maradona.png",
+    "Juventud Sarmiento": "img/escudos/cjs.png",
+    "Atlético Arsenal": "img/escudos/caa.png",
+    "Viale Football Club": "img/escudos/viale.png",
+    "Sarmiento de Crespo": "img/escudos/sarmientoc.png",
+    "Union de Crespo": "img/escudos/unionc.png",
+    "Deportivo Tabossi": "img/escudos/cadt.png",
+    "Cultural de Crespo": "img/escudos/culturalc.png",
+    "Union de Viale": "img/escudos/unionviale.png" 
 };
 
 function obtenerEscudo(nombre, clasesAdicionales = '') {

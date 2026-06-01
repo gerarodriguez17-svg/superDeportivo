@@ -920,7 +920,6 @@ function renderizar() {
 // ==========================================
 // 1. RESULTADOS Y LOGICA DE FASE FINAL
 // ==========================================
-// Se unificó la carga de resultados expandiendo las llaves para Primera, Sub-17 y Sub-20
 const resultadosPlayoffs = {
     // ====================================================================
     // PRIMERA DIVISIÓN
@@ -931,28 +930,27 @@ const resultadosPlayoffs = {
     a3: { ida: [0, 0], vta: [1, 0], penales: [0, 0] },
     a4: { ida: [3, 1], vta: [4, 0], penales: [0, 0] },
     b1: { ida: [1, 0], vta: [2, 1], penales: [0, 0] },
-    b2: { ida: [1, 1], vta: [1, 1], penales: [0, 0] },
+    b2: { ida: [1, 1], vta: [1, 1], penales: [0, 0] }, // Se define por penales si sigue igual
     b3: { ida: [0, 0], vta: [3, 0], penales: [0, 0] },
     b4: { ida: [3, 2], vta: [0, 0], penales: [0, 0] },
 
-    // Cuartos de Final Primera (Cargá acá los goles cuando jueguen)
-    ca1: { ida: [2, 1], vta: [0, 0], penales: [0, 0] },
-    ca2: { ida: [1, 0], vta: [0, 0], penales: [0, 0] },
-    cb1: { ida: [3, 0], vta: [0, 0], penales: [0, 0] },
-    cb2: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    // Cuartos de Final Primera (Usamos "-" para lo que NO se jugó)
+    ca1: { ida: [2, 1], vta: ["-", "-"], penales: ["-", "-"] },
+    ca2: { ida: [1, 0], vta: ["-", "-"], penales: ["-", "-"] },
+    cb1: { ida: [3, 0], vta: ["-", "-"], penales: ["-", "-"] },
+    cb2: { ida: [0, 0], vta: ["-", "-"], penales: ["-", "-"] },
 
     // Semifinales Primera
-    sa1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
-    sb1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sa1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] },
+    sb1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] },
 
     // Gran Final Primera
-    final: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    final: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] },
 
 
     // ====================================================================
     // SUB 17
     // ====================================================================
-    // Octavos (Resultados actuales)
     sub17_a1: { ida: [2, 0], vta: [2, 0], penales: [0, 0] },
     sub17_a2: { ida: [0, 1], vta: [0, 2], penales: [0, 0] },
     sub17_a3: { ida: [5, 0], vta: [3, 1], penales: [0, 0] },
@@ -963,23 +961,22 @@ const resultadosPlayoffs = {
     sub17_b4: { ida: [0, 0], vta: [2, 0], penales: [0, 0] },
 
     // Cuartos de Final Sub-17
-    sub17_ca1: { ida: [1, 0], vta: [0, 0], penales: [0, 0] },
-    sub17_ca2: { ida: [1, 1], vta: [0, 0], penales: [0, 0] },
-    sub17_cb1: { ida: [2, 0], vta: [0, 0], penales: [0, 0] },
-    sub17_cb2: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub17_ca1: { ida: [1, 0], vta: ["-", "-"], penales: ["-", "-"] },
+    sub17_ca2: { ida: [1, 1], vta: ["-", "-"], penales: ["-", "-"] },
+    sub17_cb1: { ida: [2, 0], vta: ["-", "-"], penales: ["-", "-"] },
+    sub17_cb2: { ida: [0, 0], vta: ["-", "-"], penales: ["-", "-"] },
 
     // Semifinales Sub-17
-    sub17_sa1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
-    sub17_sb1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub17_sa1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] },
+    sub17_sb1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] },
 
     // Gran Final Sub-17
-    sub17_final: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub17_final: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] },
 
 
     // ====================================================================
     // SUB 20
     // ====================================================================
-    // Octavos (Resultados actuales)
     sub20_a1: { ida: [0, 2], vta: [1, 2], penales: [0, 0] },
     sub20_a2: { ida: [1, 2], vta: [1, 0], penales: [0, 0] },
     sub20_a3: { ida: [3, 0], vta: [1, 2], penales: [0, 0] },
@@ -990,17 +987,17 @@ const resultadosPlayoffs = {
     sub20_b4: { ida: [0, 5], vta: [1, 0], penales: [0, 0] },
 
     // Cuartos de Final Sub-20
-    sub20_ca1: { ida: [1, 1], vta: [0, 0], penales: [0, 0] },
-    sub20_ca2: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
-    sub20_cb1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
-    sub20_cb2: { ida: [1, 0], vta: [0, 0], penales: [0, 0] },
+    sub20_ca1: { ida: [1, 1], vta: ["-", "-"], penales: ["-", "-"] },
+    sub20_ca2: { ida: [0, 0], vta: ["-", "-"], penales: ["-", "-"] },
+    sub20_cb1: { ida: [0, 0], vta: ["-", "-"], penales: ["-", "-"] },
+    sub20_cb2: { ida: [1, 0], vta: ["-", "-"], penales: ["-", "-"] },
 
     // Semifinales Sub-20
-    sub20_sa1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
-    sub20_sb1: { ida: [0, 0], vta: [0, 0], penales: [0, 0] },
+    sub20_sa1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] },
+    sub20_sb1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] },
 
     // Gran Final Sub-20
-    sub20_final: { ida: [0, 0], vta: [0, 0], penales: [0, 0] }
+    sub20_final: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }
 };
 
 const categoria = typeof categoriaActual !== 'undefined' ? categoriaActual.toUpperCase() : "PRIMERA";
@@ -1141,29 +1138,54 @@ function obtenerGanadorLlave(p1, p2, llaveId) {
     if (!p1) return p2 || "";
     if (!p2) return p1 || "";
 
+    // 1. Armamos el prefijo según la categoría (Sub17, Sub20 o Primera)
     let idPrefijo = llaveId;
-    if (categoria === "SUB17") idPrefijo = `sub17_${llaveId}`;
-    if (categoria === "SUB20") idPrefijo = `sub20_${llaveId}`;
+    if (typeof categoria !== 'undefined') {
+        if (categoria === "SUB17") idPrefijo = `sub17_${llaveId}`;
+        if (categoria === "SUB20") idPrefijo = `sub20_${llaveId}`;
+    }
 
-    const res = resultadosPlayoffs[idPrefijo] || { ida: [0,0], vta: [0,0], penales: [0,0] };
-    const g1 = res.ida[0] + res.vta[0];
-    const g2 = res.ida[1] + res.vta[1];
+    const res = resultadosPlayoffs[idPrefijo];
+    
+    // Si no existe la llave en los datos, no inventamos ganador
+    if (!res) return "";
+
+    // 2. ¡EL CANDADO CLAVE PARA LAS VUELTAS!
+    // Si el partido de vuelta tiene guiones "-", significa que todavía no se jugó la revancha.
+    // Cortamos en el acto y devolvemos vacío para que en el cuadro diga "Por Definir".
+    if (res.vta && (res.vta[0] === "-" || res.vta[1] === "-")) {
+        return "";
+    }
+
+    // 3. Si no hay guiones, transformamos los goles a números reales por seguridad
+    const golesIda1 = Number(res.ida[0]) || 0;
+    const golesIda2 = Number(res.ida[1]) || 0;
+    const golesVta1 = Number(res.vta[0]) || 0;
+    const golesVta2 = Number(res.vta[1]) || 0;
+
+    // Sumamos el resultado global
+    const g1 = golesIda1 + golesVta1;
+    const g2 = golesIda2 + golesVta2;
 
     // Detectamos si es un partido de Octavos de Final
-    // (Líneas que NO contienen 'c' de cuartos, 's' de semis, ni 'final')
     const esOctavos = !llaveId.includes('c') && !llaveId.includes('s') && !llaveId.includes('final');
 
     if (g1 > g2) return p1;
     if (g2 > g1) return p2;
 
-    // EN CASO DE EMPATE GLOBAL:
+    // 4. EN CASO DE EMPATE GLOBAL:
     if (esOctavos) {
-        // REGLA OCTAVOS: Pasa el mejor clasificado (el que se menciona primero en el cruce de la lista)
+        // REGLA OCTAVOS: Pasa el mejor clasificado (ventaja deportiva)
         return p1; 
     } else {
-        // REGLA CUARTOS ADELANTE: Se define estrictamente por penales
-        if (res.penales[0] > res.penales[1]) return p1;
-        if (res.penales[1] > res.penales[0]) return p1; // Si no hay penales cargados aún, no devuelve el siguiente para no adelantarse
+        // REGLA CUARTOS EN ADELANTE: Se define estrictamente por penales
+        const penales1 = Number(res.penales?.[0]) || 0;
+        const penales2 = Number(res.penales?.[1]) || 0;
+
+        if (penales1 > penales2) return p1;
+        if (penales2 > penales1) return p2; // Ojo: acá tu código viejo decía p1 por error
+        
+        // Si empataron el global y todavía no se cargaron los penales de la vuelta
         return ""; 
     }
 }
@@ -1172,39 +1194,102 @@ function obtenerGanadorLlave(p1, p2, llaveId) {
 // 2. FUNCIÓN PARA CREAR CUALQUIER PARTIDO EN EL CUADRO (Octavos, Cuartos o Semis)
 // ====================================================================
 const crearTarjetaPartido = (p1, p2, llaveId, labelEtiqueta) => {
+    // ====================================================================
+    // 1. DICCIONARIO PARA ACHICAR NOMBRES LARGOS
+    // ====================================================================
+    const abreviarNombre = (nombre) => {
+        if (!nombre || nombre === "---") return "";
+        let n = nombre.trim();
+        
+        // ====================================================================
+        // DICCIONARIO GENERAL DE ABREVIACIONES (PLAYOFFS)
+        // ====================================================================
+        n = n.replace(/Viale Football Club/gi, "Viale FC");
+        n = n.replace(/Viale F\.C\./gi, "Viale FC");
+        n = n.replace(/Independiente de Hernandarias/gi, "Independiente (H)");
+        n = n.replace(/Litoral María Grande/gi, "Litoral M.G");
+        n = n.replace(/Atlético María Grande/gi, "Atletico M.G");
+        n = n.replace(/Sarmiento de Crespo/gi, "Sar. Crespo");
+        n = n.replace(/Cultural de Crespo/gi, "Cult. Crespo");
+        n = n.replace(/U\. Agrarios Cerrito/gi, "U.A. Cerrito");
+        n = n.replace(/Atlético Hasenkamp/gi, "Atl. Hasenkamp");
+        n = n.replace(/Escuela Diego Maradona/gi, "Esc. D. Mar.");
+        n = n.replace(/Deportivo Tuyango/gi, "Dep. Tuyango");
+        n = n.replace(/Juventud Sarmiento/gi, "Juv. Sar. Has.");
+        n = n.replace(/J\. Unida de Bovril/gi, "J. U. Bovril");
+        n = n.replace(/Deportivo Bovril/gi, "Dep. Bovril");
+        
+        return n;
+    };
+
+    // Aplicamos la abreviación si el equipo existe
+    const p1Abreviado = p1 ? abreviarNombre(p1) : '— POR DEFINIR —';
+    const p2Abreviado = p2 ? abreviarNombre(p2) : '— POR DEFINIR —';
+
+    // ====================================================================
+    // 2. CONTROL DE CATEGORÍAS Y DATOS
+    // ====================================================================
     let idPrefijo = llaveId;
     if (categoria === "SUB17") idPrefijo = `sub17_${llaveId}`;
     if (categoria === "SUB20") idPrefijo = `sub20_${llaveId}`;
 
-    // Busca los resultados en tu objeto global (soporta ida, vuelta y penales)
-    const res = resultadosPlayoffs[idPrefijo] || { ida: [0,0], vta: [0,0], penales: [0,0] };
-    const g1 = res.ida[0] + res.vta[0];
-    const g2 = res.ida[1] + res.vta[1];
-    const hayPenales = (g1 === g2 && (res.penales[0] > 0 || res.penales[1] > 0));
+    const res = resultadosPlayoffs[idPrefijo] || { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] };
 
+    // Verificamos si realmente se cargaron goles válidos (que no sean guiones)
+    const tieneIda = res.ida && res.ida[0] !== "-" && res.ida[1] !== "-";
+    const tieneVuelta = res.vta && res.vta[0] !== "-" && res.vta[1] !== "-";
+
+    let g1 = "";
+    let g2 = "";
+
+    // LÓGICA MATEMÁTICA PARA EL GLOBAL
+    if (tieneIda && tieneVuelta) {
+        // Si ya se jugó la vuelta, SUMA MATEMÁTICA REAL
+        g1 = Number(res.ida[0]) + Number(res.vta[0]);
+        g2 = Number(res.ida[1]) + Number(res.vta[1]);
+    } else if (tieneIda) {
+        // Si solo se jugó la ida, el global temporal es el de la ida
+        g1 = Number(res.ida[0]);
+        g2 = Number(res.ida[1]);
+    }
+
+    // Los penales solo se activan si hay empate en el global real (ambos partidos jugados)
+    const hayPenales = tieneIda && tieneVuelta && (g1 === g2) && 
+                       res.penales && res.penales[0] !== "-" && res.penales[1] !== "-" &&
+                       (Number(res.penales[0]) > 0 || Number(res.penales[1]) > 0);
+
+    // ====================================================================
+    // 3. LOGICA DE ESCUDOS
+    // ====================================================================
     const miniEscudo = (nombre) => {
-    if (!nombre || nombre === "---") return `<div class="w-5 h-5 bg-white/5 rounded-full"></div>`;
-    // Le agregamos flex, items-center y justify-center para centrar el escudo y que no se corte abajo
-    return `<div class="w-5 h-5 flex items-center justify-center flex-shrink-0 overflow-visible">${renderEscudo(nombre)}</div>`;
-};
+        if (!nombre || nombre === "---") return `<div class="w-5 h-5 bg-white/5 rounded-full"></div>`;
+        return `<div class="w-5 h-5 flex items-center justify-center flex-shrink-0 overflow-visible">${renderEscudo(nombre)}</div>`;
+    };
 
+    // ====================================================================
+    // 4. RETORNO DE TU DISEÑO ORIGINAL COMPLETO (¡MEJORADO!)
+    // ====================================================================
     return `
     <div class="flex flex-col w-full bg-slate-900/95 border border-white/10 rounded-xl shadow-xl mb-3 overflow-hidden">
-        <div class="flex justify-between items-center px-2 py-1 bg-white/5 border-b border-white/10 text-[7px] font-black italic">
-            <span class="text-slate-400 font-bold uppercase tracking-wider">${labelEtiqueta}</span>
-            <span class="text-white/30 font-normal text-[6px]">I: ${res.ida[0]}-${res.ida[1]} | V: ${res.vta[0]}-${res.vta[1]}</span>
+        <div class="flex justify-between items-center px-2.5 py-1.5 bg-slate-950 border-b border-white/10">
+            <span class="text-slate-400 font-black uppercase text-[8px] tracking-wider italic">${labelEtiqueta}</span>
+            <span class="text-yellow-400 font-extrabold text-[9px] bg-yellow-500/10 px-2 py-0.5 rounded border border-yellow-500/20 tracking-wide shadow-inner">
+                I: ${res.ida[0]}-${res.ida[1]} &nbsp;|&nbsp; V: ${res.vta[0]}-${res.vta[1]}
+            </span>
         </div>
+        
         <div class="flex items-center justify-between p-2 border-b border-white/5">
             <div class="flex items-center gap-2 truncate">
                 ${miniEscudo(p1)}
-                <span class="text-[10px] font-black ${p1 ? 'text-slate-100' : 'text-slate-500'} uppercase truncate">${p1 || '---'}</span>
+                <span class="text-[10px] font-black ${p1 ? 'text-slate-100' : 'text-slate-500'} uppercase truncate">${p1Abreviado}</span>
             </div>
             <span class="text-white font-black text-[11px]">${p1 ? g1 : ''} ${hayPenales && p1 ? `<span class="text-yellow-500 text-[8px]">(${res.penales[0]})</span>` : ''}</span>
         </div>
+        
         <div class="flex items-center justify-between p-2">
             <div class="flex items-center gap-2 truncate">
                 ${miniEscudo(p2)}
-                <span class="text-[10px] font-black ${p2 ? 'text-slate-100' : 'text-slate-500'} uppercase truncate">${p2 || '---'}</span>
+                <span class="text-[10px] font-black ${p2 ? 'text-slate-100' : 'text-slate-500'} uppercase truncate">${p2Abreviado}</span>
             </div>
             <span class="text-white font-black text-[11px]">${p2 ? g2 : ''} ${hayPenales && p2 ? `<span class="text-yellow-500 text-[8px]">(${res.penales[1]})</span>` : ''}</span>
         </div>
@@ -1217,33 +1302,34 @@ const crearTarjetaPartido = (p1, p2, llaveId, labelEtiqueta) => {
 const contCuadro = document.getElementById('cuadro-render');
 if(contCuadro) {
     // Definimos los ganadores de Octavos de manera limpia
-    const gan_a1 = obtenerGanadorLlave(grupoA[0]?.nombre, grupoA[7]?.nombre, "a1");
-    const gan_a2 = obtenerGanadorLlave(grupoA[3]?.nombre, grupoA[4]?.nombre, "a2");
-    const gan_a3 = obtenerGanadorLlave(grupoA[1]?.nombre, grupoA[6]?.nombre, "a3");
-    const gan_a4 = obtenerGanadorLlave(grupoA[2]?.nombre, grupoA[5]?.nombre, "a4");
+    const gan_a1 = obtenerGanadorLlave(grupoA[0]?.nombre, grupoA[7]?.nombre, "a1") || "";
+    const gan_a2 = obtenerGanadorLlave(grupoA[3]?.nombre, grupoA[4]?.nombre, "a2") || "";
+    const gan_a3 = obtenerGanadorLlave(grupoA[1]?.nombre, grupoA[6]?.nombre, "a3") || "";
+    const gan_a4 = obtenerGanadorLlave(grupoA[2]?.nombre, grupoA[5]?.nombre, "a4") || "";
 
-    const gan_b1 = obtenerGanadorLlave(grupoB[0]?.nombre, grupoB[7]?.nombre, "b1");
-    const gan_b2 = obtenerGanadorLlave(grupoB[3]?.nombre, grupoB[4]?.nombre, "b2");
-    const gan_b3 = obtenerGanadorLlave(grupoB[1]?.nombre, grupoB[6]?.nombre, "b3");
-    const gan_b4 = obtenerGanadorLlave(grupoB[2]?.nombre, grupoB[5]?.nombre, "b4");
+    const gan_b1 = obtenerGanadorLlave(grupoB[0]?.nombre, grupoB[7]?.nombre, "b1") || "";
+    const gan_b2 = obtenerGanadorLlave(grupoB[3]?.nombre, grupoB[4]?.nombre, "b2") || "";
+    const gan_b3 = obtenerGanadorLlave(grupoB[1]?.nombre, grupoB[6]?.nombre, "b3") || "";
+    const gan_b4 = obtenerGanadorLlave(grupoB[2]?.nombre, grupoB[5]?.nombre, "b4") || "";
 
     // Definimos los ganadores de Cuartos para alimentar la Semifinal
-    const gan_ca1 = obtenerGanadorLlave(gan_a1, gan_a2, "ca1");
-    const gan_ca2 = obtenerGanadorLlave(gan_a3, gan_a4, "ca2");
-    const gan_cb1 = obtenerGanadorLlave(gan_b1, gan_b2, "cb1");
-    const gan_cb2 = obtenerGanadorLlave(gan_b3, gan_b4, "cb2");
+    // Si los de octavos no están definidos, el cuarto queda vacío
+    const gan_ca1 = (gan_a1 && gan_a2) ? (obtenerGanadorLlave(gan_a1, gan_a2, "ca1") || "") : "";
+    const gan_ca2 = (gan_a3 && gan_a4) ? (obtenerGanadorLlave(gan_a3, gan_a4, "ca2") || "") : "";
+    const gan_cb1 = (gan_b1 && gan_b2) ? (obtenerGanadorLlave(gan_b1, gan_b2, "cb1") || "") : "";
+    const gan_cb2 = (gan_b3 && gan_b4) ? (obtenerGanadorLlave(gan_b3, gan_b4, "cb2") || "") : "";
 
     // Definimos los ganadores de Semifinal para alimentar la Final
-    const finalista_A = obtenerGanadorLlave(gan_ca1, gan_ca2, "sa1");
-    const finalista_B = obtenerGanadorLlave(gan_cb1, gan_cb2, "sb1");
+    // Solo calcula si AMBOS clasificados de cuartos existen reales
+    const finalista_A = (gan_ca1 && gan_ca2) ? (obtenerGanadorLlave(gan_ca1, gan_ca2, "sa1") || "") : "";
+    const finalista_B = (gan_cb1 && gan_cb2) ? (obtenerGanadorLlave(gan_cb1, gan_cb2, "sb1") || "") : "";
 
-    // El campeón definitivo saldrá del cruce final ("final")
-    const campeon_final = obtenerGanadorLlave(finalista_A, finalista_B, "final");
+    // El campeón definitivo saldrá del cruce final
+    const campeon_final = (finalista_A && finalista_B) ? (obtenerGanadorLlave(finalista_A, finalista_B, "final") || "") : "";
 
     contCuadro.innerHTML = `
         <div class="grid grid-cols-7 gap-4 items-center min-w-[1300px] py-4 px-2">
             
-            <!-- COLUMNA 1: OCTAVOS LADO A -->
             <div>
                 <h4 class="text-center text-yellow-500 Richmond font-black text-[9px] uppercase mb-3 italic tracking-wider">Octavos A</h4>
                 ${crearTarjetaPartido(grupoA[0]?.nombre, grupoA[7]?.nombre, "a1", "Llave A1")}
@@ -1253,46 +1339,37 @@ if(contCuadro) {
                 ${crearTarjetaPartido(grupoA[2]?.nombre, grupoA[5]?.nombre, "a4", "Llave A4")}
             </div>
 
-            <!-- COLUMNA 2: CUARTOS LADO A -->
             <div class="flex flex-col justify-around h-full py-10">
-                ${crearTarjetaPartido(gan_a1, gan_a2, "ca1", "Cuartos A1")}
-                ${crearTarjetaPartido(gan_a3, gan_a4, "ca2", "Cuartos A2")}
+                ${crearTarjetaPartido(gan_a1 || "— POR DEFINIR —", gan_a2 || "— POR DEFINIR —", "ca1", "Cuartos A1")}
+                ${crearTarjetaPartido(gan_a3 || "— POR DEFINIR —", gan_a4 || "— POR DEFINIR —", "ca2", "Cuartos A2")}
             </div>
 
-            <!-- COLUMNA 3: SEMIFINAL LADO A -->
             <div class="flex flex-col justify-center h-full py-20">
-                ${crearTarjetaPartido(gan_ca1, gan_ca2, "sa1", "Semifinal A")}
+                ${crearTarjetaPartido(gan_ca1 || "— POR DEFINIR —", gan_ca2 || "— POR DEFINIR —", "sa1", "Semifinal A")}
             </div>
 
-            <!-- COLUMNA 4: CENTRO DEL CUADRO (FINAL Y CAMPEÓN) -->
-<div class="flex flex-col items-center justify-center gap-6">
-    <div class="w-full">
-        ${crearTarjetaPartido(finalista_A, finalista_B, "final", "GRAN FINAL")}
-    </div>
-    
-    <div class="w-full p-5 bg-gradient-to-b from-yellow-500/30 via-slate-900 to-slate-950 border-2 border-yellow-500 rounded-3xl shadow-2xl text-center">
-        <p class="text-[7px] text-yellow-500 font-black tracking-widest uppercase mb-1 italic">👑 CAMPEÓN 👑</p>
-        <div class="text-[12px] font-black text-white uppercase truncate drop-shadow-md">
-            ${(typeof goles_final_A !== 'undefined' && goles_final_A !== null && goles_final_A !== '') || 
-              (typeof goles_final_B !== 'undefined' && goles_final_B !== null && goles_final_B !== '') 
-              ? campeon_final 
-              : "— POR DEFINIR —"}
-        </div>
-    </div>
-</div>
+            <div class="flex flex-col items-center justify-center gap-6">
+                <div class="w-full">
+                    ${crearTarjetaPartido(finalista_A || "— POR DEFINIR —", finalista_B || "— POR DEFINIR —", "final", "GRAN FINAL")}
+                </div>
+                
+                <div class="w-full p-5 bg-gradient-to-b from-yellow-500/30 via-slate-900 to-slate-950 border-2 border-yellow-500 rounded-3xl shadow-2xl text-center">
+                    <p class="text-[7px] text-yellow-500 font-black tracking-widest uppercase mb-1 italic">👑 CAMPEÓN 👑</p>
+                    <div class="text-[12px] font-black text-white uppercase truncate drop-shadow-md">
+                        ${campeon_final && campeon_final.trim() !== "" ? campeon_final : "— POR DEFINIR —"}
+                    </div>
+                </div>
+            </div>
 
-            <!-- COLUMNA 5: SEMIFINAL LADO B -->
             <div class="flex flex-col justify-center h-full py-20">
-                ${crearTarjetaPartido(gan_cb1, gan_cb2, "sb1", "Semifinal B")}
+                ${crearTarjetaPartido(gan_cb1 || "— POR DEFINIR —", gan_cb2 || "— POR DEFINIR —", "sb1", "Semifinal B")}
             </div>
 
-            <!-- COLUMNA 6: CUARTOS LADO B -->
             <div class="flex flex-col justify-around h-full py-10">
-                ${crearTarjetaPartido(gan_b1, gan_b2, "cb1", "Cuartos B1")}
-                ${crearTarjetaPartido(gan_b4, gan_b3, "cb2", "Cuartos B2")}
+                ${crearTarjetaPartido(gan_b1 || "— POR DEFINIR —", gan_b2 || "— POR DEFINIR —", "cb1", "Cuartos B1")}
+                ${crearTarjetaPartido(gan_b4 || "— POR DEFINIR —", gan_b3 || "— POR DEFINIR —", "cb2", "Cuartos B2")}
             </div>
 
-            <!-- COLUMNA 7: OCTAVOS LADO B -->
             <div>
                 <h4 class="text-center text-emerald-400 font-black text-[9px] uppercase mb-3 italic tracking-wider">Octavos B</h4>
                 ${crearTarjetaPartido(grupoB[0]?.nombre, grupoB[7]?.nombre, "b1", "Llave B1")}

@@ -1265,17 +1265,21 @@ if(contCuadro) {
             </div>
 
             <!-- COLUMNA 4: CENTRO DEL CUADRO (FINAL Y CAMPEÓN) -->
-            <div class="flex flex-col items-center justify-center gap-6">
-                <div class="w-full">
-                    ${crearTarjetaPartido(finalista_A, finalista_B, "final", "GRAN FINAL")}
-                </div>
-                <div class="w-full p-5 bg-gradient-to-b from-yellow-500/30 via-slate-900 to-slate-950 border-2 border-yellow-500 rounded-3xl shadow-2xl text-center">
-                    <p class="text-[7px] text-yellow-500 font-black tracking-widest uppercase mb-1 italic">👑 CAMPEÓN 👑</p>
-                    <div class="text-[12px] font-black text-white uppercase truncate drop-shadow-md">
-                        ${campeon_final || 'PROXIMAMENTE'}
-                    </div>
-                </div>
-            </div>
+<div class="flex flex-col items-center justify-center gap-6">
+    <div class="w-full">
+        ${crearTarjetaPartido(finalista_A, finalista_B, "final", "GRAN FINAL")}
+    </div>
+    
+    <div class="w-full p-5 bg-gradient-to-b from-yellow-500/30 via-slate-900 to-slate-950 border-2 border-yellow-500 rounded-3xl shadow-2xl text-center">
+        <p class="text-[7px] text-yellow-500 font-black tracking-widest uppercase mb-1 italic">👑 CAMPEÓN 👑</p>
+        <div class="text-[12px] font-black text-white uppercase truncate drop-shadow-md">
+            ${(typeof goles_final_A !== 'undefined' && goles_final_A !== null && goles_final_A !== '') || 
+              (typeof goles_final_B !== 'undefined' && goles_final_B !== null && goles_final_B !== '') 
+              ? campeon_final 
+              : "— POR DEFINIR —"}
+        </div>
+    </div>
+</div>
 
             <!-- COLUMNA 5: SEMIFINAL LADO B -->
             <div class="flex flex-col justify-center h-full py-20">

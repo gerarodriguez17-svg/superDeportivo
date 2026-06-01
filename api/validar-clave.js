@@ -22,9 +22,9 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Falta ingresar el código.' });
     }
 
-    // 2. CONFIGURACIÓN DE SUPABASE (Tus credenciales de servidor)
-    const SUPABASE_URL = "https://lhrdafsbkbbjdouoohvf.supabase.co/rest/v1/";
-    const SUPABASE_KEY = "sb_secret_hAR75TrXzFPhXdHF5Uhs3w_2-FjypNV"; 
+// 2. CONFIGURACIÓN DE SUPABASE (Variables de entorno seguras)
+    const SUPABASE_URL = process.env.SUPABASE_URL;
+    const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     try {
         // --- CONSULTA 1: SELECT (Buscar si el código existe y está libre) ---

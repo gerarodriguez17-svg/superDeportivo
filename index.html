@@ -196,26 +196,31 @@
             </div>
         </div>
     
-                <div id="panel-acceso" class="bg-slate-900/50 border border-white/10 p-6 rounded-3xl flex flex-col justify-center">
-            <div id="formulario-login">
-                <h3 class="text-emerald-500 font-black italic uppercase text-sm mb-4">Transmisión Premium</h3>
-                <p class="text-slate-400 text-[10px] mb-5 leading-relaxed">Apoyá la transmisión oficial del fútbol de la liga. Adquirí tu acceso virtual para ver el partido del domingo en vivo y en alta definición.</p>
-                
-                <a href="https://mpago.la/2MAT2Dz " target="_self"
-                    class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black italic uppercase text-[11px] py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-900/20 text-center block tracking-wider">
-                    Pagar Entrada para Ver en Vivo
-                </a>
-                
-                <p class="text-[8px] text-slate-500 text-center mt-3 uppercase font-bold tracking-tight">Procesado de forma segura por Mercado Pago</p>
-            </div>
-
-            <div id="acceso-exitoso" class="hidden text-center">
-                <div class="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <i data-lucide="check" class="text-emerald-500 w-6 h-6"></i>
-                </div>
-                <p class="text-emerald-500 font-black italic uppercase text-[10px]">Acceso Virtual Concedido</p>
-            </div>
+<div id="panel-acceso" class="bg-slate-900/50 border border-white/10 p-6 rounded-3xl flex flex-col justify-center">
+    <div id="formulario-login">
+        <h3 class="text-emerald-500 font-black italic uppercase text-sm mb-2">Acceso Premium</h3>
+        <p class="text-slate-400 text-[10px] mb-5 leading-relaxed">Ingresá el código de acceso único que recibiste por tu entrada para habilitar la transmisión en vivo.</p>
+        
+        <div class="flex flex-col gap-3">
+            <input type="text" id="clave-input" placeholder="EJ: DEP-742X" 
+                class="w-full bg-slate-950/80 border border-white/10 rounded-xl px-4 py-3 text-center text-white font-mono text-xs uppercase tracking-widest focus:outline-none focus:border-emerald-500 transition-colors">
+            
+            <button onclick="intentarAccesoConBaseDatos()" id="btn-validar"
+                class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black italic uppercase text-[11px] py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-900/20 tracking-wider">
+                Desbloquear Partido
+            </button>
         </div>
+        
+        <p id="error-mensaje" class="text-[9px] text-red-400 text-center font-bold uppercase mt-3 hidden tracking-wide"></p>
+    </div>
+
+    <div id="acceso-exitoso" class="hidden text-center">
+        <div class="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="check" class="text-emerald-500 w-6 h-6"></i>
+        </div>
+        <p class="text-emerald-500 font-black italic uppercase text-[10px]">Acceso Concedido</p>
+    </div>
+</div>
     
     </div>
     <section class="max-w-6xl mx-auto px-4 mb-8">
@@ -678,64 +683,83 @@ function cambiarFecha(f) {
 }
 
 
-////dom content para mercadopago
-// Inicialización global al cargar el DOM (Versión Integrada con Mercado Pago)
-// Inicialización global con vencimiento semanal y RESET MASIVO
+// 1. FUNCIÓN PARA VALIDAR LA CLAVE EN LA BASE DE DATOS (SUPABASE VIA VERCEL)
+async function intentarAccesoConBaseDatos() {
+    const input = document.getElementById('clave-input');
+    const btn = document.getElementById('btn-validar');
+    const txtError = document.getElementById('error-mensaje');
+    
+    if (!input || !input.value.trim()) return;
+    
+    const codigoIngresado = input.value.trim().toUpperCase();
+
+    // Feedback visual de "Cargando..."
+    btn.disabled = true;
+    btn.innerText = "VERIFICANDO...";
+    txtError.classList.add('hidden');
+
+    try {
+        // Le pegamos a nuestra función Serverless de Vercel
+        const response = await fetch('/api/validar-clave', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ codigo: codigoIngresado })
+        });
+
+        const resultado = await response.json();
+
+        if (!response.ok || !resultado.valido) {
+            // Si el backend dice que no es válido o ya se usó
+            txtError.innerText = resultado.mensaje || resultado.error || "Código inválido.";
+            txtError.classList.remove('hidden');
+            btn.disabled = false;
+            btn.innerText = "DESBLOQUEAR PARTIDO";
+            return;
+        }
+
+        // ¡SI EL CÓDIGO ES VÁLIDO!
+        // Guardamos el pase en el navegador para que no le vuelva a pedir clave esta semana
+        localStorage.setItem('acceso_superdep', 'true');
+        
+        // Calculamos el vencimiento automático para el próximo miércoles
+        const ahora = new Date();
+        const diasHastaMiercoles = (10 - ahora.getDay()) % 7 || 7;
+        ahora.setDate(ahora.getDate() + diasHastaMiercoles);
+        ahora.setHours(0, 0, 0, 0);
+        localStorage.setItem('acceso_vencimiento', ahora.getTime().toString());
+
+        // Activamos el reproductor de inmediato
+        aplicarAcceso("R9cMkGA61II"); // Tu ID de vivo de YouTube
+
+    } catch (err) {
+        console.error(err);
+        txtError.innerText = "ERROR DE CONEXIÓN. INTENTÁ DE NUEVO.";
+        txtError.classList.remove('hidden');
+        btn.disabled = false;
+        btn.innerText = "DESBLOQUEAR PARTIDO";
+    }
+}
+
+// 2. INICIALIZACIÓN GLOBAL AL CARGAR LA PÁGINA
 document.addEventListener('DOMContentLoaded', () => {
     if (typeof lucide !== 'undefined') lucide.createIcons();
 
-    // =================================================================
-    // GATILLO DE RESET MASIVO: Si cambiás este texto (ej: de "v1" a "v2"), 
-    // se le va a bloquear la pantalla a TODOS los usuarios automáticamente.
-    // =================================================================
-    const VERSION_ACTUAL = "v2"; 
-    
-    if (localStorage.getItem('superdep_db_version') !== VERSION_ACTUAL) {
-        localStorage.removeItem('acceso_superdep');
-        localStorage.removeItem('acceso_vencimiento');
-        // Guardamos la nueva versión para que no se les vuelva a borrar en la próxima carga
-        localStorage.setItem('superdep_db_version', VERSION_ACTUAL);
-        console.log("Sistema reseteado: credenciales antiguas eliminadas con éxito.");
-    }
-    // =================================================================
-
-    const ahora = new Date();
-    
-    // Función auxiliar para calcular el próximo miercoles a las 00:00 hs
-    const obtenerProximoMiercoles = (fechaBase) => {
-        const resultado = new Date(fechaBase);
-        const diasHastaMiercoles = (10 - resultado.getDay()) % 7 || 7;
-        resultado.setDate(resultado.getDate() + diasHastaMiercoles);
-        resultado.setHours(0, 0, 0, 0); 
-        return resultado.getTime();
-    };
-
-    // Detector de pago (Mercado Pago)
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('pago') === 'exitoso') {
-        localStorage.setItem('acceso_superdep', 'true');
-            
-        const fechaVencimiento = obtenerProximoMiercoles(ahora);
-        localStorage.setItem('acceso_vencimiento', fechaVencimiento.toString());
-        
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }
-
-    // Controlador de vencimiento por tiempo
+    const ahora = new Date().getTime();
     const tieneAcceso = localStorage.getItem('acceso_superdep') === 'true';
     const vencimiento = localStorage.getItem('acceso_vencimiento');
 
+    // Control de vencimiento de los miércoles por tiempo
     if (tieneAcceso && vencimiento) {
-        if (ahora.getTime() > parseInt(vencimiento)) {
+        if (ahora > parseInt(vencimiento)) {
             localStorage.removeItem('acceso_superdep');
             localStorage.removeItem('acceso_vencimiento');
-            console.log("El acceso semanal ha expirado.");
+            console.log("El acceso semanal por token ha expirado.");
             location.reload();
             return;
         }
     }
 
-    // Verificación final de pantalla (Bloqueado/Desbloqueado)
+    // Verificación final del reproductor
     if (localStorage.getItem('acceso_superdep') === 'true') {
         aplicarAcceso("R9cMkGA61II"); 
     } else {
@@ -746,10 +770,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Cargar el fixture normal
     const selector = document.getElementById('fecha-selector');
-    if (selector) {
-        cambiarFecha(selector.value);
-    }
+    if (selector) cambiarFecha(selector.value);
 });
 
 function obtenerTablaPorZona(zona, categoria) {

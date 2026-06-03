@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Pago Exitoso! - Super Deportivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-200 font-sans flex items-center justify-center min-h-screen p-4">
+    <div class="max-w-md w-full bg-slate-900 border border-white/10 p-8 rounded-3xl text-center shadow-2xl">
+        <div class="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-500/30">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#10b981" class="w-8 h-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+        </div>
+        
+        <h1 class="text-xl font-black uppercase italic text-emerald-500 tracking-wide">¡Pago Confirmado!</h1>
+        <p class="text-slate-400 text-xs mt-2 leading-relaxed">Tu entrada digital fue generada con éxito. Copiá el código de abajo para ingresarlo en la página de la transmisión.</p>
+
+        <div class="my-6 p-4 bg-slate-950 border border-white/5 rounded-2xl">
+            <div id="cargando" class="text-[10px] text-slate-500 uppercase tracking-widest font-bold animate-pulse py-2">Generando código...</div>
+            <div id="codigo-texto" class="hidden text-2xl font-mono font-black text-white tracking-widest select-all"></div>
+        </div>
+
+        <button onclick="copiarAlPortapapeles()" id="btn-copiar" class="w-full bg-slate-800 hover:bg-slate-700 text-white text-[11px] font-black uppercase py-3 rounded-xl transition-all tracking-wider mb-4 hidden">
+            Copiar Código
+        </button>
+
+        <a href="index.html" class="inline-block text-[10px] text-emerald-400 hover:text-emerald-300 font-black uppercase tracking-widest underline mt-2">
+            Volver a la web principal
+        </a>
+    </div>
+
+    <script>
+        let codigoGenerado = "";
+
+        // Apenas carga la pantalla, le pide un código libre al servidor
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/api/entregar-codigo', { method: 'POST' })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.codigo) {
+                        codigoGenerado = data.codigo;
+                        document.getElementById('cargando').classList.add('hidden');
+                        
+                        const txtCodigo = document.getElementById('codigo-texto');
+                        txtCodigo.innerText = codigoGenerado;
+                        txtCodigo.classList.remove('hidden');
+                        
+                        document.getElementById('btn-copiar').classList.remove('hidden');
+                    } else {
+                        document.getElementById('cargando').innerText = "ERROR AL GENERAR. CONTACTÁ A SOPORTE.";
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('cargando').innerText = "ERROR DE CONEXIÓN. RECARGÁ LA PÁGINA.";
+                });
+        });
+
+        function copiarAlPortapapeles() {
+            if (!codigoGenerado) return;
+            navigator.clipboard.writeText(codigoGenerado);
+            const btn = document.getElementById('btn-copiar');
+            btn.innerText = "¡COPIADO!";
+            btn.classList.replace('bg-slate-800', 'bg-emerald-600');
+            setTimeout(() => {
+                btn.innerText = "COPIAR CÓDIGO";
+                btn.classList.replace('bg-emerald-600', 'bg-slate-800');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

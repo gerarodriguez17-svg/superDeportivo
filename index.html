@@ -189,7 +189,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
     
         <div class="lg:col-span-3 bg-black rounded-3xl overflow-hidden aspect-video shadow-2xl border border-white/5">
-            <iframe id="youtube-player" src="https://www.youtube.com/embed/R9cMkGA61II?autoplay=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe id="youtube-player" src="https://www.youtube.com/embed/dXobIuHf0t8?autoplay=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             <div id="video-placeholder" class="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-slate-500">
                 <i data-lucide="lock" class="w-12 h-12 mb-2 opacity-20"></i>
                 <p class="text-xs uppercase font-black italic tracking-widest">Contenido Protegido</p>
@@ -264,7 +264,7 @@
     
                 <div class="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl flex-1 min-h-[180px]">
 
-                    <img src="img/estadios/estadio_ifbc.jfif" class="absolute inset-0 w-full h-full object-cover opacity-30" alt="Estadio">
+                    <img src="img/estadios/estadio_cuac_.jfif" class="absolute inset-0 w-full h-full object-cover opacity-30" alt="Estadio">
                     <div class="absolute inset-0 bg-slate-950/80"></div>
     
                     <div class="relative z-10 p-4 h-full flex items-center">
@@ -741,7 +741,7 @@ async function intentarAccesoConBaseDatos() {
         localStorage.setItem('acceso_vencimiento', ahora.getTime().toString());
 
         // Activamos el reproductor de inmediato
-        aplicarAcceso("R9cMkGA61II"); // Tu ID de vivo de YouTube
+        aplicarAcceso("dXobIuHf0t8"); // Tu ID de vivo de YouTube
 
     } catch (err) {
         console.error(err);
@@ -797,7 +797,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Limpiamos la URL para estética y activamos el video abajo
                     window.history.replaceState({}, document.title, window.location.pathname);
-                    aplicarAcceso("R9cMkGA61II");
+                    aplicarAcceso("dXobIuHf0t8");
                 }
             })
             .catch(err => {
@@ -823,7 +823,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Verificación final del reproductor
     if (localStorage.getItem('acceso_superdep') === 'true') {
-        aplicarAcceso("R9cMkGA61II"); 
+        aplicarAcceso("dXobIuHf0t8"); 
     } else {
         const player = document.getElementById('youtube-player');
         if (player) {

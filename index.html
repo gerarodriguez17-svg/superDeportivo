@@ -741,7 +741,7 @@ async function intentarAccesoConBaseDatos() {
         localStorage.setItem('acceso_vencimiento', ahora.getTime().toString());
 
         // Activamos el reproductor de inmediato
-        aplicarAcceso("dXobIuHf0t8"); // Tu ID de vivo de YouTube
+        aplicarAcceso("-zuAY-UbIyM"); // Tu ID de vivo de YouTube
 
     } catch (err) {
         console.error(err);
@@ -797,7 +797,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Limpiamos la URL para estética y activamos el video abajo
                     window.history.replaceState({}, document.title, window.location.pathname);
-                    aplicarAcceso("dXobIuHf0t8");
+                    aplicarAcceso("-zuAY-UbIyM");
                 }
             })
             .catch(err => {
@@ -823,7 +823,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Verificación final del reproductor
     if (localStorage.getItem('acceso_superdep') === 'true') {
-        aplicarAcceso("dXobIuHf0t8"); 
+        aplicarAcceso("-zuAY-UbIyM"); 
     } else {
         const player = document.getElementById('youtube-player');
         if (player) {

@@ -186,26 +186,23 @@
 
 <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-12">
     
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
 
-<div class="lg:col-span-3 space-y-3">
-    <div id="contenedor-reproductor" class="bg-black rounded-3xl overflow-hidden aspect-video shadow-2xl border border-white/5 relative">
+<div class="lg:col-span-3 flex flex-col gap-3">
+    
+    <div id="contenedor-reproductor" class="bg-black rounded-3xl overflow-hidden aspect-video shadow-2xl border border-white/5 relative w-full">
         
         <div id="escudo-anti-clic" class="absolute inset-0 z-10 bg-transparent hidden"></div>
 
         <div id="player-api" class="w-full h-full relative z-0"></div>
         
-        <div id="video-placeholder" class="w-full h-full absolute inset-0 flex flex-col items-center justify-center bg-slate-900 text-slate-500 z-20">
+        <div id="video-placeholder" class="w-full h-full absolute inset-0 flex flex-col items-center justify-center bg-slate-900 text-slate-500 z-5">
             <i data-lucide="lock" class="w-12 h-12 mb-2 opacity-20"></i>
             <p class="text-xs uppercase font-black italic tracking-widest">Contenido Protegido</p>
         </div>
     </div>
 
-    <div id="controles-propios" class="hidden flex justify-center items-center gap-2 bg-slate-950/80 border border-white/5 p-3 rounded-2xl backdrop-blur-md">
-        </div>
-</div>
-
-<div id="controles-propios" class="hidden flex justify-center items-center gap-2 bg-slate-950/80 border border-white/5 p-3 rounded-2xl backdrop-blur-md">
+    <div id="controles-propios" class="hidden flex justify-center items-center gap-2 bg-slate-950/80 border border-white/5 p-3 rounded-2xl backdrop-blur-md relative z-30">
         <button onclick="controlarReproductor('play')" class="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all shadow-md">
             <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i> Play
         </button>
@@ -216,7 +213,6 @@
             <i data-lucide="maximize" class="w-3.5 h-3.5"></i> Ampliar
         </button>
     </div>
-
 </div>
 
     
@@ -476,7 +472,7 @@
         let zonaActual = 'norte';
         let categoriaActual = 'primera';
         let fechaActual = '5';
-        const VIDEO_ID = "-zuAY--zuAY-UbIyM";
+        const VIDEO_ID = "-zuAY-UbIyM";
 
         // --- LISTAS DE EQUIPOS ACTUALIZADAS ---
 const EQUIPOS_CENTRO = ["Litoral María Grande", "Cañadita Central", "Atlético María Grande", "Atlético Hasenkamp", "Segui FC", "Escuela Diego Maradona", "Juventud Sarmiento"];
@@ -659,12 +655,16 @@ if (sponsorsGrid) {
     }
 }
 
+// ==========================================
+// CONTROL DE REPRODUCTOR BLINDADO (CORREGIDO)
+// ==========================================
 let ytpPlayer = null; 
-let idVideoGlobal = "-zuAY-UbIyM"; // Dejamos el ID guardado de forma global
+let idVideoGlobal = "-zuAY-UbIyM"; // 👈 El ID real de tu transmisión
 
+// Esta función prepara la pantalla (apaga el candado, prende los botones)
 function aplicarAcceso(videoID) {
     if (localStorage.getItem('acceso_superdep') === 'true') {
-        if (videoID) idVideoGlobal = videoID; // Actualizamos el ID si viene uno nuevo
+        if (videoID && videoID.length === 11) idVideoGlobal = videoID; 
 
         const placeholder = document.getElementById('video-placeholder');
         const form = document.getElementById('formulario-login');
@@ -672,53 +672,52 @@ function aplicarAcceso(videoID) {
         const escudo = document.getElementById('escudo-anti-clic');
         const controles = document.getElementById('controles-propios');
 
-        // Activamos capas visuales y botones propios
         if (escudo) escudo.classList.remove('hidden');
         if (controles) controles.classList.remove('hidden');
         if (placeholder) placeholder.classList.add('hidden');
         if (form) form.classList.add('hidden');
         if (exito) exito.classList.remove('hidden');
 
-        // 🚀 Si la API ya está lista, forzamos la creación del reproductor de inmediato
+        // Si la API ya está lista en el sistema, disparamos la creación del video ya mismo
         if (typeof YT !== 'undefined' && YT.Player && !ytpPlayer) {
-            window.onYouTubeIframeAPIReady();
+            onYouTubeIframeAPIReady();
         }
         
         if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 }
 
-// 🧙‍♂️ LA FUNCIÓN MÁGICA QUE BUSCA YOUTUBE AL ARRANCAR
-window.onYouTubeIframeAPIReady = function() {
-    // Solo se va a armar si el usuario tiene el acceso concedido y el div de la API existe en pantalla
+// 🧙‍♂️ FUNCIÓN REQUERIDA POR LA API DE YOUTUBE (Dejar suelta y global)
+function onYouTubeIframeAPIReady() {
     if (localStorage.getItem('acceso_superdep') === 'true' && document.getElementById('player-api') && !ytpPlayer) {
-        console.log("API de YouTube sincronizada. Creando reproductor blindado...");
+        console.log("Inicializando YouTube Player API de forma segura...");
         ytpPlayer = new YT.Player('player-api', {
             height: '100%',
             width: '100%',
             videoId: idVideoGlobal,
             playerVars: {
                 'autoplay': 1,
-                'controls': 0,          // Sin barra nativa
-                'modestbranding': 1,    // Sin logos extras
-                'rel': 0,               // Sin sugeridos
-                'showinfo': 0,          // Sin títulos
-                'iv_load_policy': 3,
-                'disablekb': 1          // Sin teclado
+                'controls': 0,          // Sin barra nativa de YouTube
+                'modestbranding': 1,    // Sin logos molestos
+                'rel': 0,               // Sin videos sugeridos ajenos
+                'showinfo': 0,          // Sin títulos arriba
+                'iv_load_policy': 3,    // Sin anotaciones
+                'disablekb': 1          // Bloquea comandos de teclado como barra espaciadora
             },
             events: {
                 'onReady': (event) => {
-                    event.target.playVideo(); // Arranca solo
+                    console.log("¡Transmisión en vivo lista!");
+                    event.target.playVideo(); // Fuerza el arranque automático
                 }
             }
         });
     }
 }
 
-// FUNCIÓN PARA CONTROLAR EL REPRODUCTOR (Play, Pausa y Pantalla Completa Blindada)
+// Control manual de tus botones externos
 function controlarReproductor(accion) {
     if (!ytpPlayer || typeof ytpPlayer.playVideo !== 'function') {
-        console.log("El reproductor todavía no está listo.");
+        console.log("Esperando que el reproductor termine de cargar...");
         return;
     }
     
@@ -727,16 +726,13 @@ function controlarReproductor(accion) {
     } else if (accion === 'pause') {
         ytpPlayer.pauseVideo();
     } else if (accion === 'fullscreen') {
-        // 🚀 AHORA LE PEDIMOS PANTALLA COMPLETA AL CONTENEDOR PADRE
-        // De esta manera el escudo invisible viaja adentro y sigue tapando el video
         const cajaVideo = document.getElementById('contenedor-reproductor');
-        
         if (cajaVideo) {
             if (cajaVideo.requestFullscreen) {
                 cajaVideo.requestFullscreen();
-            } else if (cajaVideo.webkitRequestFullscreen) { /* Safari / iOS */
+            } else if (cajaVideo.webkitRequestFullscreen) {
                 cajaVideo.webkitRequestFullscreen();
-            } else if (cajaVideo.msRequestFullscreen) { /* IE11 */
+            } else if (cajaVideo.msRequestFullscreen) {
                 cajaVideo.msRequestFullscreen();
             }
         }

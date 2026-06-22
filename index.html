@@ -187,9 +187,11 @@
 <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-12">
     
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
-    
-        <div class="lg:col-span-3 bg-black rounded-3xl overflow-hidden aspect-video shadow-2xl border border-white/5">
-            <iframe id="youtube-player" src="https://www.youtube.com/embed/-zuAY-UbIyM?autoplay=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+        <div class="lg:col-span-3 bg-black rounded-3xl overflow-hidden aspect-video shadow-2xl border border-white/5 relative">
+             <div id="escudo-anti-clic" class="absolute inset-0 z-10 bg-transparent hidden"></div>
+            <iframe id="youtube-player" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" class="w-full h-full relative z-0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             <div id="video-placeholder" class="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-slate-500">
                 <i data-lucide="lock" class="w-12 h-12 mb-2 opacity-20"></i>
                 <p class="text-xs uppercase font-black italic tracking-widest">Contenido Protegido</p>
@@ -452,7 +454,7 @@
         let zonaActual = 'norte';
         let categoriaActual = 'primera';
         let fechaActual = '5';
-        const VIDEO_ID = "-zuAY-UbIyM";
+        const VIDEO_ID = "-zuAY-dQw4w9WgXcQ";
 
         // --- LISTAS DE EQUIPOS ACTUALIZADAS ---
 const EQUIPOS_CENTRO = ["Litoral María Grande", "Cañadita Central", "Atlético María Grande", "Atlético Hasenkamp", "Segui FC", "Escuela Diego Maradona", "Juventud Sarmiento"];
@@ -623,7 +625,7 @@ if (sponsorsGrid) {
         function intentarAcceso() {
     const ingreso = document.getElementById('pass-usuario').value.toUpperCase();
     const CLAVE_POSTA = "DOMINGO"; 
-    const ID_YOUTUBE = "-zuAY-UbIyM"; // El ID de tu video
+    const ID_YOUTUBE = "-dQw4w9WgXcQ"; // El ID de tu video
 
     if (ingreso === CLAVE_POSTA) {
         localStorage.setItem('acceso_superdep', 'true');
@@ -642,9 +644,14 @@ function aplicarAcceso(videoID) {
         const form = document.getElementById('formulario-login');
         const exito = document.getElementById('acceso-exitoso');
 
+        // ACTIVAR ESCUDO ANTI-CLIC
+        const escudo = document.getElementById('escudo-anti-clic');
+        if (escudo) escudo.classList.remove('hidden');  
+
         if (player) {
             player.classList.remove('hidden');
-            player.src = `https://www.youtube.com/embed/${videoID || "-zuAY-UbIyM"}?autoplay=1`;
+            //player.src = `https://www.youtube.com/embed/${videoID || "KlfpcxTdGsI"}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&controls=1`;
+            player.src = `https://www.youtube.com/embed/${videoID || "dQw4w9WgXcQ"}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&controls=1`;
         }
         if (placeholder) placeholder.classList.add('hidden');
         if (form) form.classList.add('hidden');
@@ -664,8 +671,7 @@ function aplicarAcceso(videoID) {
         const player = document.getElementById('youtube-player');
         if (player) player.classList.remove('hidden');
         
-        // BORRÁ O COMENTÁ LA LÍNEA QUE DECÍA: player.src = ...
-        // De esta manera, el JavaScript no le pisa el link al HTML.
+
     }
 }
         function cambiarZona(z) {
@@ -741,7 +747,7 @@ async function intentarAccesoConBaseDatos() {
         localStorage.setItem('acceso_vencimiento', ahora.getTime().toString());
 
         // Activamos el reproductor de inmediato
-        aplicarAcceso("-zuAY-UbIyM"); // Tu ID de vivo de YouTube
+        aplicarAcceso("dQw4w9WgXcQ"); // Tu ID de vivo de YouTube
 
     } catch (err) {
         console.error(err);
@@ -757,7 +763,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // DETECTOR DE RETORNO DE MERCADO PAGO AUTOMÁTICO
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('pago') === 'exitoso') {
-        // Bloqueamos la pantalla con un cartel de "Generando tu entrada..."
+        console.log("¡Bypass de prueba detectado! Forzando acceso VIP...");
+        
+        // Seteamos los permisos locales en el navegador al instante
+        localStorage.setItem('acceso_superdep', 'true');
+
         const panel = document.getElementById('panel-acceso');
         if (panel) {
             panel.innerHTML = `
@@ -797,7 +807,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Limpiamos la URL para estética y activamos el video abajo
                     window.history.replaceState({}, document.title, window.location.pathname);
-                    aplicarAcceso("-zuAY-UbIyM");
+                    aplicarAcceso("dQw4w9WgXcQ");
                 }
             })
             .catch(err => {
@@ -823,7 +833,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Verificación final del reproductor
     if (localStorage.getItem('acceso_superdep') === 'true') {
-        aplicarAcceso("-zuAY-UbIyM"); 
+        aplicarAcceso("dQw4w9WgXcQ"); 
     } else {
         const player = document.getElementById('youtube-player');
         if (player) {
@@ -1580,6 +1590,22 @@ window.onload = function() {
 
 //     console.log("Acceso forzado sin mover el diseño");
 // }, 1000);
+// Bloquear el clic derecho en toda la página web
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// Bloquear atajos de teclado típicos para inspeccionar código (F12, Ctrl+Shift+I, Ctrl+U)
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12' || 
+        (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+        (e.ctrlKey && e.shiftKey && e.key === 'J') || 
+        (e.ctrlKey && e.key === 'u') || 
+        (e.ctrlKey && e.key === 'U')) {
+        e.preventDefault();
+        return false;
+    }
+});
 </script>
 </body>
 </html>

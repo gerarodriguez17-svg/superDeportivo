@@ -208,6 +208,9 @@
         <button onclick="controlarReproductor('pause')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
             <i data-lucide="pause" class="w-3.5 h-3.5 fill-slate-300"></i> Pausa
         </button>
+        <button onclick="controlarReproductor('fullscreen')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
+            <i data-lucide="maximize" class="w-3.5 h-3.5"></i> Ampliar
+        </button>
     </div>
 </div>
 
@@ -707,10 +710,10 @@ window.onYouTubeIframeAPIReady = function() {
     }
 }
 
-// FUNCIÓN PARA QUE RESPONDAN TUS BOTONES DE PLAY/PAUSA
+// FUNCIÓN PARA CONTROLAR EL REPRODUCTOR (Play, Pausa y Pantalla Completa)
 function controlarReproductor(accion) {
     if (!ytpPlayer || typeof ytpPlayer.playVideo !== 'function') {
-        console.log("El reproductor todavía no está listo para recibir órdenes.");
+        console.log("El reproductor todavía no está listo.");
         return;
     }
     
@@ -718,6 +721,20 @@ function controlarReproductor(accion) {
         ytpPlayer.playVideo();
     } else if (accion === 'pause') {
         ytpPlayer.pauseVideo();
+    } else if (accion === 'fullscreen') {
+        // 🚀 LÓGICA PARA PANTALLA COMPLETA
+        // Agarramos el iframe que generó YouTube adentro de 'player-api'
+        const iframe = document.getElementById('player-api');
+        
+        if (iframe) {
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.webkitRequestFullscreen) { /* Safari / iOS */
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { /* IE11 */
+                iframe.msRequestFullscreen();
+            }
+        }
     }
 }
 

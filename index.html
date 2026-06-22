@@ -651,55 +651,68 @@ if (sponsorsGrid) {
     }
 }
 
-let ytpPlayer = null;
+let ytpPlayer = null; 
+let idVideoGlobal = "-zuAY-UbIyM"; // Dejamos el ID guardado de forma global
+
 function aplicarAcceso(videoID) {
     if (localStorage.getItem('acceso_superdep') === 'true') {
+        if (videoID) idVideoGlobal = videoID; // Actualizamos el ID si viene uno nuevo
+
         const placeholder = document.getElementById('video-placeholder');
         const form = document.getElementById('formulario-login');
         const exito = document.getElementById('acceso-exitoso');
         const escudo = document.getElementById('escudo-anti-clic');
         const controles = document.getElementById('controles-propios');
 
-        // Activamos las capas de protección visual y los botones propios
+        // Activamos capas visuales y botones propios
         if (escudo) escudo.classList.remove('hidden');
         if (controles) controles.classList.remove('hidden');
         if (placeholder) placeholder.classList.add('hidden');
         if (form) form.classList.add('hidden');
         if (exito) exito.classList.remove('hidden');
 
-        // ID del partido para este domingo
-        const idFinal = videoID || "-zuAY-UbIyM";
-        
-        // La API oficial de YouTube toma el control e inyecta el video sin barras ni fugas
+        // 🚀 Si la API ya está lista, forzamos la creación del reproductor de inmediato
         if (typeof YT !== 'undefined' && YT.Player && !ytpPlayer) {
-            ytpPlayer = new YT.Player('player-api', {
-                height: '100%',
-                width: '100%',
-                videoId: idFinal,
-                playerVars: {
-                    'autoplay': 1,
-                    'controls': 0,          // quita la barra de YouTube entera
-                    'modestbranding': 1,    // Oculta logos extras
-                    'rel': 0,               // Evita videos sugeridos ajenos al pausar
-                    'showinfo': 0,          // Oculta títulos de la transmisión
-                    'iv_load_policy': 3,    // Borra anotaciones molestas
-                    'disablekb': 1          // Desactiva trucos de teclado (como pausar con barra espaciadora)
-                },
-                events: {
-                    'onReady': (event) => {
-                        event.target.playVideo(); // Arranca solo apenas carga
-                    }
-                }
-            });
+            window.onYouTubeIframeAPIReady();
         }
         
         if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 }
 
-// 3. AGREGÁ ESTA FUNCIÓN NUEVA ABAJO (Para que respondan tus botones de Play/Pausa)
+// 🧙‍♂️ LA FUNCIÓN MÁGICA QUE BUSCA YOUTUBE AL ARRANCAR
+window.onYouTubeIframeAPIReady = function() {
+    // Solo se va a armar si el usuario tiene el acceso concedido y el div de la API existe en pantalla
+    if (localStorage.getItem('acceso_superdep') === 'true' && document.getElementById('player-api') && !ytpPlayer) {
+        console.log("API de YouTube sincronizada. Creando reproductor blindado...");
+        ytpPlayer = new YT.Player('player-api', {
+            height: '100%',
+            width: '100%',
+            videoId: idVideoGlobal,
+            playerVars: {
+                'autoplay': 1,
+                'controls': 0,          // Sin barra nativa
+                'modestbranding': 1,    // Sin logos extras
+                'rel': 0,               // Sin sugeridos
+                'showinfo': 0,          // Sin títulos
+                'iv_load_policy': 3,
+                'disablekb': 1          // Sin teclado
+            },
+            events: {
+                'onReady': (event) => {
+                    event.target.playVideo(); // Arranca solo
+                }
+            }
+        });
+    }
+}
+
+// FUNCIÓN PARA QUE RESPONDAN TUS BOTONES DE PLAY/PAUSA
 function controlarReproductor(accion) {
-    if (!ytpPlayer || typeof ytpPlayer.playVideo !== 'function') return;
+    if (!ytpPlayer || typeof ytpPlayer.playVideo !== 'function') {
+        console.log("El reproductor todavía no está listo para recibir órdenes.");
+        return;
+    }
     
     if (accion === 'play') {
         ytpPlayer.playVideo();

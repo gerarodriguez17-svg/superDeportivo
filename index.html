@@ -190,7 +190,7 @@
 
 
         <div class="lg:col-span-3 bg-black rounded-3xl overflow-hidden aspect-video shadow-2xl border border-white/5 relative">
-        <div id="escudo-anti-clic" class="absolute top-0 left-0 w-full h-[85%] z-10 bg-transparent hidden"></div>            <iframe id="youtube-player" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" class="w-full h-full relative z-0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div id="escudo-anti-clic" class="absolute top-0 left-0 w-full h-[85%] z-10 bg-transparent hidden"></div>            <iframe id="youtube-player" src="https://www.youtube.com/embed/-zuAY-UbIyM?autoplay=1" class="w-full h-full relative z-0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             <div id="video-placeholder" class="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-slate-500">
                 <i data-lucide="lock" class="w-12 h-12 mb-2 opacity-20"></i>
                 <p class="text-xs uppercase font-black italic tracking-widest">Contenido Protegido</p>
@@ -453,7 +453,7 @@
         let zonaActual = 'norte';
         let categoriaActual = 'primera';
         let fechaActual = '5';
-        const VIDEO_ID = "-zuAY-dQw4w9WgXcQ";
+        const VIDEO_ID = "-zuAY--zuAY-UbIyM";
 
         // --- LISTAS DE EQUIPOS ACTUALIZADAS ---
 const EQUIPOS_CENTRO = ["Litoral María Grande", "Cañadita Central", "Atlético María Grande", "Atlético Hasenkamp", "Segui FC", "Escuela Diego Maradona", "Juventud Sarmiento"];
@@ -624,7 +624,7 @@ if (sponsorsGrid) {
         function intentarAcceso() {
     const ingreso = document.getElementById('pass-usuario').value.toUpperCase();
     const CLAVE_POSTA = "DOMINGO"; 
-    const ID_YOUTUBE = "-dQw4w9WgXcQ"; // El ID de tu video
+    const ID_YOUTUBE = "--zuAY-UbIyM"; // El ID de tu video
 
     if (ingreso === CLAVE_POSTA) {
         localStorage.setItem('acceso_superdep', 'true');
@@ -650,7 +650,7 @@ function aplicarAcceso(videoID) {
         if (player) {
             player.classList.remove('hidden');
             //player.src = `https://www.youtube.com/embed/${videoID || "KlfpcxTdGsI"}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&controls=1`;
-            player.src = `https://www.youtube.com/embed/${videoID || "dQw4w9WgXcQ"}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&controls=1`;
+            player.src = `https://www.youtube.com/embed/${videoID || "-zuAY-UbIyM"}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&controls=1`;
         }
         if (placeholder) placeholder.classList.add('hidden');
         if (form) form.classList.add('hidden');
@@ -746,7 +746,7 @@ async function intentarAccesoConBaseDatos() {
         localStorage.setItem('acceso_vencimiento', ahora.getTime().toString());
 
         // Activamos el reproductor de inmediato
-        aplicarAcceso("dQw4w9WgXcQ"); // Tu ID de vivo de YouTube
+        aplicarAcceso("-zuAY-UbIyM"); // Tu ID de vivo de YouTube
 
     } catch (err) {
         console.error(err);
@@ -806,7 +806,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Limpiamos la URL para estética y activamos el video abajo
                     window.history.replaceState({}, document.title, window.location.pathname);
-                    aplicarAcceso("dQw4w9WgXcQ");
+                    aplicarAcceso("-zuAY-UbIyM");
                 }
             })
             .catch(err => {
@@ -832,7 +832,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Verificación final del reproductor
     if (localStorage.getItem('acceso_superdep') === 'true') {
-        aplicarAcceso("dQw4w9WgXcQ"); 
+        aplicarAcceso("-zuAY-UbIyM"); 
     } else {
         const player = document.getElementById('youtube-player');
         if (player) {

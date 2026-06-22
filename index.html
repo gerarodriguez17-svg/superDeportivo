@@ -211,7 +211,6 @@
     </div>
 </div>
 
-<script src="https://www.youtube.com/iframe_api"></script>
     
 <div id="panel-acceso" class="bg-slate-900/50 border border-white/10 p-6 rounded-3xl flex flex-col justify-center">
     <div id="formulario-login">
@@ -679,7 +678,7 @@ function aplicarAcceso(videoID) {
                 videoId: idFinal,
                 playerVars: {
                     'autoplay': 1,
-                    'controls': 0,          // 👈 Quita la barra de YouTube entera (chau botones nativos)
+                    'controls': 0,          // quita la barra de YouTube entera
                     'modestbranding': 1,    // Oculta logos extras
                     'rel': 0,               // Evita videos sugeridos ajenos al pausar
                     'showinfo': 0,          // Oculta títulos de la transmisión
@@ -1658,5 +1657,7 @@ document.addEventListener('keydown', function(e) {
     }
 });
 </script>
+<script src="https://www.youtube.com/iframe_api"></script>
+
 </body>
 </html>

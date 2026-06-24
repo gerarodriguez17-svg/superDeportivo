@@ -559,8 +559,6 @@ const SUR_DATA = {
     } 
 };
 
-//const SPONSORS = ["DAR+, la tarjeta para comprar", "Municipalidad de Cerrito", "YPF El Empalme", "AUTOSERVICIO LA CALABAZA", "Masquito reparaciones", "HR-Netcom", "Corralon El Rafa", "Emi Pérez Motos", "APAPACHA-Pañalera", "FARMACIA PALACIOS", "Don Charo AUTOSERVICIO", "Hielos Celestiales", "Daniel Guetti Odontólogo"];
-
 const SPONSORS = [
     { nombre: "DAR+, la tarjeta para comprar", logo: "img/sponsors/Dar+.jpg" },
     { nombre: "Municipalidad de Cerrito", logo: "img/sponsors/municipalidad.png" },
@@ -628,8 +626,6 @@ if (sponsorsGrid) {
 
     if (sponsorsCarousel) sponsorsCarousel.appendChild(track);
 }
-
-
 
         function intentarAcceso() {
     const ingreso = document.getElementById('pass-usuario').value.toUpperCase();
@@ -704,54 +700,69 @@ function cambiarFecha(f) {
     fechaActual = f;
     renderizar();
 }
-// ACTIVADOR AUTOMÁTICO AL ENTRAR
-// Inicialización global al cargar el DOM (Versión con Clave Manual Segura)
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     // 1. Inicializar iconos de Lucide
-//     if (typeof lucide !== 'undefined') lucide.createIcons();
-
-//     // 2. CONTROL DE ACCESO ORIGINAL: Revisa si ya puso la clave antes
-//     if (localStorage.getItem('acceso_superdep') === 'true') {
-//         aplicarAcceso("sDjSIIbA-18"); // Desbloquea el video si ya está logueado
-//     } else {
-//         // Si no ha puesto la clave, el reproductor real se mantiene oculto por seguridad
-//         const player = document.getElementById('youtube-player');
-//         if (player) {
-//             player.classList.add('hidden');
-//             player.src = ""; 
-//         }
-//     }
-
-//     // 3. Forzar el renderizado del fixture de la fecha seleccionada
-//     const selector = document.getElementById('fecha-selector');
-//     if (selector) {
-//         cambiarFecha(selector.value);
-//     }
-//     console.log("Sistema y fixture inicializados con acceso por clave manual.");
-// }); ///DOMCONTENT ANTES DE PONER MP
 
 ////dom content para mercadopago
 // Inicialización global al cargar el DOM (Versión Integrada con Mercado Pago)
+// Inicialización global con vencimiento semanal y RESET MASIVO
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Inicializar iconos de Lucide
     if (typeof lucide !== 'undefined') lucide.createIcons();
 
-    // 2. DETECTOR DE PAGO: Revisa si en la barra de direcciones dice "?pago=exitoso"
+    // =================================================================
+    // GATILLO DE RESET MASIVO: Si cambiás este texto (ej: de "v1" a "v2"), 
+    // se le va a bloquear la pantalla a TODOS los usuarios automáticamente.
+    // =================================================================
+    const VERSION_ACTUAL = "v2"; 
+    
+    if (localStorage.getItem('superdep_db_version') !== VERSION_ACTUAL) {
+        localStorage.removeItem('acceso_superdep');
+        localStorage.removeItem('acceso_vencimiento');
+        // Guardamos la nueva versión para que no se les vuelva a borrar en la próxima carga
+        localStorage.setItem('superdep_db_version', VERSION_ACTUAL);
+        console.log("Sistema reseteado: credenciales antiguas eliminadas con éxito.");
+    }
+    // =================================================================
+
+    const ahora = new Date();
+    
+    // Función auxiliar para calcular el próximo miercoles a las 00:00 hs
+    const obtenerProximoMiercoles = (fechaBase) => {
+        const resultado = new Date(fechaBase);
+        const diasHastaMiercoles = (10 - resultado.getDay()) % 7 || 7;
+        resultado.setDate(resultado.getDate() + diasHastaMiercoles);
+        resultado.setHours(0, 0, 0, 0); 
+        return resultado.getTime();
+    };
+
+    // Detector de pago (Mercado Pago)
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('pago') === 'exitoso') {
-        // Le guardamos el pase digital en la memoria del navegador para que no pague dos veces
         localStorage.setItem('acceso_superdep', 'true');
+            
+        const fechaVencimiento = obtenerProximoMiercoles(ahora);
+        localStorage.setItem('acceso_vencimiento', fechaVencimiento.toString());
         
-        // Limpiamos la URL al toque para que quede limpia (borra el "?pago=exitoso" de la vista)
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    // 3. COMPROBACIÓN DE ACCESO: Si ya tiene el pase, abre el video. Si no, lo bloquea por seguridad.
+    // Controlador de vencimiento por tiempo
+    const tieneAcceso = localStorage.getItem('acceso_superdep') === 'true';
+    const vencimiento = localStorage.getItem('acceso_vencimiento');
+
+    if (tieneAcceso && vencimiento) {
+        if (ahora.getTime() > parseInt(vencimiento)) {
+            localStorage.removeItem('acceso_superdep');
+            localStorage.removeItem('acceso_vencimiento');
+            console.log("El acceso semanal ha expirado.");
+            location.reload();
+            return;
+        }
+    }
+
+    // Verificación final de pantalla (Bloqueado/Desbloqueado)
     if (localStorage.getItem('acceso_superdep') === 'true') {
-        aplicarAcceso("sDjSIIbA-18"); // ID de tu transmisión de YouTube
+        aplicarAcceso("sDjSIIbA-18"); 
     } else {
-        // Doble seguridad: ocultamos el reproductor real si no pagó
         const player = document.getElementById('youtube-player');
         if (player) {
             player.classList.add('hidden');
@@ -759,14 +770,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 4. Forzar el renderizado del fixture de la fecha seleccionada
     const selector = document.getElementById('fecha-selector');
     if (selector) {
         cambiarFecha(selector.value);
     }
-    console.log("Control de acceso automatizado con Paywall de Mercado Pago activo.");
 });
-
 
 function obtenerTablaPorZona(zona, categoria) {
     let equipos = zona === 'norte' ? EQUIPOS_NORTE : (zona === 'centro' ? EQUIPOS_CENTRO : EQUIPOS_SUR);

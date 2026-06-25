@@ -186,15 +186,44 @@
 
 <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-12">
     
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
+
+<div class="lg:col-span-3 flex flex-col gap-3">
     
+<<<<<<< HEAD
         <div class="lg:col-span-3 bg-black rounded-3xl overflow-hidden aspect-video shadow-2xl border border-white/5">
             <iframe id="youtube-player" src="https://www.youtube.com/embed/vdW8zu-gaf0?autoplay=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             <div id="video-placeholder" class="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-slate-500">
                 <i data-lucide="lock" class="w-12 h-12 mb-2 opacity-20"></i>
                 <p class="text-xs uppercase font-black italic tracking-widest">Contenido Protegido</p>
             </div>
+=======
+    <div id="contenedor-reproductor" class="bg-black rounded-3xl overflow-hidden aspect-video shadow-2xl border border-white/5 relative w-full">
+        
+        <div id="escudo-anti-clic" class="absolute inset-0 z-10 bg-transparent hidden"></div>
+
+        <div id="player-api" class="w-full h-full relative z-0"></div>
+        
+        <div id="video-placeholder" class="w-full h-full absolute inset-0 flex flex-col items-center justify-center bg-slate-900 text-slate-500 z-5">
+            <i data-lucide="lock" class="w-12 h-12 mb-2 opacity-20"></i>
+            <p class="text-xs uppercase font-black italic tracking-widest">Contenido Protegido</p>
+>>>>>>> 860b0fe9b0a95c0af3d617728b6447c51ace1a48
         </div>
+    </div>
+
+    <div id="controles-propios" class="hidden flex justify-center items-center gap-2 bg-slate-950/80 border border-white/5 p-3 rounded-2xl backdrop-blur-md relative z-30">
+        <button onclick="controlarReproductor('play')" class="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all shadow-md">
+            <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i> Play
+        </button>
+        <button onclick="controlarReproductor('pause')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
+            <i data-lucide="pause" class="w-3.5 h-3.5 fill-slate-300"></i> Pausa
+        </button>
+        <button onclick="controlarReproductor('fullscreen')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
+            <i data-lucide="maximize" class="w-3.5 h-3.5"></i> Ampliar
+        </button>
+    </div>
+</div>
+
     
 <div id="panel-acceso" class="bg-slate-900/50 border border-white/10 p-6 rounded-3xl flex flex-col justify-center">
     <div id="formulario-login">
@@ -623,7 +652,11 @@ if (sponsorsGrid) {
         function intentarAcceso() {
     const ingreso = document.getElementById('pass-usuario').value.toUpperCase();
     const CLAVE_POSTA = "DOMINGO"; 
+<<<<<<< HEAD
     const ID_YOUTUBE = "vdW8zu-gaf0"; // El ID de tu video
+=======
+    const ID_YOUTUBE = "--zuAY-UbIyM"; // El ID de tu video
+>>>>>>> 860b0fe9b0a95c0af3d617728b6447c51ace1a48
 
     if (ingreso === CLAVE_POSTA) {
         localStorage.setItem('acceso_superdep', 'true');
@@ -635,22 +668,97 @@ if (sponsorsGrid) {
     }
 }
 
+// ==========================================
+// CONTROL DE REPRODUCTOR BLINDADO (CORREGIDO)
+// ==========================================
+let ytpPlayer = null; 
+let idVideoGlobal = "-zuAY-UbIyM"; // 👈 El ID real de tu transmisión
+
+// Esta función prepara la pantalla (apaga el candado, prende los botones)
 function aplicarAcceso(videoID) {
     if (localStorage.getItem('acceso_superdep') === 'true') {
-        const player = document.getElementById('youtube-player');
+        if (videoID && videoID.length === 11) idVideoGlobal = videoID; 
+
         const placeholder = document.getElementById('video-placeholder');
         const form = document.getElementById('formulario-login');
         const exito = document.getElementById('acceso-exitoso');
+        const escudo = document.getElementById('escudo-anti-clic');
+        const controles = document.getElementById('controles-propios');
 
+<<<<<<< HEAD
         if (player) {
             player.classList.remove('hidden');
             player.src = `https://www.youtube.com/embed/${videoID || "vdW8zu-gaf0"}?autoplay=1`;
         }
+=======
+        if (escudo) escudo.classList.remove('hidden');
+        if (controles) controles.classList.remove('hidden');
+>>>>>>> 860b0fe9b0a95c0af3d617728b6447c51ace1a48
         if (placeholder) placeholder.classList.add('hidden');
         if (form) form.classList.add('hidden');
         if (exito) exito.classList.remove('hidden');
+
+        // Si la API ya está lista en el sistema, disparamos la creación del video ya mismo
+        if (typeof YT !== 'undefined' && YT.Player && !ytpPlayer) {
+            onYouTubeIframeAPIReady();
+        }
+        
+        if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 }
+
+// 🧙‍♂️ FUNCIÓN REQUERIDA POR LA API DE YOUTUBE (Dejar suelta y global)
+function onYouTubeIframeAPIReady() {
+    if (localStorage.getItem('acceso_superdep') === 'true' && document.getElementById('player-api') && !ytpPlayer) {
+        console.log("Inicializando YouTube Player API de forma segura...");
+        ytpPlayer = new YT.Player('player-api', {
+            height: '100%',
+            width: '100%',
+            videoId: idVideoGlobal,
+            playerVars: {
+                'autoplay': 1,
+                'controls': 0,          // Sin barra nativa de YouTube
+                'modestbranding': 1,    // Sin logos molestos
+                'rel': 0,               // Sin videos sugeridos ajenos
+                'showinfo': 0,          // Sin títulos arriba
+                'iv_load_policy': 3,    // Sin anotaciones
+                'disablekb': 1          // Bloquea comandos de teclado como barra espaciadora
+            },
+            events: {
+                'onReady': (event) => {
+                    console.log("¡Transmisión en vivo lista!");
+                    event.target.playVideo(); // Fuerza el arranque automático
+                }
+            }
+        });
+    }
+}
+
+// Control manual de tus botones externos
+function controlarReproductor(accion) {
+    if (!ytpPlayer || typeof ytpPlayer.playVideo !== 'function') {
+        console.log("Esperando que el reproductor termine de cargar...");
+        return;
+    }
+    
+    if (accion === 'play') {
+        ytpPlayer.playVideo();
+    } else if (accion === 'pause') {
+        ytpPlayer.pauseVideo();
+    } else if (accion === 'fullscreen') {
+        const cajaVideo = document.getElementById('contenedor-reproductor');
+        if (cajaVideo) {
+            if (cajaVideo.requestFullscreen) {
+                cajaVideo.requestFullscreen();
+            } else if (cajaVideo.webkitRequestFullscreen) {
+                cajaVideo.webkitRequestFullscreen();
+            } else if (cajaVideo.msRequestFullscreen) {
+                cajaVideo.msRequestFullscreen();
+            }
+        }
+    }
+}
+
         function desbloquearVideo() {
             localStorage.setItem('acceso_superdep', 'true');
             validarAcceso();
@@ -664,8 +772,7 @@ function aplicarAcceso(videoID) {
         const player = document.getElementById('youtube-player');
         if (player) player.classList.remove('hidden');
         
-        // BORRÁ O COMENTÁ LA LÍNEA QUE DECÍA: player.src = ...
-        // De esta manera, el JavaScript no le pisa el link al HTML.
+
     }
 }
         function cambiarZona(z) {
@@ -757,7 +864,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // DETECTOR DE RETORNO DE MERCADO PAGO AUTOMÁTICO
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('pago') === 'exitoso') {
-        // Bloqueamos la pantalla con un cartel de "Generando tu entrada..."
+        console.log("¡Bypass de prueba detectado! Forzando acceso VIP...");
+        
+        // Seteamos los permisos locales en el navegador al instante
+        localStorage.setItem('acceso_superdep', 'true');
+
         const panel = document.getElementById('panel-acceso');
         if (panel) {
             panel.innerHTML = `
@@ -1580,6 +1691,24 @@ window.onload = function() {
 
 //     console.log("Acceso forzado sin mover el diseño");
 // }, 1000);
+// Bloquear el clic derecho en toda la página web
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// Bloquear atajos de teclado típicos para inspeccionar código (F12, Ctrl+Shift+I, Ctrl+U)
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12' || 
+        (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+        (e.ctrlKey && e.shiftKey && e.key === 'J') || 
+        (e.ctrlKey && e.key === 'u') || 
+        (e.ctrlKey && e.key === 'U')) {
+        e.preventDefault();
+        return false;
+    }
+});
 </script>
+<script src="https://www.youtube.com/iframe_api"></script>
+
 </body>
 </html>

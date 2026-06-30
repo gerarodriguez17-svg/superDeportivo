@@ -213,6 +213,9 @@
         <button onclick="controlarReproductor('fullscreen')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
             <i data-lucide="maximize" class="w-3.5 h-3.5"></i> Ampliar
         </button>
+        <button onclick="controlarReproductor('cast')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
+            <i data-lucide="tv" class="w-3.5 h-3.5"></i> Transmitir TV
+        </button>
     </div>
 </div>
 
@@ -717,9 +720,10 @@ function onYouTubeIframeAPIReady() {
 }
 
 // Control manual de tus botones externos
+// FUNCIÓN PARA CONTROLAR EL REPRODUCTOR (Play, Pausa, Ampliar y Transmitir)
 function controlarReproductor(accion) {
     if (!ytpPlayer || typeof ytpPlayer.playVideo !== 'function') {
-        console.log("Esperando que el reproductor termine de cargar...");
+        console.log("El reproductor todavía no está listo.");
         return;
     }
     
@@ -736,6 +740,26 @@ function controlarReproductor(accion) {
                 cajaVideo.webkitRequestFullscreen();
             } else if (cajaVideo.msRequestFullscreen) {
                 cajaVideo.msRequestFullscreen();
+            }
+        }
+    } else if (accion === 'cast') {
+        // 🚀 TRUCO DE CONEXIÓN CON TELEVISORES
+        // Usamos la API de presentación para obligar al sistema a buscar pantallas inalámbricas
+        if (navigator.presentation && navigator.presentation.defaultRequest) {
+            navigator.presentation.defaultRequest.start()
+                .then(connection => console.log("Conectado al televisor con éxito"))
+                .catch(err => console.log("Transmisión cancelada por el usuario"));
+        } else {
+            // Plan B por si el navegador o celular es viejo: Forzar el menú de casteo del sistema
+            try {
+                if (window.PresentationRequest) {
+                    const request = new PresentationRequest(['index.html']);
+                    request.start();
+                } else {
+                    alert("Para ver en la TV: Usa la opción 'Transmitir pantalla' o 'Smart View' desde el menú de notificaciones de tu celular.");
+                }
+            } catch(e) {
+                alert("Para ver en la TV: Usa la opción 'Transmitir pantalla' o 'Smart View' desde el menú de notificaciones de tu celular.");
             }
         }
     }

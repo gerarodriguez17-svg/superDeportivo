@@ -29,7 +29,9 @@ export default async function handler(req, res) {
                 'Authorization': `Bearer ${SUPABASE_KEY}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ estado: 'reservado' }) // 👈 Cambia a reservado
+            body: JSON.stringify({ 
+                estado: 'reservado',
+                reservado_en: new Date().toISOString() }) // 👈 Cambia a reservado
         });
 
         if (!responsePatch.ok) throw new Error('Error al reservar el código.');

@@ -677,10 +677,10 @@ if (sponsorsGrid) {
     const ingreso = document.getElementById('pass-usuario').value.toUpperCase();
     const CLAVE_POSTA = "DOMINGO"; 
 
-    const ID_YOUTUBE = "vdW8zu-gaf0"; // El ID de tu video
+    
     if (ingreso === CLAVE_POSTA) {
         localStorage.setItem('acceso_superdep', 'true');
-        aplicarAcceso(ID_YOUTUBE);
+        aplicarAcceso(VIDEO_ID);
     } else {
         const error = document.getElementById('msj-error');
         error.classList.remove('hidden');
@@ -692,7 +692,7 @@ if (sponsorsGrid) {
 // CONTROL DE REPRODUCTOR BLINDADO (CORREGIDO)
 // ==========================================
 let ytpPlayer = null; 
-let idVideoGlobal = "vdW8zu-gaf0"; // 👈 El ID real de tu transmisión
+let idVideoGlobal = VIDEO_ID; // 👈 El ID real de tu transmisión
 
 // Esta función prepara la pantalla (apaga el candado, prende los botones)
 function aplicarAcceso(videoID) {
@@ -891,7 +891,7 @@ async function intentarAccesoConBaseDatos() {
         localStorage.setItem('acceso_vencimiento', ahora.getTime().toString());
 
         // Activamos el reproductor de inmediato
-        aplicarAcceso("vdW8zu-gaf0"); // Tu ID de vivo de YouTube
+        aplicarAcceso(VIDEO_ID); // Tu ID de vivo de YouTube
 
     } catch (err) {
         console.error(err);
@@ -951,7 +951,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Limpiamos la URL para estética y activamos el video abajo
                     window.history.replaceState({}, document.title, window.location.pathname);
-                    aplicarAcceso("vdW8zu-gaf0");
+                    aplicarAcceso(VIDEO_ID);
                 }
             })
             .catch(err => {
@@ -977,7 +977,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Verificación final del reproductor
     if (localStorage.getItem('acceso_superdep') === 'true') {
-        aplicarAcceso("vdW8zu-gaf0"); 
+        aplicarAcceso(VIDEO_ID); 
     } else {
         const player = document.getElementById('youtube-player');
         if (player) {

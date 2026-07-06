@@ -748,7 +748,6 @@ function onYouTubeIframeAPIReady() {
     if (localStorage.getItem('acceso_superdep') === 'true' && document.getElementById('player-api') && !ytpPlayer) {
         console.log("Inicializando YouTube Player API...");
         
-        // 🍏 Detectamos si es entorno iOS
         const esIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
         ytpPlayer = new YT.Player('player-api', {
@@ -757,23 +756,26 @@ function onYouTubeIframeAPIReady() {
             videoId: idVideoGlobal,
             playerVars: {
                 'autoplay': 1,
-                'controls': esIOS ? 1 : 0,     // En iPhone SÍ habilitamos la barra nativa para que use su botón de ampliar
+                'controls': 0,          // 🔒 Mantenemos el video blindado sin barras en Android/PC
                 'modestbranding': 1,
                 'rel': 0,
                 'showinfo': 0,
                 'iv_load_policy': 3,
                 'disablekb': 1,
-                'playsinline': esIOS ? 1 : 0    // Permite que arranque en la página y no se dispare solo
+                // 🚀 EL TRUCO PARA IPHONE: 
+                // Al poner playsinline en 0, iOS se ve obligado a abrir el video directamente en pantalla completa nativa
+                'playsinline': esIOS ? 0 : 1 
             },
             events: {
                 'onReady': (event) => {
-                    event.target.playVideo();
+                    event.target.playVideo(); // En iPhone esto va a disparar la pantalla completa sola
                 }
             }
         });
     }
 }
 
+// FUNCIÓN PARA CONTROLAR EL REPRODUCTOR (Play, Pausa, Ampliar y Transmitir - Fix Android)
 function controlarReproductor(accion) {
     if (!ytpPlayer || typeof ytpPlayer.playVideo !== 'function') {
         console.log("El reproductor todavía no está listo.");
@@ -789,12 +791,12 @@ function controlarReproductor(accion) {
         const esIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
         if (esIOS) {
-            // 🚀 En iPhone, como el botón externo se bloquea por seguridad de Apple,
-            // le damos play y le avisamos que toque el botón nativo que ahora SÍ aparece abajo a la derecha del video
+            // 🚀 En iPhone, si por alguna razón el usuario salió de la pantalla completa 
+            // y quiere volver a entrar, al darle 'playVideo()' el parámetro playsinline=0 
+            // vuelve a capturar el video y lo manda a pantalla completa nativa de Apple automáticamente.
             ytpPlayer.playVideo();
-            alert("📱 En iPhone: Toca el icono de pantalla completa que aparece directamente abajo a la derecha en el video para ampliarlo.");
         } else {
-            // Lógica blindada perfecta para Android y PC
+            // Lógica blindada perfecta y transparente para Android y PC
             if (cajaVideo) {
                 if (cajaVideo.requestFullscreen) {
                     cajaVideo.requestFullscreen();
@@ -822,6 +824,7 @@ function controlarReproductor(accion) {
         }
     }
 }
+
 // Función auxiliar por si el celular bloquea el casteo automático
 function levantarAvisoManual() {
     alert("📺 PARA VER EN TU TELEVISOR:\n\n1. Desliza la barra de notificaciones de tu celular hacia abajo.\n2. Toca la opción 'Emitir', 'Transmitir pantalla' o 'Smart View'.\n3. ¡Selecciona tu tele y listo! Vas a ver el partido en pantalla gigante.");

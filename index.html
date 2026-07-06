@@ -747,7 +747,7 @@ function aplicarAcceso(videoID) {
 // 🧙‍♂️ FUNCIÓN REQUERIDA POR LA API DE YOUTUBE (Dejar suelta y global)
 function onYouTubeIframeAPIReady() {
     if (localStorage.getItem('acceso_superdep') === 'true' && document.getElementById('player-api') && !ytpPlayer) {
-        console.log("Inicializando YouTube Player API de forma segura...");y
+        console.log("Inicializando YouTube Player API de forma segura...");
         ytpPlayer = new YT.Player('player-api', {
             height: '100%',
             width: '100%',
@@ -771,7 +771,7 @@ function onYouTubeIframeAPIReady() {
     }
 }
 
-// FUNCIÓN PARA CONTROLAR EL REPRODUCTOR (Play, Pausa, Ampliar y Transmitir - Fix Completo Android/iOS)
+// FUNCIÓN PARA CONTROLAR EL REPRODUCTOR (Play, Pausa, Ampliar y Transmitir - Fix Android)
 function controlarReproductor(accion) {
     if (!ytpPlayer || typeof ytpPlayer.playVideo !== 'function') {
         console.log("El reproductor todavía no está listo.");
@@ -784,55 +784,42 @@ function controlarReproductor(accion) {
         ytpPlayer.pauseVideo();
     } else if (accion === 'fullscreen') {
         const cajaVideo = document.getElementById('contenedor-reproductor');
-        
-        // 🍏 DETECTOR ESPECIAL PARA IPHONE / IPAD (iOS)
-        const esIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-        if (esIOS) {
-            // En iOS tenemos que pedirle la pantalla completa directamente al elemento de video nativo
-            const videoElement = document.querySelector('#player-api iframe');
-            if (videoElement) {
-                if (videoElement.webkitEnterFullscreen) {
-                    videoElement.webkitEnterFullscreen();
-                } else if (videoElement.requestFullscreen) {
-                    videoElement.requestFullscreen();
-                }
-            } else {
-                // Plan B por si el iframe interno de la API de YouTube aún no se generó
-                if (cajaVideo && cajaVideo.webkitRequestFullscreen) {
-                    cajaVideo.webkitRequestFullscreen();
-                }
-            }
-        } else {
-            // 💻 LÓGICA ESTÁNDAR PARA ANDROID Y COMPUTADORAS (Mantiene el escudo blindado)
-            if (cajaVideo) {
-                if (cajaVideo.requestFullscreen) {
-                    cajaVideo.requestFullscreen();
-                } else if (cajaVideo.webkitRequestFullscreen) { /* Safari en Mac */
-                    cajaVideo.webkitRequestFullscreen();
-                } else if (cajaVideo.msRequestFullscreen) {
-                    cajaVideo.msRequestFullscreen();
-                }
+        if (cajaVideo) {
+            if (cajaVideo.requestFullscreen) {
+                cajaVideo.requestFullscreen();
+            } else if (cajaVideo.webkitRequestFullscreen) {
+                cajaVideo.webkitRequestFullscreen();
+            } else if (cajaVideo.msRequestFullscreen) {
+                cajaVideo.msRequestFullscreen();
             }
         }
     } else if (accion === 'cast') {
-        // (Tu lógica de transmisión que agregamos antes se mantiene igual)
+        // 🚀 DETECTOR INTELIGENTE PARA PC O CELULAR
         const esCelular = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
         if (esCelular) {
+            // El truco para Android: Forzamos la apertura del menú de casteo del sistema operativo
+            console.log("Detectado entorno móvil. Levantando transmisión nativa...");
+            
+            // Intentamos usar la API de presentación estándar para móviles modernos
             if (navigator.presentation && navigator.presentation.defaultRequest) {
-                navigator.presentation.defaultRequest.start().catch(() => levantarAvisoManual());
+                navigator.presentation.defaultRequest.start()
+                    .catch(() => levantarAvisoManual());
             } else {
                 levantarAvisoManual();
             }
         } else {
+            // Código impecable que ya te funcionaba perfecto en la Computadora
             if (navigator.presentation && navigator.presentation.defaultRequest) {
-                navigator.presentation.defaultRequest.start().catch(err => console.log("Transmisión cancelada en PC"));
+                navigator.presentation.defaultRequest.start()
+                    .catch(err => console.log("Transmisión cancelada en PC"));
             } else {
                 levantarAvisoManual();
             }
         }
     }
 }
+
 // Función auxiliar por si el celular bloquea el casteo automático
 function levantarAvisoManual() {
     alert("📺 PARA VER EN TU TELEVISOR:\n\n1. Desliza la barra de notificaciones de tu celular hacia abajo.\n2. Toca la opción 'Emitir', 'Transmitir pantalla' o 'Smart View'.\n3. ¡Selecciona tu tele y listo! Vas a ver el partido en pantalla gigante.");

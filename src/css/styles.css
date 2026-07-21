@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+body { 
+    font-family: 'Inter', sans-serif;
+    background-color: #020617; 
+    color: #f8fafc;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.panel-deportivo {
+    background-color: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    border-radius: 2.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.category-button, .zone-button {
+    padding: 0.6rem 1.2rem;
+    border-radius: 1rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    transition: all 0.3s;
+    background: transparent;
+    color: #64748b;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.active-btn {
+    background-color: #10b981 !important; 
+    color: white !important;
+    border-color: #34d399;
+    box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
+    transform: translateY(-1px);
+}
+
+.zone-button:hover:not(.active-btn) {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #f1f5f9;
+}
+
+.video-container {
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+    border-radius: 2.5rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.paywall-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+}
+
+.sponsor-card {
+    background: linear-gradient(145deg, #0f172a, #1e293b);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    text-align: center;
+}
+
+.sponsor-card p {
+    font-size: 1.1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-style: italic;
+    color: #94a3b8;
+    line-height: 1.2;
+}
+
+.sponsor-card:hover {
+    border-color: #10b981;
+    transform: translateY(-5px);
+}
+
+.sponsor-card:hover p {
+    color: #10b981;
+}
+
+.match-banner {
+    background: linear-gradient(90deg, #064e3b 0%, #065f46 100%);
+    border-radius: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.team-badge {
+    background: rgba(255,255,255,0.05);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.hidden { display: none !important; }
+
+/* Carrusel de sponsors */
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-200px * 5)); }
+}
+
+.carousel-track {
+    display: flex;
+    width: calc(200px * 22);
+    animation: scroll 30s linear infinite;
+}
+
+.carousel-track:hover {
+    animation-play-state: paused;
+}
+
+.sponsor-item {
+    width: 200px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+}

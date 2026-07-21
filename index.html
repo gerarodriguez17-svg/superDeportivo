@@ -1,172 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Super Deportivo - Oficial</title>
+    <!-- Librerías Externas -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        
-        body { 
-            font-family: 'Inter', sans-serif;
-            background-color: #020617; 
-            color: #f8fafc;
-            margin: 0;
-            overflow-x: hidden;
-        }
-
-        .panel-deportivo {
-            background-color: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(12px);
-            border-radius: 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .category-button, .zone-button {
-            padding: 0.6rem 1.2rem;
-            border-radius: 1rem;
-            font-size: 0.7rem;
-            font-weight: 800;
-            transition: all 0.3s;
-            background: rgba(255,255,255,0.03);
-            color: #64748b;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .active-btn {
-            background: #10b981;
-            color: white;
-            border-color: #34d399;
-            box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
-        }
-
-        .video-container {
-            aspect-ratio: 16 / 9;
-            background-color: #000;
-            border-radius: 2.5rem;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-        }
-
-        .paywall-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 20;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .sponsor-card {
-            background: linear-gradient(145deg, #0f172a, #1e293b);
-            border: 1px solid rgba(255, 255, 255, 0.08); /* Borde un poquito más visible */
-            transition: all 0.3s ease;
-            padding: 2rem; /* Más espacio interno */
-            border-radius: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 120px; /* Un poco más altos para que entre la letra grande */
-            text-align: center;
-        }
-
-        /* Agregamos esto para controlar el texto específicamente */
-        .sponsor-card p {
-            font-size: 1.1rem; /* ¡Acá es donde agrandamos la letra! */
-            font-weight: 900;
-            text-transform: uppercase;
-            font-style: italic;
-            color: #94a3b8; /* Gris claro de base */
-            line-height: 1.2;
-        }
-
-        .sponsor-card:hover {
-            border-color: #10b981; /* Borde verde al pasar el mouse */
-            transform: translateY(-5px); /* Se levanta un poquito */
-        }
-
-        .sponsor-card:hover p {
-            color: #10b981; /* Letra verde al pasar el mouse */
-        }
-
-        
-
-        /* Nuevos estilos para secciones anexadas */
-        .match-banner {
-            background: linear-gradient(90deg, #064e3b 0%, #065f46 100%);
-            border-radius: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .team-badge {
-            background: rgba(255,255,255,0.05);
-            border-radius: 1.5rem;
-            padding: 2rem;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .hidden { display: none !important; }
-   /* Animación para el carrusel de sponsors */
-@keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-200px * 5)); } /* Ajusta según cantidad */
-}
-
-.carousel-track {
-    display: flex;
-    width: calc(200px * 22); /* Doble del contenido para el efecto infinito */
-    animation: scroll 30s linear infinite;
-}
-
-.carousel-track:hover {
-    animation-play-state: paused; /* Se detiene cuando el usuario pasa el mouse */
-}
-
-.sponsor-item {
-    width: 200px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 20px;
-} 
-    /* Versión para pegar directo si NO usas Tailwind puro en el CSS */
-    .zone-button {
-        background-color: transparent;
-        color: #64748b; /* El gris de antes */
-        border: none;
-        cursor: pointer;
-    }
-
-    .active-btn {
-        background-color: #10b981 !important; 
-        color: white !important;
-        box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
-        transform: translateY(-1px);
-    }
-
-    .zone-button:hover:not(.active-btn) {
-        background-color: rgba(255, 255, 255, 0.05);
-        color: #f1f5f9;
-    }
-</style>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <!-- Estilos CSS Modularizados -->
+    <link rel="stylesheet" href="src/css/styles.css">
 </head>
-<body>
+<body class="bg-slate-950 text-slate-200">
+
 <header class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 p-4">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
+        
+        <!-- LOGO Y TÍTULO (LADO IZQUIERDO) -->
         <div class="flex items-center gap-4">
             <div class="bg-emerald-600 p-2.5 rounded-2xl shadow-lg">
                 <i data-lucide="radio-tower" class="text-white w-6 h-6"></i>
@@ -178,139 +28,162 @@
                 <p id="sub-header-text" class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.3em] mt-1 italic">CERRITO • Entre Ríos</p>
             </div>
         </div>
-        <a href="https://wa.me/54999999300000" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 p-3 rounded-2xl transition-all shadow-lg text-white">
-            <i data-lucide="message-circle" class="w-5 h-5"></i>
-        </a>
-    </div>
 
+        <!-- CONTENEDOR DE ACCIONES (LADO DERECHO) -->
+        <div class="flex items-center gap-3">
+            
+           <!-- MENÚ DESPLEGABLE: HISTORIAL DE TORNEOS -->
+            <div class="relative group">
+                <!-- Botón Principal con texto "Seleccionar Edición" -->
+                <button class="bg-amber-600/20 hover:bg-amber-600/30 text-amber-400 border border-amber-500/30 text-xs font-black italic uppercase px-3.5 py-2.5 rounded-2xl transition-all flex items-center gap-2 shadow-lg">
+                    <i data-lucide="trophy" class="w-4 h-4 text-amber-400 flex-shrink-0"></i>
+                    <span>Seleccionar Edición</span>
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-amber-400 transition-transform group-hover:rotate-180 flex-shrink-0"></i>
+                </button>
 
-    <!-- NAV BAR ESTÁTICA SUB-HEADER -->
-<nav class="sticky top-[73px] z-40 bg-slate-950/90 backdrop-blur-md border-b border-white/5 overflow-x-auto custom-scrollbar">
-    <div class="max-w-7xl mx-auto flex justify-start md:justify-center items-center gap-1 p-2 whitespace-nowrap px-4">
-        <button onclick="irASeccion('contenedor-reproductor')" class="text-[9px] font-black italic uppercase tracking-wider text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl transition-all bg-white/[0.02] border border-white/5">
-            📺 Transmisión
-        </button>
-        <button onclick="irASeccion('seccion-radio')" class="text-[9px] font-black italic uppercase tracking-wider text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl transition-all bg-white/[0.02] border border-white/5">
-            📻 Radio en Vivo
-        </button>
-        <button onclick="irASeccion('seccion-estadisticas')" class="text-[9px] font-black italic uppercase tracking-wider text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl transition-all bg-white/[0.02] border border-white/5">
-            📊 Estadísticas
-        </button>
-        <button onclick="irASeccion('seccion-merito')" class="text-[9px] font-black italic uppercase tracking-wider text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl transition-all bg-white/[0.02] border border-white/5">
-            🏆 Orden Mérito
-        </button>
-        <button onclick="irASeccion('seccion-playoffs')" class="text-[9px] font-black italic uppercase tracking-wider text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl transition-all bg-white/[0.02] border border-white/5">
-            ⚽ Play-Offs
-        </button>
-        <button onclick="irASeccion('seccion-sponsors')" class="text-[9px] font-black italic uppercase tracking-wider text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl transition-all bg-white/[0.02] border border-white/5">
-            🤝 Sponsors
-        </button>
-    </div>
-</nav>
+                <!-- Menú Flotante con las opciones -->
+                <div class="absolute right-0 mt-2 w-56 bg-slate-900/95 border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 p-2 space-y-1">
+                    <p class="text-[8px] font-black uppercase text-slate-500 tracking-widest px-3 py-1 italic">
+                        Ediciones Disponibles
+                    </p>
 
-<!-- BANNER AVISO WHATSAPP (SEMANAL) -->
-<div class="max-w-7xl mx-auto px-4 mt-4">
-    <div class="bg-emerald-950/30 border border-emerald-500/20 p-3 rounded-2xl flex items-center justify-between gap-3 backdrop-blur-sm shadow-lg shadow-emerald-950/10">
-        <div class="flex items-center gap-3 min-w-0">
-            <!-- Icono con pulso sutil -->
-            <div class="relative flex-shrink-0">
-                <div class="absolute inset-0 bg-emerald-500/30 rounded-full animate-ping opacity-75"></div>
-                <div class="relative bg-emerald-600 p-2 rounded-xl text-white">
-                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    <!-- Torneo Actual -->
+                    <a href="index.html" class="flex items-center justify-between p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase italic transition-all">
+                        <span>Torneo Clausura 2026</span>
+                        <span class="text-[7px] bg-emerald-500 text-white px-1.5 py-0.5 rounded font-extrabold animate-pulse">EN VIVO</span>
+                    </a>
+
+                    <!-- Historial Apertura -->
+                    <a href="historial-apertura-2026.html" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 text-slate-300 hover:text-amber-400 text-[10px] font-black uppercase italic transition-all">
+                        <span>Torneo Apertura 2026</span>
+                        <i data-lucide="arrow-right" class="w-3 h-3 opacity-50"></i>
+                    </a>
                 </div>
             </div>
-            <!-- Texto del aviso -->
-            <p class="text-[10px] md:text-xs font-black uppercase italic tracking-wider text-emerald-400 leading-tight truncate">
-                Ante cualquier duda o consulta, el WhatsApp de Super Deportivo ya está activo
-            </p>
         </div>
-        <!-- Botón de acción directa -->
-        <a href="https://wa.me/5454999999300000" target="_blank" class="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black italic uppercase text-[9px] px-3 py-2 rounded-xl transition-all shadow-md flex-shrink-0">
-            Ir al Chat
-        </a>
+
     </div>
-</div>
+
+    <!-- 🚀 NAV BAR ESTÁTICA / SECCIONADOR (RESTAURADO) -->
+    <nav class="mt-3 border-t border-white/5 pt-2 overflow-x-auto custom-scrollbar">
+        <div class="max-w-7xl mx-auto flex justify-start md:justify-center items-center gap-1 whitespace-nowrap px-2">
+            <button onclick="irASeccion('contenedor-reproductor')" class="text-[9px] font-black italic uppercase tracking-wider text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl transition-all bg-white/[0.02] border border-white/5">
+                📺 Transmisión
+            </button>
+            <button onclick="irASeccion('seccion-radio')" class="text-[9px] font-black italic uppercase tracking-wider text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl transition-all bg-white/[0.02] border border-white/5">
+                📻 Radio en Vivo
+            </button>
+            <button onclick="irASeccion('seccion-estadisticas')" class="text-[9px] font-black italic uppercase tracking-wider text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl transition-all bg-white/[0.02] border border-white/5">
+                📊 Estadísticas
+            </button>
+            <button onclick="irASeccion('seccion-merito')" class="text-[9px] font-black italic uppercase tracking-wider text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl transition-all bg-white/[0.02] border border-white/5">
+                🏆 Orden Mérito
+            </button>
+            <button onclick="irASeccion('seccion-playoffs')" class="text-[9px] font-black italic uppercase tracking-wider text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl transition-all bg-white/[0.02] border border-white/5">
+                ⚽ Play-Offs
+            </button>
+            <button onclick="irASeccion('seccion-sponsors')" class="text-[9px] font-black italic uppercase tracking-wider text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-xl transition-all bg-white/[0.02] border border-white/5">
+                🤝 Sponsors
+            </button>
+        </div>
+    </nav>
+
+    <!-- BANNER AVISO WHATSAPP (SEMANAL) -->
+    <div class="max-w-7xl mx-auto px-2 mt-3">
+        <div class="bg-emerald-950/30 border border-emerald-500/20 p-2.5 rounded-2xl flex items-center justify-between gap-3 backdrop-blur-sm shadow-lg shadow-emerald-950/10">
+            <div class="flex items-center gap-3 min-w-0">
+                <div class="relative flex-shrink-0">
+                    <div class="absolute inset-0 bg-emerald-500/30 rounded-full animate-ping opacity-75"></div>
+                    <div class="relative bg-emerald-600 p-1.5 rounded-xl text-white">
+                        <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                    </div>
+                </div>
+                <p class="text-[10px] md:text-xs font-black uppercase italic tracking-wider text-emerald-400 leading-tight truncate">
+                    Ante cualquier duda o consulta, el WhatsApp de Super Deportivo ya está activo
+                </p>
+            </div>
+            <a href="https://wa.me/543435235940" target="_blank" class="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black italic uppercase text-[9px] px-3 py-1.5 rounded-xl transition-all shadow-md flex-shrink-0">
+                Ir al Chat
+            </a>
+        </div>
+    </div>
 
 </header>
 
 <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-12">
     
-  <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
-
-<div class="lg:col-span-3 flex flex-col gap-3">
-    
-
-    <div id="contenedor-reproductor" class="bg-black rounded-3xl overflow-hidden aspect-video shadow-2xl border border-white/5 relative w-full">
-        
-        <div id="escudo-anti-clic" class="absolute inset-0 z-10 bg-transparent hidden"></div>
-
-        <div id="player-api" class="w-full h-full relative z-0"></div>
-        
-        <div id="video-placeholder" class="w-full h-full absolute inset-0 flex flex-col items-center justify-center bg-slate-900 text-slate-500 z-5">
-            <i data-lucide="lock" class="w-12 h-12 mb-2 opacity-20"></i>
-            <p class="text-xs uppercase font-black italic tracking-widest">Contenido Protegido</p>
-        </div>
-    </div>
-
-    <div id="controles-propios" class="hidden flex justify-center items-center gap-2 bg-slate-950/80 border border-white/5 p-3 rounded-2xl backdrop-blur-md relative z-30">
-        <button onclick="controlarReproductor('play')" class="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all shadow-md">
-            <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i> Play
-        </button>
-        <button onclick="controlarReproductor('pause')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
-            <i data-lucide="pause" class="w-3.5 h-3.5 fill-slate-300"></i> Pausa
-        </button>
-        <button onclick="controlarReproductor('fullscreen')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
-            <i data-lucide="maximize" class="w-3.5 h-3.5"></i> Ampliar
-        </button>
-        <button onclick="controlarReproductor('cast')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
-            <i data-lucide="tv" class="w-3.5 h-3.5"></i> Transmitir TV
-        </button>
-    </div>
-</div>
-
-    
-<div id="panel-acceso" class="bg-slate-900/50 border border-white/10 p-6 rounded-3xl flex flex-col justify-center">
-    <div id="formulario-login">
-        <h3 class="text-emerald-500 font-black italic uppercase text-sm mb-2">Acceso Transmisión</h3>
-        <p class="text-slate-400 text-[10px] mb-5 leading-relaxed">Si ya compraste tu entrada, pegá tu código abajo. Si no, adquirila al instante en el botón verde.</p>
-        
-        <div class="flex flex-col gap-3">
-            <a href="https://mpago.la/2TKwQop" target="_blank"
-                class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black italic uppercase text-[11px] py-3.5 rounded-xl transition-all text-center tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/20">
-                <i data-lucide="ticket" class="w-4 h-4"></i>
-                Comprar Pase Digital
-            </a>
-
-            <div class="relative flex py-1 items-center">
-                <div class="flex-grow border-t border-white/5"></div>
-                <span class="flex-shrink mx-2 text-[7px] text-slate-600 font-black uppercase tracking-widest">Tengo un código</span>
-                <div class="flex-grow border-t border-white/5"></div>
+    <!-- SECCIÓN REPRODUCTOR Y PAYWALL -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
+        <div class="lg:col-span-3 flex flex-col gap-3">
+            <div id="contenedor-reproductor" class="bg-black rounded-3xl overflow-hidden aspect-video shadow-2xl border border-white/5 relative w-full">
+                <div id="escudo-anti-clic" class="absolute inset-0 z-10 bg-transparent hidden"></div>
+                <div id="player-api" class="w-full h-full relative z-0"></div>
+                <div id="video-placeholder" class="w-full h-full absolute inset-0 flex flex-col items-center justify-center bg-slate-900 text-slate-500 z-5">
+                    <i data-lucide="lock" class="w-12 h-12 mb-2 opacity-20"></i>
+                    <p class="text-xs uppercase font-black italic tracking-widest">Contenido Protegido</p>
+                </div>
             </div>
 
-            <input type="text" id="clave-input" placeholder="PEGÁ TU CÓDIGO ACÁ" 
-                class="w-full bg-slate-950/80 border border-white/10 rounded-xl px-4 py-3 text-center text-white font-mono text-xs uppercase tracking-widest focus:outline-none focus:border-emerald-500 transition-colors">
-            
-            <button onclick="intentarAccesoConBaseDatos()" id="btn-validar"
-                class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] py-3.5 rounded-xl transition-all border border-white/5 tracking-wider">
-                Desbloquear con Código
-            </button>
+            <!-- CONTROLES PROPIOS DE VIDEO -->
+            <div id="controles-propios" class="hidden flex justify-center items-center gap-2 bg-slate-950/80 border border-white/5 p-3 rounded-2xl backdrop-blur-md relative z-30">
+                <button onclick="controlarReproductor('play')" class="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all shadow-md">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i> Play
+                </button>
+                <button onclick="controlarReproductor('pause')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
+                    <i data-lucide="pause" class="w-3.5 h-3.5 fill-slate-300"></i> Pausa
+                </button>
+                <button onclick="controlarReproductor('fullscreen')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
+                    <i data-lucide="maximize" class="w-3.5 h-3.5"></i> Ampliar
+                </button>
+                <button onclick="controlarReproductor('cast')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
+                    <i data-lucide="tv" class="w-3.5 h-3.5"></i> Transmitir TV
+                </button>
+            </div>
         </div>
-        
-        <p id="error-mensaje" class="text-[9px] text-red-400 text-center font-bold uppercase mt-3 hidden tracking-wide"></p>
+
+        <!-- PANEL DE ACCESO Y MP -->
+        <div id="panel-acceso" class="bg-slate-900/50 border border-white/10 p-6 rounded-3xl flex flex-col justify-center">
+            <div id="formulario-login">
+                <h3 class="text-emerald-500 font-black italic uppercase text-sm mb-2">Acceso Transmisión</h3>
+                <p class="text-slate-400 text-[10px] mb-5 leading-relaxed">Si ya compraste tu entrada, pegá tu código abajo. Si no, adquirila al instante en el botón verde.</p>
+                
+                <div class="flex flex-col gap-3">
+                    <a href="https://mpago.la/2TKwQop" target="_blank"
+                        class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black italic uppercase text-[11px] py-3.5 rounded-xl transition-all text-center tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/20">
+                        <i data-lucide="ticket" class="w-4 h-4"></i>
+                        Comprar Pase Digital
+                    </a>
+
+                    <div class="relative flex py-1 items-center">
+                        <div class="flex-grow border-t border-white/5"></div>
+                        <span class="flex-shrink mx-2 text-[7px] text-slate-600 font-black uppercase tracking-widest">Tengo un código</span>
+                        <div class="flex-grow border-t border-white/5"></div>
+                    </div>
+
+                    <input type="text" id="clave-input" placeholder="PEGÁ TU CÓDIGO ACÁ" 
+                        class="w-full bg-slate-950/80 border border-white/10 rounded-xl px-4 py-3 text-center text-white font-mono text-xs uppercase tracking-widest focus:outline-none focus:border-emerald-500 transition-colors">
+                    
+                    <button onclick="intentarAccesoConBaseDatos()" id="btn-validar"
+                        class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] py-3.5 rounded-xl transition-all border border-white/5 tracking-wider">
+                        Desbloquear con Código
+                    </button>
+                </div>
+                
+                <p id="error-mensaje" class="text-[9px] text-red-400 text-center font-bold uppercase mt-3 hidden tracking-wide"></p>
+            </div>
+
+            <div id="acceso-exitoso" class="hidden text-center">
+                <div class="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="check" class="text-emerald-500 w-6 h-6"></i>
+                </div>
+                <p class="text-emerald-500 font-black italic uppercase text-[10px]">Acceso Concedido</p>
+            </div>
+        </div>
     </div>
 
-    <div id="acceso-exitoso" class="hidden text-center">
-        <div class="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
-            <i data-lucide="check" class="text-emerald-500 w-6 h-6"></i>
-        </div>
-        <p class="text-emerald-500 font-black italic uppercase text-[10px]">Acceso Concedido</p>
-    </div>
-</div>
-    
-    </div>
+    <!-- SECCIÓN RADIO EN VIVO Y MATCH BANNER -->
     <section id="seccion-radio" class="max-w-6xl mx-auto px-4 mb-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-            
             <div class="panel-deportivo flex flex-col h-full overflow-hidden border border-white/10 rounded-3xl">
                 <div class="p-5 border-b border-white/5 bg-slate-900/50 flex justify-between items-center text-white">
                     <span class="text-[10px] font-black uppercase tracking-widest text-emerald-500 flex items-center gap-2 italic">
@@ -325,40 +198,38 @@
                     <iframe src="https://zeno.fm/player/superdeportivo-digital" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
                 </div>
             </div>
-    
+
             <div class="bg-slate-900/50 border border-white/10 rounded-3xl p-6 flex flex-col justify-between">
                 <div class="flex items-center justify-between mb-4">
                     <div>
-                        <h3 class="text-emerald-500 font-black italic uppercase text-sm tracking-widest">FINAL - Partido Vuela</h3>
-                        <p class="text-slate-400 text-[10px] font-bold uppercase">Estadio Leandro Cecotti</p>
+                        <h3 class="text-emerald-500 font-black italic uppercase text-sm tracking-widest">PARTIDO DESTACADO</h3>
+                        <p class="text-slate-400 text-[10px] font-bold uppercase">Torneo Clausura 2026</p>
                     </div>
-                    <span class="bg-emerald-500/10 text-emerald-500 text-[9px] font-black px-3 py-1 rounded-full border border-emerald-500/20 uppercase animate-pulse"></span>
+                    <span class="bg-emerald-500/10 text-emerald-500 text-[9px] font-black px-3 py-1 rounded-full border border-emerald-500/20 uppercase animate-pulse">PRÓXIMAMENTE</span>
                 </div>
-    
-                <div class="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl flex-1 min-h-[180px]">
 
+                <div class="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl flex-1 min-h-[180px]">
                     <img src="img/estadios/estadio_cuac.jfif" class="absolute inset-0 w-full h-full object-cover opacity-30" alt="Estadio">
                     <div class="absolute inset-0 bg-slate-950/80"></div>
-    
                     <div class="relative z-10 p-4 h-full flex items-center">
                         <div class="flex items-center justify-around w-full gap-2">
                             <div class="flex flex-col items-center flex-1">
-                                <div class="w-12 h-12 mb-2 rounded-full bg-white p-1 shadow-xl">
-                                    <img src="img/escudos/viale.png" class="w-full h-full object-contain"> 
+                                <div class="w-12 h-12 mb-2 rounded-full bg-white/10 border border-white/10 p-1 shadow-xl flex items-center justify-center">
+                                    <span class="text-xs font-black text-slate-400">EQ1</span>
                                 </div>
-                                <span class="text-center text-white/70 font-bold uppercase text-[8px] leading-tight">Viale Futbol Club</span>
+                                <span class="text-center text-white/70 font-bold uppercase text-[8px] leading-tight">Por Definir</span>
                             </div>
-    
+
                             <div class="flex flex-col items-center min-w-[60px]">
                                 <div class="bg-emerald-600 text-white px-2 py-1 rounded text-[8px] font-black italic">VS</div>
                                 <div class="h-[2px] w-6 bg-emerald-500 mt-2"></div>
                             </div>
-    
+
                             <div class="flex flex-col items-center flex-1">
-                                <div class="w-12 h-12 mb-2 rounded-full bg-white p-1 shadow-xl">
-                                    <img src="img/escudos/cuac.png" class="w-full h-full object-contain">
+                                <div class="w-12 h-12 mb-2 rounded-full bg-white/10 border border-white/10 p-1 shadow-xl flex items-center justify-center">
+                                    <span class="text-xs font-black text-slate-400">EQ2</span>
                                 </div>
-                                <span class="text-center text-white/70 font-bold uppercase text-[8px] leading-tight">Unionn Agrarios Cerrito</span>
+                                <span class="text-center text-white/70 font-bold uppercase text-[8px] leading-tight">Por Definir</span>
                             </div>
                         </div>
                     </div>
@@ -366,36 +237,27 @@
             </div>
         </div>
     </section>
-    
+
+    <!-- CARRUSEL DE SPONSORS SUPERIOR -->
     <div class="max-w-6xl mx-auto px-4">
         <div class="w-full overflow-hidden bg-slate-950/50 py-4 mb-8 border border-white/5 rounded-2xl">
             <div class="carousel-track" id="sponsors-carousel"></div>
         </div>
     </div>
 
+    <!-- SECCIÓN ESTADÍSTICAS -->
     <div id="seccion-estadisticas" class="space-y-8">
         <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-6">
             <div>
                 <h2 class="text-4xl font-black italic uppercase tracking-tighter text-white">Estadísticas <span class="text-emerald-500">En Vivo</span></h2>
-                <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Temporada 2026 • Liga Paraná Campaña • COPA DESIDERIO GODOY Y EDUARDO CEBOLLA SEIMANDI</p>
+                <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Torneo Clausura 2026 • Liga Paraná Campaña</p>
             </div>
             
             <div class="flex flex-wrap gap-4">
                 <div class="flex gap-1 bg-slate-950/80 p-1 rounded-xl border border-white/10 shadow-2xl backdrop-blur-md">
-                    <button onclick="cambiarZona('norte')" id="zone-norte" 
-                        class="zone-button active-btn px-4 py-2 rounded-lg text-[10px] font-black uppercase italic tracking-tighter transition-all duration-300">
-                        Norte
-                    </button>
-                    <button onclick="cambiarZona('centro')" id="zone-centro" 
-                        class="zone-button px-4 py-2 rounded-lg text-[10px] font-black uppercase italic tracking-tighter transition-all duration-300 text-slate-500 hover:text-white">
-                        Centro
-                    </button>
-                    <button onclick="cambiarZona('sur')" id="zone-sur" 
-                        class="zone-button px-4 py-2 rounded-lg text-[10px] font-black uppercase italic tracking-tighter transition-all duration-300 text-slate-500 hover:text-white">
-                        Sur
-                    </button>
-                </div>
-            </div>
+                    <button onclick="cambiarZona('norte')" id="zone-norte" class="zone-button active-btn">Norte</button>
+                    <button onclick="cambiarZona('centro')" id="zone-centro" class="zone-button">Centro</button>
+                    <button onclick="cambiarZona('sur')" id="zone-sur" class="zone-button">Sur</button>
                 </div>
                 <div class="flex gap-1 bg-slate-950/50 p-1.5 rounded-2xl border border-white/5 shadow-xl">
                     <button onclick="cambiarCategoria('primera')" id="cat-primera" class="category-button active-btn">1ª Div</button>
@@ -412,12 +274,6 @@
                         <i data-lucide="trophy" class="w-5 h-5 text-emerald-500"></i>
                     </div>
                     <h3 class="text-xs font-black uppercase tracking-widest text-slate-200" id="titulo-tabla">Tabla de Posiciones</h3>
-                </div>
-                <div class="grid grid-cols-12 text-[9px] font-black uppercase text-slate-600 px-4 mb-4 tracking-[0.2em]">
-                    <div class="col-span-7">Club</div>
-                    <div class="col-span-1 text-center">PJ</div>
-                    <div class="col-span-2 text-center">DG</div>
-                    <div class="col-span-2 text-right text-emerald-500">PTS</div>
                 </div>
                 <div id="tabla-render" class="space-y-2"></div>
             </div>
@@ -436,8 +292,8 @@
                         <option value="3">Fecha 3</option>
                         <option value="4">Fecha 4</option>
                         <option value="5">Fecha 5</option>
-                        <option value="6" >Fecha 6</option>
-                        <option value="7"selected>Fecha 7</option>
+                        <option value="6">Fecha 6</option>
+                        <option value="7">Fecha 7</option>
                     </select>
                 </div>
                 <div id="fixture-render" class="space-y-3 flex-1"></div>
@@ -445,1360 +301,71 @@
             </div>
         </div>
     </div>
-   <!-- TABLAS DE MÉRITO ARRIBA (OCUPAN TODO EL ANCHO PERO DIVIDIDAS EN 2 INTERNAMENTE) -->
-<div class="grid grid-cols-1 gap-8 mt-12">
-    
-<div id="seccion-merito" class="panel-deportivo p-6 shadow-2xl border-t-4 border-yellow-500">
-    <div class="flex items-center gap-3 mb-6">
-        <div class="bg-yellow-500/10 p-2 rounded-lg border border-yellow-500/20">
-            <i data-lucide="award" class="w-5 h-5 text-yellow-500"></i>
-        </div>
-        <h3 class="text-xs font-black uppercase tracking-widest text-slate-200">Orden de Mérito Deportivo (Grupo A y B)</h3>
-    </div>
-    
-    <!-- Aquí el JS ahora dibujará dos columnas: una para el A y otra para el B -->
-    <div id="top-16-render" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <p class="text-[10px] text-slate-600 italic text-center col-span-2">Calculando mérito deportivo...</p>
-    </div>
-</div>
 
-<!-- CUADRO DE OCTAVOS ABAJO (TODO EL ANCHO DISPONIBLE) -->
-<div id="seccion-playoffs" class="panel-deportivo p-6 shadow-2xl border-t-4 border-emerald-500">
-    <div class="flex items-center gap-3 mb-6">
-        <div class="bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
-            <i data-lucide="git-merge" class="w-5 h-5 text-emerald-500"></i>
+    <!-- TABLAS DE MÉRITO -->
+    <div id="seccion-merito" class="panel-deportivo p-6 shadow-2xl border-t-4 border-yellow-500 mt-12">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="bg-yellow-500/10 p-2 rounded-lg border border-yellow-500/20">
+                <i data-lucide="award" class="w-5 h-5 text-yellow-500"></i>
+            </div>
+            <h3 class="text-xs font-black uppercase tracking-widest text-slate-200">Orden de Mérito Deportivo</h3>
         </div>
-        <h3 class="text-xs font-black uppercase tracking-widest text-slate-200">Play-offs: Fase Final</h3>
+        <div id="top-16-render" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
     </div>
-    
-    <!-- Quitamos el grid-cols-2 de acá para que el cuadro respire -->
-    <div id="cuadro-render" class="w-full overflow-x-auto custom-scrollbar">
-        <p class="text-[10px] text-slate-600 italic">Esperando confirmación de llaves...</p>
+
+    <!-- CUADRO DE PLAY-OFFS -->
+    <div id="seccion-playoffs" class="panel-deportivo p-6 shadow-2xl border-t-4 border-emerald-500 mt-12">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
+                <i data-lucide="git-merge" class="w-5 h-5 text-emerald-500"></i>
+            </div>
+            <h3 class="text-xs font-black uppercase tracking-widest text-slate-200">Play-offs: Fase Final</h3>
+        </div>
+        <div id="cuadro-render" class="w-full overflow-x-auto custom-scrollbar"></div>
     </div>
-</div>
 
-<section class="panel-deportivo p-10 mt-12">
-    <h3 class="text-center text-lg font-black uppercase tracking-[0.3em] text-emerald-500 mb-10">Staff Profesional</h3>
-    
-    <div class="flex flex-wrap md:flex-nowrap justify-around items-center gap-6">
-        
-        <div class="text-center min-w-[120px] flex-1">
-            <p class="text-white font-black italic uppercase text-sm">Gerardo Rodriguez</p>
-            <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Relatos</p>
+    <!-- STAFF PROFESIONAL -->
+    <section class="panel-deportivo p-10 mt-12">
+        <h3 class="text-center text-lg font-black uppercase tracking-[0.3em] text-emerald-500 mb-10">Staff Profesional</h3>
+        <div class="flex flex-wrap md:flex-nowrap justify-around items-center gap-6">
+            <div class="text-center min-w-[120px] flex-1">
+                <p class="text-white font-black italic uppercase text-sm">Gerardo Rodriguez</p>
+                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Relatos</p>
+            </div>
+            <div class="text-center min-w-[120px] flex-1">
+                <p class="text-white font-black italic uppercase text-sm">Genaro Mendez</p>
+                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Comentarios</p>
+            </div>
+            <div class="text-center min-w-[120px] flex-1">
+                <p class="text-white font-black italic uppercase text-sm">Raul Mendez</p>
+                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Estudios Centrales</p>
+            </div>
+            <div class="text-center min-w-[120px] flex-1">
+                <p class="text-white font-black italic uppercase text-sm">Sergio Serrano</p>
+                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Producción General</p>
+            </div>
+            <div class="text-center min-w-[120px] flex-1">
+                <p class="text-white font-black italic uppercase text-sm">Guillermo Gegenschatz</p>
+                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Voz Comercial</p>
+            </div>
         </div>
-        
-        <div class="text-center min-w-[120px] flex-1">
-            <p class="text-white font-black italic uppercase text-sm">Genaro Mendez</p>
-            <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Comentarios</p>
-        </div>
-        
-        <div class="text-center min-w-[120px] flex-1">
-            <p class="text-white font-black italic uppercase text-sm">Raul Mendez</p>
-            <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Estudios Centrales</p>
-        </div>
-        
-        <div class="text-center min-w-[120px] flex-1">
-            <p class="text-white font-black italic uppercase text-sm">Sergio Serrano</p>
-            <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Producción General</p>
-        </div>
-        
-        <div class="text-center min-w-[120px] flex-1">
-            <p class="text-white font-black italic uppercase text-sm">Guillermo Gegenschatz</p>
-            <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mt-1">Voz Comercial</p>
-        </div>
+    </section>
 
-    </div>
-</section>
-
+    <!-- AUSPICIANTES OFICIALES -->
     <div id="seccion-sponsors" class="pt-12 border-t border-white/5">
         <h4 class="text-center text-lg font-black uppercase tracking-[0.3em] text-emerald-500 mb-10">Auspiciantes Oficiales</h4>
         <div id="sponsors-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
     </div>
-
-
-
 </main>
 
 <footer class="p-16 text-center border-t border-white/5 bg-slate-950 text-white/30">
     <p class="font-black text-[9px] uppercase tracking-[0.6em]">Super Deportivo Digital • 2026</p>
 </footer>
 
-    <script>
-        // --- TODO TU SCRIPT ORIGINAL SE MANTIENE INTACTO ABAJO ---
-        let zonaActual = 'norte';
-        let categoriaActual = 'primera';
-        let fechaActual = '5';
-        const VIDEO_ID = "J75ydWUSOmg"; // CAMBIANDO SOLO ACÁ YA DEBERÍA ESTAR MONE
-
-        // --- LISTAS DE EQUIPOS ACTUALIZADAS ---
-const EQUIPOS_CENTRO = ["Litoral María Grande", "Cañadita Central", "Atlético María Grande", "Atlético Hasenkamp", "Segui FC", "Escuela Diego Maradona", "Juventud Sarmiento"];
-const EQUIPOS_NORTE = ["J. Unida de Bovril", "Deportivo Tuyango", "U. Agrarios Cerrito", "Atlético Hernandarias", "Deportivo Bovril", "Independiente FC", "Union Alcaraz"];
-const EQUIPOS_SUR = ["Atlético Arsenal", "Viale Football Club", "Sarmiento de Crespo", "Union de Crespo", "Deportivo Tabossi", "Cultural de Crespo", "Union de Viale"];
-
-// --- DATA ACTUALIZADA ---
-const NORTE_DATA = {
-    primera: {
-        "1": { partidos: [{ L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-3" }, { L: "J. Unida de Bovril", V: "Independiente FC", R: "2-0" }, { L: "U. Agrarios Cerrito", V: "Union Alcaraz", R: "4-2" }], libre: "Deportivo Bovril" },
-        "2": { partidos: [{ L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "2-3" }, { L: "Deportivo Tuyango", V: "U. Agrarios Cerrito", R: "2-1" }, { L: "Union Alcaraz", V: "J. Unida de Bovril", R: "0-3" }], libre: "Independiente FC" },
-        "3": { partidos: [{ L: "Independiente FC", V: "Union Alcaraz", R: "2-0" }, { L: "U. Agrarios Cerrito", V: "Deportivo Bovril", R: "3-1" }, { L: "J. Unida de Bovril", V: "Deportivo Tuyango", R: "1-1" }], libre: "Atlético Hernandarias" },
-        "4": { partidos: [{ L: "Atlético Hernandarias", V: "U. Agrarios Cerrito", R: "0-6" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "0-0" }, { L: "Deportivo Bovril", V: "J. Unida de Bovril", R: "0-0" }], libre: "Union Alcaraz" },
-        "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "1-3" }, { L: "J. Unida de Bovril", V: "Atlético Hernandarias", R: "2-0" }, { L: "Union Alcaraz", V: "Deportivo Tuyango", R: "1-2" }], libre: "U. Agrarios Cerrito" },
-        "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "1-3" }, { L: "U. Agrarios Cerrito", V: "J. Unida de Bovril", R: "1-0" }, { L: "Deportivo Bovril", V: "Union Alcaraz", R: "1-1" }], libre: "Deportivo Tuyango" },
-        "7": { partidos: [{ L: "Independiente FC", V: "U. Agrarios Cerrito", R: "0-1" }, { L: "Union Alcaraz", V: "Atlético Hernandarias", R: "2-1" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "1-1" }], libre: "J. Unida de Bovril" }
-    },
-    sub20: {
-        "1": { partidos: [{ L: "J. Unida de Bovril", V: "Independiente FC", R: "0-1" }, { L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-0" }, { L: "U. Agrarios Cerrito", V: "Union Alcaraz", R: "3-1" }], libre: "Deportivo Bovril" },
-        "2": { partidos: [{ L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "0-0" }, { L: "Union Alcaraz", V: "J. Unida de Bovril", R: "0-3" }, { L: "Deportivo Tuyango", V: "U. Agrarios Cerrito", R: "1-0" }], libre: "Independiente FC" },
-        "3": { partidos: [{ L: "Independiente FC", V: "Union Alcaraz", R: "2-2" }, { L: "U. Agrarios Cerrito", V: "Deportivo Bovril", R: "4-4" }, { L: "J. Unida de Bovril", V: "Deportivo Tuyango", R: "0-0" }], libre: "Atlético Hernandarias" },
-        "4": { partidos: [{ L: "Atlético Hernandarias", V: "U. Agrarios Cerrito", R: "1-2" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "1-1" }, { L: "Deportivo Bovril", V: "J. Unida de Bovril", R: "0-0" }], libre: "Union Alcaraz" },
-        "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "1-3" }, { L: "J. Unida de Bovril", V: "Atlético Hernandarias", R: "1-0" }, { L: "Union Alcaraz", V: "Deportivo Tuyango", R: "1-0" }], libre: "U. Agrarios Cerrito" },
-        "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "0-2" }, { L: "U. Agrarios Cerrito", V: "J. Unida de Bovril", R: "1-1" }, { L: "Deportivo Bovril", V: "Union Alcaraz", R: "4-1" }], libre: "Deportivo Tuyango" },
-        "7": { partidos: [{ L: "Independiente FC", V: "U. Agrarios Cerrito", R: "0-1" }, { L: "Union Alcaraz", V: "Atlético Hernandarias", R: "1-1" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "0-0" }], libre: "J. Unida de Bovril" }
-    },
-    sub17: {
-        "1": { partidos: [{ L: "J. Unida de Bovril", V: "Independiente FC", R: "2-0" }, { L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-2" }, { L: "U. Agrarios Cerrito", V: "Union Alcaraz", R: "4-1" }], libre: "Deportivo Bovril" },
-        "2": { partidos: [{ L: "Union Alcaraz", V: "J. Unida de Bovril", R: "1-1" }, { L: "Deportivo Tuyango", V: "U. Agrarios Cerrito", R: "0-2" }, { L: "Atlético Hernandarias", V: "Deportivo Bovril", R: "0-2" }], libre: "Independiente FC" },
-        "3": { partidos: [{ L: "Independiente FC", V: "Union Alcaraz", R: "0-1" }, { L: "U. Agrarios Cerrito", V: "Deportivo Bovril", R: "0-0" }, { L: "J. Unida de Bovril", V: "Deportivo Tuyango", R: "0-0" }], libre: "Atlético Hernandarias" },
-        "4": { partidos: [{ L: "Atlético Hernandarias", V: "U. Agrarios Cerrito", R: "1-1" }, { L: "Deportivo Tuyango", V: "Independiente FC", R: "0-0" }, { L: "Deportivo Bovril", V: "J. Unida de Bovril", R: "3-0" }], libre: "Union Alcaraz" },
-        "5": { partidos: [{ L: "Independiente FC", V: "Deportivo Bovril", R: "1-2" }, { L: "J. Unida de Bovril", V: "Atlético Hernandarias", R: "2-2" }, { L: "Union Alcaraz", V: "Deportivo Tuyango", R: "0-0" }], libre: "U. Agrarios Cerrito" },
-        "6": { partidos: [{ L: "Atlético Hernandarias", V: "Independiente FC", R: "1-1" }, { L: "U. Agrarios Cerrito", V: "J. Unida de Bovril", R: "2-1" }, { L: "Deportivo Bovril", V: "Union Alcaraz", R: "2-1" }], libre: "Deportivo Tuyango" },
-        "7": { partidos: [{ L: "Independiente FC", V: "U. Agrarios Cerrito", R: "2-0" }, { L: "Union Alcaraz", V: "Atlético Hernandarias", R: "0-0" }, { L: "Deportivo Tuyango", V: "Deportivo Bovril", R: "1-1" }], libre: "J. Unida de Bovril" }
-    }
-};
-
-const CENTRO_DATA = {
-    primera: {
-        "1": { partidos: [{ L: "Atlético Hasenkamp", V: "Segui FC", R: "3-0" }, { L: "Litoral María Grande", V: "Juventud Sarmiento", R: "5-0" }, { L: "Cañadita Central", V: "Escuela Diego Maradona", R: "2-0" }], libre: "Atlético María Grande" },
-        "2": { partidos: [{ L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "2-1" }, { L: "Segui FC", V: "Cañadita Central", R: "0-2" }, { L: "Escuela Diego Maradona", V: "Litoral María Grande", R: "1-2" }], libre: "Juventud Sarmiento" },
-        "3": { partidos: [{ L: "Juventud Sarmiento", V: "Escuela Diego Maradona", R: "1-0" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "1-5" }, { L: "Litoral María Grande", V: "Segui FC", R: "3-1" }], libre: "Atlético Hasenkamp" },
-        "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "1-1" }, { L: "Segui FC", V: "Juventud Sarmiento", R: "2-2" }, { L: "Atlético María Grande", V: "Litoral María Grande", R: "1-0" }], libre: "Escuela Diego Maradona" },
-        "5": { partidos: [{ L: "Juventud Sarmiento", V: "Atlético María Grande", R: "1-1" }, { L: "Litoral María Grande", V: "Atlético Hasenkamp", R: "3-0" }, { L: "Escuela Diego Maradona", V: "Segui FC", R: "1-0" }], libre: "Cañadita Central" },
-        "6": { partidos: [{ L: "Atlético Hasenkamp", V: "Juventud Sarmiento", R: "0-0" }, { L: "Cañadita Central", V: "Litoral María Grande", R: "0-0" }, { L: "Atlético María Grande", V: "Escuela Diego Maradona", R: "2-0" }], libre: "Segui FC" },
-        "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "2-3" }, { L: "Escuela Diego Maradona", V: "Atlético Hasenkamp", R: "2-0" }, { L: "Segui FC", V: "Atlético María Grande", R: "1-2" }], libre: "Litoral María Grande" }
-    },
-    sub20: {
-        "1": { partidos: [{ L: "Cañadita Central", V: "Escuela Diego Maradona", R: "1-0" }, { L: "Litoral María Grande", V: "Juventud Sarmiento", R: "2-1" }, { L: "Atlético Hasenkamp", V: "Segui FC", R: "1-1" }], libre: "Atlético María Grande" },
-        "2": { partidos: [{ L: "Segui FC", V: "Cañadita Central", R: "0-1" }, { L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "4-0" }, { L: "Escuela Diego Maradona", V: "Litoral María Grande", R: "0-1" }], libre: "Juventud Sarmiento" },
-        "3": { partidos: [{ L: "Juventud Sarmiento", V: "Escuela Diego Maradona", R: "1-4" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "0-3" }, { L: "Litoral María Grande", V: "Segui FC", R: "6-0" }], libre: "Atlético Hasenkamp" },
-        "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "0-4" }, { L: "Segui FC", V: "Juventud Sarmiento", R: "6-1" }, { L: "Atlético María Grande", V: "Litoral María Grande", R: "0-0" }], libre: "Escuela Diego Maradona" },
-        "5": { partidos: [{ L: "Juventud Sarmiento", V: "Atlético María Grande", R: "0-0" }, { L: "Litoral María Grande", V: "Atlético Hasenkamp", R: "2-0" }, { L: "Escuela Diego Maradona", V: "Segui FC", R: "2-1" }], libre: "Cañadita Central" },
-        "6": { partidos: [{ L: "Atlético Hasenkamp", V: "Juventud Sarmiento", R: "2-1" }, { L: "Cañadita Central", V: "Litoral María Grande", R: "0-0" }, { L: "Atlético María Grande", V: "Escuela Diego Maradona", R: "0-0" }], libre: "Segui FC" },
-        "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "1-4" }, { L: "Escuela Diego Maradona", V: "Atlético Hasenkamp", R: "1-2" }, { L: "Segui FC", V: "Atlético María Grande", R: "1-4" }], libre: "Litoral María Grande" }
-    },
-    sub17: {
-        "1": { partidos: [{ L: "Cañadita Central", V: "Escuela Diego Maradona", R: "1-1" }, { L: "Litoral María Grande", V: "Juventud Sarmiento", R: "2-0" }, { L: "Atlético Hasenkamp", V: "Segui FC", R: "5-0" }], libre: "Atlético María Grande" },
-        "2": { partidos: [{ L: "Atlético María Grande", V: "Atlético Hasenkamp", R: "2-0" }, { L: "Escuela Diego Maradona", V: "Litoral María Grande", R: "0-2" }, { L: "Segui FC", V: "Cañadita Central", R: "1-0" }], libre: "Juventud Sarmiento" },
-        "3": { partidos: [{ L: "Juventud Sarmiento", V: "Escuela Diego Maradona", R: "1-1" }, { L: "Cañadita Central", V: "Atlético María Grande", R: "0-2" }, { L: "Litoral María Grande", V: "Segui FC", R: "5-1" }], libre: "Atlético Hasenkamp" },
-        "4": { partidos: [{ L: "Atlético Hasenkamp", V: "Cañadita Central", R: "1-2" }, { L: "Segui FC", V: "Juventud Sarmiento", R: "2-2" }, { L: "Atlético María Grande", V: "Litoral María Grande", R: "2-0" }], libre: "Escuela Diego Maradona" },
-        "5": { partidos: [{ L: "Juventud Sarmiento", V: "Atlético María Grande", R: "0-2" }, { L: "Litoral María Grande", V: "Atlético Hasenkamp", R: "3-0" }, { L: "Escuela Diego Maradona", V: "Segui FC", R: "3-0" }], libre: "Cañadita Central" },
-        "6": { partidos: [{ L: "Atlético Hasenkamp", V: "Juventud Sarmiento", R: "2-0" }, { L: "Cañadita Central", V: "Litoral María Grande", R: "3-2" }, { L: "Atlético María Grande", V: "Escuela Diego Maradona", R: "3-0" }], libre: "Segui FC" },
-        "7": { partidos: [{ L: "Juventud Sarmiento", V: "Cañadita Central", R: "1-1" }, { L: "Escuela Diego Maradona", V: "Atlético Hasenkamp", R: "1-1" }, { L: "Segui FC", V: "Atlético María Grande", R: "0-3" }], libre: "Litoral María Grande" }
-    }
-};
-
-const SUR_DATA = { 
-    primera: {
-        "1": { partidos: [{ L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "4-0" }, { L: "Union de Crespo", V: "Union de Viale", R: "7-0" }, { L: "Viale Football Club", V: "Cultural de Crespo", R: "5-1" }], libre: "Sarmiento de Crespo" },
-        "2": { partidos: [{ L: "Sarmiento de Crespo", V: "Atlético Arsenal", R: "1-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "1-3" }, { L: "Cultural de Crespo", V: "Union de Crespo", R: "1-0" }], libre: "Union de Viale" },
-        "3": { partidos: [{ L: "Union de Viale", V: "Cultural de Crespo", R: "0-8" }, { L: "Viale Football Club", V: "Sarmiento de Crespo", R: "3-0" }, { L: "Union de Crespo", V: "Deportivo Tabossi", R: "3-0" }], libre: "Atlético Arsenal" },
-        "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "1-2" }, { L: "Deportivo Tabossi", V: "Union de Viale", R: "2-0" }, { L: "Sarmiento de Crespo", V: "Union de Crespo", R: "0-1" }], libre: "Cultural de Crespo" },
-        "5": { partidos: [{ L: "Union de Viale", V: "Sarmiento de Crespo", R: "2-6" }, { L: "Union de Crespo", V: "Atlético Arsenal", R: "3-4" }, { L: "Cultural de Crespo", V: "Deportivo Tabossi", R: "6-0" }], libre: "Viale Football Club" },
-        "6": { partidos: [{ L: "Atlético Arsenal", V: "Union de Viale", R: "2-1" }, { L: "Viale Football Club", V: "Union de Crespo", R: "1-0" }, { L: "Sarmiento de Crespo", V: "Cultural de Crespo", R: "1-1" }], libre: "Deportivo Tabossi" },
-        "7": { partidos: [{ L: "Union de Viale", V: "Viale Football Club", R: "1-6" }, { L: "Cultural de Crespo", V: "Atlético Arsenal", R: "2-1" }, { L: "Deportivo Tabossi", V: "Sarmiento de Crespo", R: "0-3" }], libre: "Union de Crespo" }
-    }, 
-    sub20: {
-        "1": { partidos: [{ L: "Viale Football Club", V: "Cultural de Crespo", R: "1-1" }, { L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "2-0" }, { L: "Union de Crespo", V: "Union de Viale", R: "1-0" }], libre: "Sarmiento de Crespo" },
-        "2": { partidos: [{ L: "Cultural de Crespo", V: "Union de Crespo", R: "3-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "0-3" }, { L: "Sarmiento de Crespo", V: "Atlético Arsenal", R: "1-3" }], libre: "Union de Viale" },
-        "3": { partidos: [{ L: "Union de Viale", V: "Cultural de Crespo", R: "0-3" }, { L: "Viale Football Club", V: "Sarmiento de Crespo", R: "3-1" }, { L: "Union de Crespo", V: "Deportivo Tabossi", R: "2-0" }], libre: "Atlético Arsenal" },
-        "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "1-2" }, { L: "Deportivo Tabossi", V: "Union de Viale", R: "5-1" }, { L: "Sarmiento de Crespo", V: "Union de Crespo", R: "2-4" }], libre: "Cultural de Crespo" },
-        "5": { partidos: [{ L: "Union de Viale", V: "Sarmiento de Crespo", R: "2-5" }, { L: "Union de Crespo", V: "Atlético Arsenal", R: "2-3" }, { L: "Cultural de Crespo", V: "Deportivo Tabossi", R: "0-2" }], libre: "Viale Football Club" },
-        "6": { partidos: [{ L: "Atlético Arsenal", V: "Union de Viale", R: "1-0" }, { L: "Viale Football Club", V: "Union de Crespo", R: "0-0" }, { L: "Sarmiento de Crespo", V: "Cultural de Crespo", R: "0-3" }], libre: "Deportivo Tabossi" },
-        "7": { partidos: [{ L: "Union de Viale", V: "Viale Football Club", R: "0-3" }, { L: "Cultural de Crespo", V: "Atlético Arsenal", R: "3-3" }, { L: "Deportivo Tabossi", V: "Sarmiento de Crespo", R: "1-1" }], libre: "Union de Crespo" }
-    }, 
-    sub17: {
-        "1": { partidos: [{ L: "Atlético Arsenal", V: "Deportivo Tabossi", R: "0-0" }, { L: "Union de Crespo", V: "Union de Viale", R: "12-0" }, { L: "Viale Football Club", V: "Cultural de Crespo", R: "1-0" }], libre: "Sarmiento de Crespo" },
-        "2": { partidos: [{ L: "Sarmiento de Crespo", V: "Atlético Arsenal", R: "2-0" }, { L: "Cultural de Crespo", V: "Union de Crespo", R: "0-2" }, { L: "Deportivo Tabossi", V: "Viale Football Club", R: "0-2" }], libre: "Union de Viale" },
-        "3": { partidos: [{ L: "Union de Viale", V: "Cultural de Crespo", R: "0-5" }, { L: "Viale Football Club", V: "Sarmiento de Crespo", R: "0-0" }, { L: "Union de Crespo", V: "Deportivo Tabossi", R: "3-1" }], libre: "Atlético Arsenal" },
-        "4": { partidos: [{ L: "Atlético Arsenal", V: "Viale Football Club", R: "2-0" }, { L: "Deportivo Tabossi", V: "Union de Viale", R: "4-0" }, { L: "Sarmiento de Crespo", V: "Union de Crespo", R: "0-2" }], libre: "Cultural de Crespo" },
-        "5": { partidos: [{ L: "Union de Viale", V: "Sarmiento de Crespo", R: "2-5" }, { L: "Union de Crespo", V: "Atlético Arsenal", R: "2-0" }, { L: "Cultural de Crespo", V: "Deportivo Tabossi", R: "1-1" }], libre: "Viale Football Club" },
-        "6": { partidos: [{ L: "Atlético Arsenal", V: "Union de Viale", R: "4-0" }, { L: "Viale Football Club", V: "Union de Crespo", R: "0-1" }, { L: "Sarmiento de Crespo", V: "Cultural de Crespo", R: "1-3" }], libre: "Deportivo Tabossi" },
-        "7": { partidos: [{ L: "Union de Viale", V: "Viale Football Club", R: "0-15" }, { L: "Cultural de Crespo", V: "Atlético Arsenal", R: "0-0" }, { L: "Deportivo Tabossi", V: "Sarmiento de Crespo", R: "1-0" }], libre: "Union de Crespo" }
-    } 
-};
-
-const SPONSORS = [
-    { nombre: "DAR+, la tarjeta para comprar", logo: "img/sponsors/Dar+.jpg" },
-    { nombre: "Municipalidad de Cerrito", logo: "img/sponsors/municipalidad.png" },
-    { nombre: "YPF El Empalme", logo: "img/sponsors/ypf.png" },
-    { nombre: "AUTOSERVICIO LA CALABAZA", logo: "img/sponsors/lacalabaza.png" },
-    { nombre: "Masquito reparaciones", logo: "img/sponsors/masquito reparaciones.png" },
-    { nombre: "HR-Netcom", logo: "img/sponsors/hrnetcom.jpg" },
-    { nombre: "Corralon El Rafa", logo: "img/sponsors/el rafa.png" },
-    { nombre: "Emi Pérez Motos", logo: "img/sponsors/emi perez motos.jpg" },
-    { nombre: "APAPACHA-Pañalera", logo: "img/sponsors/apapacho.png" },
-    { nombre: "FARMACIA PALACIOS", logo: "img/sponsors/farmacia palacios.jpg" },
-    { nombre: "Don Charo AUTOSERVICIO", logo: "img/sponsors/doncharro.jpg" },
-    { nombre: "Hielos Celestiales", logo: "img/sponsors/hielo.png" },
-    { nombre: "Daniel Guetti Odontólogo", logo: "img/sponsors/DANI_GETTI.jpeg" },
-    { nombre: "GM Service", logo: "img/sponsors/gm_service.jpeg" },
-    { nombre: "Gimnasio HIT", logo: "img/sponsors/gimnasio_hit.jpeg" }
-];
-
-const sponsorsGrid = document.getElementById('sponsors-grid');
-const sponsorsCarousel = document.getElementById('sponsors-carousel'); // Llamamos también al carrusel de arriba
-
-if (sponsorsGrid) {
-    sponsorsGrid.innerHTML = ''; 
-    if (sponsorsCarousel) sponsorsCarousel.innerHTML = '';
-
-    // Creamos la pista interna para el carrusel superior animado
-    const track = document.createElement('div');
-    track.className = "carousel-track";
-
-    // Función mágica: intenta cargar la imagen, si da error (404), oculta la imagen y muestra el texto
-    const generarHTMLSponsor = (sponsor, esGrande) => {
-        const claseTexto = esGrande
-            ? "text-white font-black italic uppercase text-lg tracking-tighter group-hover:text-emerald-500 transition-colors text-center"
-            : "text-slate-500 font-black italic uppercase text-xs tracking-tight whitespace-nowrap hover:text-emerald-500 transition-colors cursor-default";
-        
-        const claseImagen = esGrande ? "max-h-16 max-w-full object-contain" : "max-h-8 max-w-[140px] object-contain";
-
-        return `
-            <img src="${sponsor.logo}" class="${claseImagen}" alt="${sponsor.nombre}" 
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <p class="${claseTexto}" style="display:none;">${sponsor.nombre}</p>
-        `;
-    };
-
-    // Recorremos cada sponsor de la lista
-    SPONSORS.forEach(sponsor => {
-        // 1. Render para la cuadrícula de abajo (Auspiciantes Oficiales)
-        const card = document.createElement('div');
-        card.className = "sponsor-card group flex flex-col items-center justify-center p-6 bg-slate-900/50 border border-white/10 rounded-3xl hover:border-emerald-500/50 transition-all duration-300 min-h-[120px]";
-        card.innerHTML = generarHTMLSponsor(sponsor, true);
-        sponsorsGrid.appendChild(card);
-
-        // 2. Render para el carrusel animado de arriba
-        const itemCarousel = document.createElement('div');
-        itemCarousel.className = "sponsor-item flex items-center justify-center";
-        itemCarousel.innerHTML = generarHTMLSponsor(sponsor, false);
-        track.appendChild(itemCarousel);
-    });
-
-    // Duplicamos el carrusel para que el bucle infinito sea fluido y no dé saltos saltos visuales
-    SPONSORS.forEach(sponsor => {
-        const itemCarouselClone = document.createElement('div');
-        itemCarouselClone.className = "sponsor-item flex items-center justify-center";
-        itemCarouselClone.innerHTML = generarHTMLSponsor(sponsor, false);
-        track.appendChild(itemCarouselClone);
-    });
-
-    if (sponsorsCarousel) sponsorsCarousel.appendChild(track);
-}
-
-        function intentarAcceso() {
-    const ingreso = document.getElementById('pass-usuario').value.toUpperCase();
-    const CLAVE_POSTA = "DOMINGO"; 
-
-    
-    if (ingreso === CLAVE_POSTA) {
-        localStorage.setItem('acceso_superdep', 'true');
-        aplicarAcceso(VIDEO_ID);
-    } else {
-        const error = document.getElementById('msj-error');
-        error.classList.remove('hidden');
-        setTimeout(() => error.classList.add('hidden'), 3000);
-    }
-}
-
-// ==========================================
-// CONTROL DE REPRODUCTOR BLINDADO (CORREGIDO)
-// ==========================================
-let ytpPlayer = null; 
-let idVideoGlobal = VIDEO_ID; // 👈 El ID real de tu transmisión
-
-// Esta función prepara la pantalla (apaga el candado, prende los botones)
-function aplicarAcceso(videoID) {
-    if (localStorage.getItem('acceso_superdep') === 'true') {
-        if (videoID && videoID.length === 11) idVideoGlobal = videoID; 
-
-        const placeholder = document.getElementById('video-placeholder');
-        const form = document.getElementById('formulario-login');
-        const exito = document.getElementById('acceso-exitoso');
-        const escudo = document.getElementById('escudo-anti-clic');
-        const controles = document.getElementById('controles-propios');
-
-        if (escudo) escudo.classList.remove('hidden');
-        if (controles) controles.classList.remove('hidden');
-
-        if (placeholder) placeholder.classList.add('hidden');
-        if (form) form.classList.add('hidden');
-        if (exito) exito.classList.remove('hidden');
-
-        // Si la API ya está lista en el sistema, disparamos la creación del video ya mismo
-        if (typeof YT !== 'undefined' && YT.Player && !ytpPlayer) {
-            onYouTubeIframeAPIReady();
-        }
-        
-        if (typeof lucide !== 'undefined') lucide.createIcons();
-    }
-}
-
-function onYouTubeIframeAPIReady() {
-    if (localStorage.getItem('acceso_superdep') === 'true' && document.getElementById('player-api') && !ytpPlayer) {
-        console.log("Inicializando YouTube Player API...");
-        
-        const esIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-        ytpPlayer = new YT.Player('player-api', {
-            height: '100%',
-            width: '100%',
-            videoId: idVideoGlobal,
-            playerVars: {
-                'autoplay': 1,
-                'controls': 0,          // 🔒 Mantenemos el video blindado sin barras en Android/PC
-                'modestbranding': 1,
-                'rel': 0,
-                'showinfo': 0,
-                'iv_load_policy': 3,
-                'disablekb': 1,
-                // 🚀 EL TRUCO PARA IPHONE: 
-                // Al poner playsinline en 0, iOS se ve obligado a abrir el video directamente en pantalla completa nativa
-                'playsinline': esIOS ? 0 : 1 
-            },
-            events: {
-                'onReady': (event) => {
-                    event.target.playVideo(); // En iPhone esto va a disparar la pantalla completa sola
-                }
-            }
-        });
-    }
-}
-
-// FUNCIÓN PARA CONTROLAR EL REPRODUCTOR (Play, Pausa, Ampliar y Transmitir - Fix Android)
-function controlarReproductor(accion) {
-    if (!ytpPlayer || typeof ytpPlayer.playVideo !== 'function') {
-        console.log("El reproductor todavía no está listo.");
-        return;
-    }
-    
-    if (accion === 'play') {
-        ytpPlayer.playVideo();
-    } else if (accion === 'pause') {
-        ytpPlayer.pauseVideo();
-    } else if (accion === 'fullscreen') {
-        const cajaVideo = document.getElementById('contenedor-reproductor');
-        const esIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-        if (esIOS) {
-            // 🚀 En iPhone, si por alguna razón el usuario salió de la pantalla completa 
-            // y quiere volver a entrar, al darle 'playVideo()' el parámetro playsinline=0 
-            // vuelve a capturar el video y lo manda a pantalla completa nativa de Apple automáticamente.
-            ytpPlayer.playVideo();
-        } else {
-            // Lógica blindada perfecta y transparente para Android y PC
-            if (cajaVideo) {
-                if (cajaVideo.requestFullscreen) {
-                    cajaVideo.requestFullscreen();
-                } else if (cajaVideo.webkitRequestFullscreen) {
-                    cajaVideo.webkitRequestFullscreen();
-                } else if (cajaVideo.msRequestFullscreen) {
-                    cajaVideo.msRequestFullscreen();
-                }
-            }
-        }
-    } else if (accion === 'cast') {
-        const esCelular = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-        if (esCelular) {
-            if (navigator.presentation && navigator.presentation.defaultRequest) {
-                navigator.presentation.defaultRequest.start().catch(() => levantarAvisoManual());
-            } else {
-                levantarAvisoManual();
-            }
-        } else {
-            if (navigator.presentation && navigator.presentation.defaultRequest) {
-                navigator.presentation.defaultRequest.start().catch(err => console.log("Transmisión cancelada en PC"));
-            } else {
-                levantarAvisoManual();
-            }
-        }
-    }
-}
-
-// Función auxiliar por si el celular bloquea el casteo automático
-function levantarAvisoManual() {
-    alert("📺 PARA VER EN TU TELEVISOR:\n\n1. Desliza la barra de notificaciones de tu celular hacia abajo.\n2. Toca la opción 'Emitir', 'Transmitir pantalla' o 'Smart View'.\n3. ¡Selecciona tu tele y listo! Vas a ver el partido en pantalla gigante.");
-}
-
-        function desbloquearVideo() {
-            localStorage.setItem('acceso_superdep', 'true');
-            validarAcceso();
-        }
-
-        function validarAcceso() {
-    if(localStorage.getItem('acceso_superdep') === 'true') {
-        const paywall = document.getElementById('paywall');
-        if (paywall) paywall.classList.add('hidden');
-        
-        const player = document.getElementById('youtube-player');
-        if (player) player.classList.remove('hidden');
-        
-
-    }
-}
-        function cambiarZona(z) {
-    zonaActual = z;
-    document.querySelectorAll('.zone-button').forEach(b => b.classList.remove('active-btn'));
-    document.getElementById('zone-' + z).classList.add('active-btn');
-    
-    const subTexts = {
-        'norte': 'Zona Norte',
-        'centro': 'Zona Centro',
-        'sur': 'Zona Sur',
-    };
-    document.getElementById('sub-header-text').innerText = subTexts[z];
-    renderizar();
-}
-
-function cambiarCategoria(cat) {
-    categoriaActual = cat;
-    document.querySelectorAll('.category-button').forEach(b => b.classList.remove('active-btn'));
-    document.getElementById('cat-' + cat).classList.add('active-btn');
-    renderizar();
-}
-
-function cambiarFecha(f) {
-    fechaActual = f;
-    renderizar();
-}
-
-
-// 1. FUNCIÓN PARA VALIDAR LA CLAVE EN LA BASE DE DATOS (SUPABASE VIA VERCEL)
-async function intentarAccesoConBaseDatos() {
-    const input = document.getElementById('clave-input');
-    const btn = document.getElementById('btn-validar');
-    const txtError = document.getElementById('error-mensaje');
-    
-    if (!input || !input.value.trim()) return;
-    
-    const codigoIngresado = input.value.trim().toUpperCase();
-
-    // Feedback visual de "Cargando..."
-    btn.disabled = true;
-    btn.innerText = "VERIFICANDO...";
-    txtError.classList.add('hidden');
-
-    try {
-        // Le pegamos a nuestra función Serverless de Vercel
-        const response = await fetch('/api/validar-clave', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ codigo: codigoIngresado })
-        });
-
-        const resultado = await response.json();
-
-        if (!response.ok || !resultado.valido) {
-            // Si el backend dice que no es válido o ya se usó
-            txtError.innerText = resultado.mensaje || resultado.error || "Código inválido.";
-            txtError.classList.remove('hidden');
-            btn.disabled = false;
-            btn.innerText = "DESBLOQUEAR PARTIDO";
-            return;
-        }
-
-        // ¡SI EL CÓDIGO ES VÁLIDO!
-        // Guardamos el pase en el navegador para que no le vuelva a pedir clave esta semana
-        localStorage.setItem('acceso_superdep', 'true');
-        
-        // Calculamos el vencimiento automático para el próximo miércoles
-        const ahora = new Date();
-        const diasHastaMiercoles = (10 - ahora.getDay()) % 7 || 7;
-        ahora.setDate(ahora.getDate() + diasHastaMiercoles);
-        ahora.setHours(0, 0, 0, 0);
-        localStorage.setItem('acceso_vencimiento', ahora.getTime().toString());
-
-        // Activamos el reproductor de inmediato
-        aplicarAcceso(VIDEO_ID); // Tu ID de vivo de YouTube
-
-    } catch (err) {
-        console.error(err);
-        txtError.innerText = "ERROR DE CONEXIÓN. INTENTÁ DE NUEVO.";
-        txtError.classList.remove('hidden');
-        btn.disabled = false;
-        btn.innerText = "DESBLOQUEAR PARTIDO";
-    }
-}
-
-// 2. INICIALIZACIÓN GLOBAL AL CARGAR LA PÁGINA
-document.addEventListener('DOMContentLoaded', () => {
-    // DETECTOR DE RETORNO DE MERCADO PAGO AUTOMÁTICO
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('pago') === 'exitoso') {
-        console.log("¡Bypass de prueba detectado! Forzando acceso VIP...");
-        
-        // Seteamos los permisos locales en el navegador al instante
-        localStorage.setItem('acceso_superdep', 'true');
-
-        const panel = document.getElementById('panel-acceso');
-        if (panel) {
-            panel.innerHTML = `
-                <div class="text-center py-4 animate-pulse">
-                    <p class="text-emerald-500 font-black italic uppercase text-xs">¡Pago Procesado!</p>
-                    <p class="text-slate-400 text-[9px] mt-1">Generando tu código de acceso único, no cierres la página...</p>
-                </div>
-            `;
-        }
-
-        // Llamamos a nuestra nueva API para conseguir el código asignado
-        fetch('/api/entregar-codigo', { method: 'POST' })
-            .then(res => res.json())
-            .then(data => {
-                if (data.codigo) {
-                    // ¡ÉXITO! Le damos el acceso inmediato en su localStorage para que ya vea el partido
-                    localStorage.setItem('acceso_superdep', 'true');
-                    
-                    // Calculamos vencimiento para el miércoles
-                    const ahora = new Date();
-                    const diasHastaMiercoles = (10 - ahora.getDay()) % 7 || 7;
-                    ahora.setDate(ahora.getDate() + diasHastaMiercoles);
-                    ahora.setHours(0, 0, 0, 0);
-                    localStorage.setItem('acceso_vencimiento', ahora.getTime().toString());
-
-                    // Le mostramos su código gigante en pantalla por si quiere abrirlo en Chrome/Safari después
-                    if (panel) {
-                        panel.innerHTML = `
-                            <div class="text-center border border-emerald-500/30 bg-emerald-950/20 p-4 rounded-2xl">
-                                <p class="text-emerald-500 font-black italic uppercase text-[10px]">¡Acceso Activado!</p>
-                                <p class="text-slate-300 text-[9px] my-2">Tu código único por si cambiás de navegador es:</p>
-                                <p class="bg-slate-950 border border-white/10 text-white font-mono font-bold text-sm py-2 rounded-xl tracking-widest select-all">${data.codigo}</p>
-                                <p class="text-slate-500 text-[8px] mt-2 uppercase font-bold leading-tight">Ya podés ver la transmisión en vivo abajo.</p>
-                            </div>
-                        `;
-                    }
-                    
-                    // Limpiamos la URL para estética y activamos el video abajo
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                    aplicarAcceso(VIDEO_ID);
-                }
-            })
-            .catch(err => {
-                if (panel) panel.innerHTML = `<p class="text-red-400 text-[9px] text-center font-bold">Error al reclamar código. Contactá a soporte.</p>`;
-            });
-    }
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-
-    const ahora = new Date().getTime();
-    const tieneAcceso = localStorage.getItem('acceso_superdep') === 'true';
-    const vencimiento = localStorage.getItem('acceso_vencimiento');
-
-    // Control de vencimiento de los miércoles por tiempo
-    if (tieneAcceso && vencimiento) {
-        if (ahora > parseInt(vencimiento)) {
-            localStorage.removeItem('acceso_superdep');
-            localStorage.removeItem('acceso_vencimiento');
-            console.log("El acceso semanal por token ha expirado.");
-            location.reload();
-            return;
-        }
-    }
-
-    // Verificación final del reproductor
-    if (localStorage.getItem('acceso_superdep') === 'true') {
-        aplicarAcceso(VIDEO_ID); 
-    } else {
-        const player = document.getElementById('youtube-player');
-        if (player) {
-            player.classList.add('hidden');
-            player.src = ""; 
-        }
-    }
-
-    // Cargar el fixture normal
-    const selector = document.getElementById('fecha-selector');
-    if (selector) cambiarFecha(selector.value);
-});
-
-function obtenerTablaPorZona(zona, categoria) {
-    let equipos = zona === 'norte' ? EQUIPOS_NORTE : (zona === 'centro' ? EQUIPOS_CENTRO : EQUIPOS_SUR);
-    let data = (zona === 'norte' ? NORTE_DATA : (zona === 'centro' ? CENTRO_DATA : SUR_DATA))[categoria];
-    
-    let stats = {};
-    equipos.forEach(e => stats[e] = { pts: 0, pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0 });
-    
-    if(!data) return [];
-
-    Object.values(data).forEach(fecha => {
-        if(fecha.partidos) {
-            fecha.partidos.forEach(p => {
-                if (p.R && p.R !== "-" && p.R !== "") {
-                    const scores = p.R.split(/[-|]/).map(s => parseInt(s.trim()));
-                    if(scores.length === 2 && !isNaN(scores[0]) && !isNaN(scores[1])) {
-                        const L = p.L.trim(); const V = p.V.trim();
-                        if(stats[L] && stats[V]) {
-                            stats[L].pj++; stats[V].pj++;
-                            stats[L].gf += scores[0]; stats[L].gc += scores[1];
-                            stats[V].gf += scores[1]; stats[V].gc += scores[0];
-                            if (scores[0] > scores[1]) {
-                                stats[L].pts += 3; stats[L].pg++; stats[V].pp++;
-                            } else if (scores[1] > scores[0]) {
-                                stats[V].pts += 3; stats[V].pg++; stats[L].pp++;
-                            } else {
-                                stats[L].pts += 1; stats[V].pts += 1;
-                                stats[L].pe++; stats[V].pe++;
-                            }
-                        }
-                    }
-                }
-            });
-        }
-    });
-
-    return Object.entries(stats)
-        .map(([nombre, s]) => ({ nombre, ...s, dg: s.gf - s.gc }))
-        .sort((a,b) => b.pts - a.pts || b.dg - a.dg || b.gf - a.gf);
-}
-
-function renderizar() {
-    // 1. Títulos y Datos
-    document.getElementById('titulo-tabla').innerText = `Posiciones - ${zonaActual.toUpperCase()} (${categoriaActual.toUpperCase()})`;
-    const tNorte = obtenerTablaPorZona('norte', categoriaActual);
-    const tCentro = obtenerTablaPorZona('centro', categoriaActual);
-    const tSur = obtenerTablaPorZona('sur', categoriaActual);
-    const tablaMostrar = zonaActual === 'norte' ? tNorte : (zonaActual === 'centro' ? tCentro : tSur);
-
-    // 2. Render de la Tabla de Posiciones
-    const header = `
-        <div class="grid grid-cols-12 gap-1 px-4 mb-2 text-[9px] font-black uppercase text-slate-500 tracking-tighter">
-            <div class="col-span-1">#</div>
-            <div class="col-span-4">Equipo</div>
-            <div class="col-span-1 text-center">PJ</div>
-            <div class="col-span-1 text-center">G</div>
-            <div class="col-span-1 text-center">E</div>
-            <div class="col-span-1 text-center">P</div>
-            <div class="col-span-1 text-center">GF/GC</div>
-            <div class="col-span-1 text-center">DG</div>
-            <div class="col-span-1 text-right">PTS</div>
-        </div>
-    `;
-
-    const sextosAux = [tNorte[5], tCentro[5], tSur[5]].filter(Boolean);
-    const globalMejor6 = sextosAux.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg)[0];
-
-    document.getElementById('tabla-render').innerHTML = header + tablaMostrar.map((eq, i) => {
-        const esTop5 = i < 5;
-        const esElMejorSextoEntrando = i === 5 && globalMejor6 && eq.nombre === globalMejor6.nombre;
-        
-        let bg = 'bg-white/5 border-white/10';
-        let txt = 'text-slate-200';
-        let badge = '';
-
-        if (esTop5) {
-            bg = 'bg-emerald-500/10 border-emerald-500/20';
-            txt = 'text-emerald-400';
-        } else if (esElMejorSextoEntrando) {
-            bg = 'bg-emerald-600/20 border-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.1)]';
-            txt = 'text-emerald-400';
-            badge = '<span class="ml-1 text-[6px] bg-emerald-500 text-white px-1 rounded animate-pulse">CLASIF.</span>';
-        }
-
-        return `
-            <div class="grid grid-cols-12 gap-1 items-center ${bg} p-3 mb-1 rounded-xl border transition-all">
-                <div class="col-span-1 ${(esTop5 || esElMejorSextoEntrando) ? 'text-emerald-500' : 'text-slate-500'} font-black text-[10px]">${i+1}</div>
-                <div class="col-span-4 font-black italic uppercase text-[10px] ${txt} flex items-center gap-1.5 overflow-hidden">
-                    ${obtenerEscudo(eq.nombre)}
-                    <span class="truncate">${eq.nombre}</span>
-                    ${badge}
-                </div>
-                <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pj}</div>
-                <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pg}</div>
-                <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pe}</div>
-                <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pp}</div>
-                <div class="col-span-1 text-center text-slate-500 text-[9px] font-medium">${eq.gf}/${eq.gc}</div>
-                <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.dg > 0 ? '+' + eq.dg : eq.dg}</div>
-                <div class="col-span-1 text-right text-emerald-500 font-black text-sm italic">${eq.pts}</div>
-            </div>
-        `;
-    }).join('');
-
-    // 3. Render de Fixture
-    let dataFixture = zonaActual === 'norte' ? NORTE_DATA[categoriaActual] : (zonaActual === 'centro' ? CENTRO_DATA[categoriaActual] : SUR_DATA[categoriaActual]);
-    const fecha = (dataFixture && dataFixture[fechaActual]) ? dataFixture[fechaActual] : { partidos: [], libre: "" };
-    
-    if(!fecha.partidos || fecha.partidos.length === 0) {
-        document.getElementById('fixture-render').innerHTML = `
-            <div class="flex flex-col items-center justify-center py-10 opacity-30">
-                <i data-lucide="info" class="w-8 h-8 mb-4 text-emerald-500"></i>
-                <p class="text-center text-slate-600 text-[10px] uppercase font-black italic">No hay partidos cargados</p>
-            </div>`;
-    } else {
-        document.getElementById('fixture-render').innerHTML = fecha.partidos.map(p => `
-            <div class="bg-slate-950/50 p-4 rounded-2xl border border-white/5 flex justify-between items-center text-[10px] font-black italic uppercase tracking-tighter shadow-inner mb-2">
-                <div class="flex items-center w-[40%]">
-                    ${obtenerEscudo(p.L)}
-                    <span class="truncate">${p.L}</span>
-                </div>
-                <div class="mx-2 px-3 py-1.5 rounded-lg ${p.R === '-' ? 'bg-white/5 text-slate-600' : 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20'} min-w-[55px] text-center">
-                    ${p.R === '-' ? 'VS' : p.R.replace('|', '-')}
-                </div>
-                <div class="flex items-center w-[40%] justify-end text-right">
-                    <span class="truncate">${p.V}</span>
-                    ${obtenerEscudo(p.V, 'ml-2')}
-                </div>
-            </div>
-        `).join('');
-    }
-
-    if(fecha.libre) {
-        document.getElementById('libre-render').innerHTML = `
-            <div class="text-center p-4 border border-dashed border-emerald-500/20 rounded-2xl bg-emerald-500/[0.02]">
-                <p class="text-[8px] font-black uppercase text-slate-600 tracking-widest mb-1">Equipo Libre</p>
-                <div class="flex items-center justify-center gap-2 text-[11px] font-black text-emerald-500 uppercase italic">
-                    ${obtenerEscudo(fecha.libre)}
-                    ${fecha.libre}
-                </div>
-            </div>`;
-    } else {
-        document.getElementById('libre-render').innerHTML = '';
-    }
-// ==========================================
-// 1. RESULTADOS Y LOGICA DE FASE FINAL
-// ==========================================
-const resultadosPlayoffs = {
-    // ====================================================================
-    // PRIMERA DIVISIÓN
-    // ====================================================================
-    // Octavos (Resultados actuales)
-    a1: { ida: [1, 1], vta: [4, 0], penales: [0, 0] },
-    a2: { ida: [3, 1], vta: [2, 0], penales: [0, 0] },
-    a3: { ida: [0, 0], vta: [1, 0], penales: [0, 0] },
-    a4: { ida: [3, 1], vta: [4, 0], penales: [0, 0] },
-    b1: { ida: [1, 0], vta: [2, 1], penales: [0, 0] },
-    b2: { ida: [1, 1], vta: [1, 1], penales: [0, 0] }, // Se define por penales si sigue igual
-    b3: { ida: [0, 0], vta: [3, 0], penales: [0, 0] },
-    b4: { ida: [3, 2], vta: [0, 0], penales: [0, 0] },
-
-    // Cuartos de Final Primera (Usamos "-" para lo que NO se jugó)
-    ca1: { ida: [2, 1], vta: ["4", "1"], penales: ["-", "-"] },
-    ca2: { ida: [1, 0], vta: ["2", "2"], penales: ["-", "-"] },
-    cb1: { ida: [3, 0], vta: ["8", "1"], penales: ["-", "-"] },
-    cb2: { ida: [0, 0], vta: ["1", "1"], penales: ["5", "4"] },
-
-    // Semifinales Primera
-    sa1: { ida: ["1", "0"], vta: ["0", "1"], penales: ["7", "6"] },
-    sb1: { ida: ["0", "0"], vta: ["2", "0"], penales: ["-", "-"] },
-
-    // Gran Final Primera
-    final: { ida: ["2", "3"], vta: ["2", "1"], penales: ["5", "4"] },
-
-
-    // ====================================================================
-    // SUB 17
-    // ====================================================================
-    sub17_a1: { ida: [2, 0], vta: [2, 0], penales: [0, 0] },
-    sub17_a2: { ida: [0, 1], vta: [0, 2], penales: [0, 0] },
-    sub17_a3: { ida: [5, 0], vta: [3, 1], penales: [0, 0] },
-    sub17_a4: { ida: [3, 0], vta: [0, 1], penales: [0, 0] },
-    sub17_b1: { ida: [3, 0], vta: [3, 0], penales: [0, 0] },
-    sub17_b2: { ida: [1, 2], vta: [1, 0], penales: [0, 0] },
-    sub17_b3: { ida: [2, 0], vta: [0, 0], penales: [0, 0] },
-    sub17_b4: { ida: [0, 0], vta: [2, 0], penales: [0, 0] },
-
-    // Cuartos de Final Sub-17
-    sub17_ca1: { ida: [1, 0], vta: ["1", "0"], penales: ["-", "-"] },
-    sub17_ca2: { ida: [1, 1], vta: ["0", "2"], penales: ["-", "-"] },
-    sub17_cb1: { ida: [2, 0], vta: ["0", "0"], penales: ["-", "-"] },
-    sub17_cb2: { ida: [0, 0], vta: ["1", "2"], penales: ["-", "-"] },
-
-    // Semifinales Sub-17
-    sub17_sa1: { ida: ["0", "1"], vta: ["2", "0"], penales: ["-", "-"] },
-    sub17_sb1: { ida: ["1", "2"], vta: ["1", "1"], penales: ["-", "-"] },
-
-    // Gran Final Sub-17
-    sub17_final: { ida: ["1", "0"], vta: ["1", "0"], penales: ["-", "-"] },
-
-
-    // ====================================================================
-    // SUB 20
-    // ====================================================================
-    sub20_a1: { ida: [0, 2], vta: [1, 2], penales: [0, 0] },
-    sub20_a2: { ida: [1, 2], vta: [1, 0], penales: [0, 0] },
-    sub20_a3: { ida: [3, 0], vta: [1, 2], penales: [0, 0] },
-    sub20_a4: { ida: [2, 0], vta: [1, 3], penales: [0, 0] },
-    sub20_b1: { ida: [0, 0], vta: [1, 0], penales: [0, 0] },
-    sub20_b2: { ida: [1, 1], vta: [1, 0], penales: [0, 0] },
-    sub20_b3: { ida: [0, 1], vta: [2, 1], penales: [0, 0] },
-    sub20_b4: { ida: [0, 5], vta: [1, 0], penales: [0, 0] },
-
-    // Cuartos de Final Sub-20
-    sub20_ca1: { ida: [1, 1], vta: ["3", "3"], penales: ["3", "1"] },
-    sub20_ca2: { ida: [0, 0], vta: ["1", "1"], penales: ["4", "1"] },
-    sub20_cb1: { ida: [0, 0], vta: ["3", "0"], penales: ["-", "-"] },
-    sub20_cb2: { ida: [0, 1], vta: ["2", "0"], penales: ["-", "-"] },
-
-    // Semifinales Sub-20
-    sub20_sa1: { ida: ["0", "1"], vta: ["1", "2"], penales: ["-", "-"] },
-    sub20_sb1: { ida: ["0", "1"], vta: ["1", "2"], penales: ["-", "-"] },
-
-    // Gran Final Sub-20
-    sub20_final: { ida: ["0", "0"], vta: ["1", "3"], penales: ["-", "-"] }
-};
-
-const categoria = typeof categoriaActual !== 'undefined' ? categoriaActual.toUpperCase() : "PRIMERA";
-
-// ====================================================================
-// ANTES DE ARMAR LOS GRUPOS: Guardamos la posición original de cada zona
-// para usarla como criterio principal de ordenamiento.
-// ====================================================================
-const guardarPosicionOriginal = (tabla) => {
-    return tabla.map((equipo, indice) => ({
-        ...equipo,
-        posicionZona: indice + 1 // El primero se guarda como 1, el quinto como 5, etc.
-    }));
-};
-
-// Copias de las tablas registrando la posición que traían de su zona original
-let tablaNorteAjustada = guardarPosicionOriginal([...tNorte]);
-const tablaSurAjustada = guardarPosicionOriginal([...tSur]);
-const tablaCentroAjustada = guardarPosicionOriginal([...tCentro]);
-
-// Ajuste manual de posiciones en la tabla Norte antes de armar nada (Para Primera División)
-if (categoria === "PRIMERA") {
-    const idxMaradona = tablaNorteAjustada.findIndex(e => e.nombre.toUpperCase().includes("DIEGO MARADONA"));
-    const idxBovril = tablaNorteAjustada.findIndex(e => e.nombre.toUpperCase().includes("BOVRIL"));
-    
-    if (idxMaradona !== -1 && idxBovril !== -1) {
-        const [equipoMaradona] = tablaNorteAjustada.splice(idxMaradona, 1);
-        const nuevoIdxBovril = tablaNorteAjustada.findIndex(e => e.nombre.toUpperCase().includes("BOVRIL"));
-        const [equipoBovril] = tablaNorteAjustada.splice(nuevoIdxBovril, 1);
-        
-        // Forzamos posiciones en el array base
-        tablaNorteAjustada.splice(4, 0, equipoMaradona); // 5to
-        tablaNorteAjustada.splice(5, 0, equipoBovril);   // 6to
-        
-        // Re-calculamos las posiciones en base al nuevo orden manual de Primera
-        tablaNorteAjustada = tablaNorteAjustada.map((e, idx) => ({...e, posicionZona: idx + 1}));
-    }
-}
-
-// Armado inicial de clasificados utilizando las tablas con posiciones registradas
-const clasificadosSur = tablaSurAjustada.slice(0, 5);
-const clasificadosNorte = tablaNorteAjustada.slice(0, 5);
-const clasificadosCentro = tablaCentroAjustada.slice(0, 5);
-const sextos = [tablaNorteAjustada[5], tablaCentroAjustada[5], tablaSurAjustada[5]].filter(Boolean);
-const mejor6 = sextos.sort((a,b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg)[0];
-
-const equiposSegui = ["SEGUI", "CAÑADITA"]; 
-const equiposHasenkamp = ["HASENKAMP", "SARMIENTO"];
-
-// 1. Filtramos los equipos base de Seguí y Hasenkamp
-let centroParaA = clasificadosCentro.filter(eq => equiposSegui.some(s => eq.nombre.toUpperCase().includes(s.toUpperCase())));
-let centroParaB = clasificadosCentro.filter(eq => equiposHasenkamp.some(h => eq.nombre.toUpperCase().includes(h.toUpperCase())));
-
-// 2. Filtramos los tres equipos de María Grande de la zona Centro
-const mgAtletico = clasificadosCentro.filter(eq => eq.nombre.toUpperCase().includes("ATLETICO MARIA GRANDE") || (eq.nombre.toUpperCase().includes("MARIA GRANDE") && !eq.nombre.toUpperCase().includes("LITORAL")));
-const mgLitoral = clasificadosCentro.filter(eq => eq.nombre.toUpperCase().includes("LITORAL"));
-const mgMaradona = clasificadosCentro.filter(eq => eq.nombre.toUpperCase().includes("MARADONA"));
-
-// ====================================================================
-// REPARTO POR SORTEO SEGÚN CATEGORÍA (Primera, Sub-20 y Sub-17)
-// ====================================================================
-if (categoria === "SUB17") {
-    // SUB-17 (Al revés): Maradona al A | Atlético y Litoral al B
-    centroParaA = [...centroParaA, ...mgMaradona];
-    centroParaB = [...centroParaB, ...mgAtletico, ...mgLitoral];
-} else {
-    // PRIMERA y SUB-20: Atlético y Litoral al A | Maradona al B
-    centroParaA = [...centroParaA, ...mgAtletico, ...mgLitoral];
-    centroParaB = [...centroParaB, ...mgMaradona];
-}
-
-// El resto de la lógica de distribución sigue igual...
-let restoCentro = clasificadosCentro.filter(eq => !centroParaA.some(a => a.nombre === eq.nombre) && !centroParaB.some(b => b.nombre === eq.nombre));
-
-let grupoA = [...clasificadosSur, ...centroParaA];
-let grupoB = [...clasificadosNorte, ...centroParaB];
-
-if (mejor6) {
-    const esDelSurOCentro = tablaSurAjustada.some(e => e.nombre === mejor6.nombre) || centroParaA.some(e => e.nombre === mejor6.nombre);
-    if (esDelSurOCentro && grupoA.length < 8) { grupoA.push(mejor6); } 
-    else if (grupoB.length < 8) { grupoB.push(mejor6); } 
-    else { grupoA.push(mejor6); }
-}
-
-restoCentro.forEach(eq => {
-    if (grupoA.some(a => a.nombre === eq.nombre) || grupoB.some(b => b.nombre === eq.nombre)) return;
-    if (grupoA.length < 8) grupoA.push(eq); else if (grupoB.length < 8) grupoB.push(eq);
-});
-
-// ====================================================================
-// CORREGIDO: ORDEN POR REGLAMENTO (Posición en Zona -> Promedio -> DG)
-// ====================================================================
-const ordenarG = (g) => g.sort((a,b) => {
-    // CRITERIO 1: Posición original en su zona (Menor número = Mejor puesto. Ej: El 5to queda arriba del 6to)
-    const posA = a.posicionZona || 99;
-    const posB = b.posicionZona || 99;
-    if (posA !== posB) return posA - posB;
-
-    // CRITERIO 2: Si empatan en posición de zona (ej: dos que salieron 3ros), define el Promedio
-    const difPromedio = (b.pts/b.pj) - (a.pts/a.pj);
-    if (Math.abs(difPromedio) > 0.0001) return difPromedio; 
-
-    // CRITERIO 3: Si empatan en todo lo anterior, define Diferencia de Gol
-    return b.dg - a.dg;
-});
-
-grupoA = ordenarG(grupoA); 
-grupoB = ordenarG(grupoB);
-
-// ====================================================================
-// AJUSTES MANUALES DE POSICIONES POST-ORDENADO
-// ====================================================================
-
-// Forzar a Maradona 5to y Bovril 6to en el Grupo B (Solo para Primera División)
-if (categoria === "PRIMERA") {
-    const idxMaradona = grupoB.findIndex(e => e.nombre.toUpperCase().includes("ESCUELA DIEGO MARADONA"));
-    const idxBovril = grupoB.findIndex(e => e.nombre.toUpperCase().includes("DEPORTIVO BOVRIL"));
-
-    if (idxMaradona !== -1 && idxBovril !== -1) {
-        const [equipoMaradona] = grupoB.splice(idxMaradona, 1);
-        const nuevoIdxBovril = grupoB.findIndex(e => e.nombre.toUpperCase().includes("DEPORTIVO BOVRIL"));
-        const [equipoBovril] = grupoB.splice(nuevoIdxBovril, 1);
-
-        grupoB.splice(4, 0, equipoMaradona); // Posición 5
-        grupoB.splice(5, 0, equipoBovril);   // Posición 6
-    }
-}
-
-// ==========================================
-// 2. FUNCIONES DE APOYO (No tocar)
-// ==========================================
-const renderEscudo = (nombre) => {
-    if (typeof obtenerEscudo === 'function') return obtenerEscudo(nombre);
-    return `<div class="w-full h-full bg-slate-700 rounded-full flex items-center justify-center text-[6px] text-white/20">X</div>`;
-};
-
-function obtenerGanadorLlave(p1, p2, llaveId) {
-    if (!p1) return p2 || "";
-    if (!p2) return p1 || "";
-
-    // 1. Armamos el prefijo según la categoría (Sub17, Sub20 o Primera)
-    let idPrefijo = llaveId;
-    if (typeof categoria !== 'undefined') {
-        if (categoria === "SUB17") idPrefijo = `sub17_${llaveId}`;
-        if (categoria === "SUB20") idPrefijo = `sub20_${llaveId}`;
-    }
-
-    const res = resultadosPlayoffs[idPrefijo];
-    
-    // Si no existe la llave en los datos, no inventamos ganador
-    if (!res) return "";
-
-    // 2. ¡EL CANDADO CLAVE PARA LAS VUELTAS!
-    // Si el partido de vuelta tiene guiones "-", significa que todavía no se jugó la revancha.
-    // Cortamos en el acto y devolvemos vacío para que en el cuadro diga "Por Definir".
-    if (res.vta && (res.vta[0] === "-" || res.vta[1] === "-")) {
-        return "";
-    }
-
-    // 3. Si no hay guiones, transformamos los goles a números reales por seguridad
-    const golesIda1 = Number(res.ida[0]) || 0;
-    const golesIda2 = Number(res.ida[1]) || 0;
-    const golesVta1 = Number(res.vta[0]) || 0;
-    const golesVta2 = Number(res.vta[1]) || 0;
-
-    // Sumamos el resultado global
-    const g1 = golesIda1 + golesVta1;
-    const g2 = golesIda2 + golesVta2;
-
-    // Detectamos si es un partido de Octavos de Final
-    const esOctavos = !llaveId.includes('c') && !llaveId.includes('s') && !llaveId.includes('final');
-
-    if (g1 > g2) return p1;
-    if (g2 > g1) return p2;
-
-    // 4. EN CASO DE EMPATE GLOBAL:
-    if (esOctavos) {
-        // REGLA OCTAVOS: Pasa el mejor clasificado (ventaja deportiva)
-        return p1; 
-    } else {
-        // REGLA CUARTOS EN ADELANTE: Se define estrictamente por penales
-        const penales1 = Number(res.penales?.[0]) || 0;
-        const penales2 = Number(res.penales?.[1]) || 0;
-
-        if (penales1 > penales2) return p1;
-        if (penales2 > penales1) return p2; // Ojo: acá tu código viejo decía p1 por error
-        
-        // Si empataron el global y todavía no se cargaron los penales de la vuelta
-        return ""; 
-    }
-}
-
-// ====================================================================
-// 2. FUNCIÓN PARA CREAR CUALQUIER PARTIDO EN EL CUADRO (Octavos, Cuartos o Semis)
-// ====================================================================
-const crearTarjetaPartido = (p1, p2, llaveId, labelEtiqueta) => {
-    // ====================================================================
-    // 1. DICCIONARIO PARA ACHICAR NOMBRES LARGOS
-    // ====================================================================
-    const abreviarNombre = (nombre) => {
-        if (!nombre || nombre === "---") return "";
-        let n = nombre.trim();
-        
-        // ====================================================================
-        // DICCIONARIO GENERAL DE ABREVIACIONES (PLAYOFFS)
-        // ====================================================================
-        n = n.replace(/Viale Football Club/gi, "Viale FC");
-        n = n.replace(/Viale F\.C\./gi, "Viale FC");
-        n = n.replace(/Independiente de Hernandarias/gi, "Independiente (H)");
-        n = n.replace(/Litoral María Grande/gi, "Litoral M.G");
-        n = n.replace(/Atlético María Grande/gi, "Atletico M.G");
-        n = n.replace(/Sarmiento de Crespo/gi, "Sar. Crespo");
-        n = n.replace(/Cultural de Crespo/gi, "Cult. Crespo");
-        n = n.replace(/U\. Agrarios Cerrito/gi, "U.A. Cerrito");
-        n = n.replace(/Atlético Hasenkamp/gi, "Atl. Hasenkamp");
-        n = n.replace(/Escuela Diego Maradona/gi, "Esc. D. Mar.");
-        n = n.replace(/Deportivo Tuyango/gi, "Dep. Tuyango");
-        n = n.replace(/Juventud Sarmiento/gi, "Juv. Sar. Has.");
-        n = n.replace(/J\. Unida de Bovril/gi, "J. U. Bovril");
-        n = n.replace(/Deportivo Bovril/gi, "Dep. Bovril");
-        
-        return n;
-    };
-
-    // Aplicamos la abreviación si el equipo existe
-    const p1Abreviado = p1 ? abreviarNombre(p1) : '— POR DEFINIR —';
-    const p2Abreviado = p2 ? abreviarNombre(p2) : '— POR DEFINIR —';
-
-    // ====================================================================
-    // 2. CONTROL DE CATEGORÍAS Y DATOS
-    // ====================================================================
-    let idPrefijo = llaveId;
-    if (categoria === "SUB17") idPrefijo = `sub17_${llaveId}`;
-    if (categoria === "SUB20") idPrefijo = `sub20_${llaveId}`;
-
-    const res = resultadosPlayoffs[idPrefijo] || { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] };
-
-    // Verificamos si realmente se cargaron goles válidos (que no sean guiones)
-    const tieneIda = res.ida && res.ida[0] !== "-" && res.ida[1] !== "-";
-    const tieneVuelta = res.vta && res.vta[0] !== "-" && res.vta[1] !== "-";
-
-    let g1 = "";
-    let g2 = "";
-
-    // LÓGICA MATEMÁTICA PARA EL GLOBAL
-    if (tieneIda && tieneVuelta) {
-        // Si ya se jugó la vuelta, SUMA MATEMÁTICA REAL
-        g1 = Number(res.ida[0]) + Number(res.vta[0]);
-        g2 = Number(res.ida[1]) + Number(res.vta[1]);
-    } else if (tieneIda) {
-        // Si solo se jugó la ida, el global temporal es el de la ida
-        g1 = Number(res.ida[0]);
-        g2 = Number(res.ida[1]);
-    }
-
-    // Los penales solo se activan si hay empate en el global real (ambos partidos jugados)
-    const hayPenales = tieneIda && tieneVuelta && (g1 === g2) && 
-                       res.penales && res.penales[0] !== "-" && res.penales[1] !== "-" &&
-                       (Number(res.penales[0]) > 0 || Number(res.penales[1]) > 0);
-
-    // ====================================================================
-    // 3. LOGICA DE ESCUDOS
-    // ====================================================================
-    const miniEscudo = (nombre) => {
-        if (!nombre || nombre === "---") return `<div class="w-5 h-5 bg-white/5 rounded-full"></div>`;
-        return `<div class="w-5 h-5 flex items-center justify-center flex-shrink-0 overflow-visible">${renderEscudo(nombre)}</div>`;
-    };
-
-    // ====================================================================
-    // 4. RETORNO DE TU DISEÑO ORIGINAL COMPLETO (¡MEJORADO!)
-    // ====================================================================
-    return `
-    <div class="flex flex-col w-full bg-slate-900/95 border border-white/10 rounded-xl shadow-xl mb-3 overflow-hidden">
-        <div class="flex justify-between items-center px-2.5 py-1.5 bg-slate-950 border-b border-white/10">
-            <span class="text-slate-400 font-black uppercase text-[8px] tracking-wider italic">${labelEtiqueta}</span>
-            <span class="text-yellow-400 font-extrabold text-[9px] bg-yellow-500/10 px-2 py-0.5 rounded border border-yellow-500/20 tracking-wide shadow-inner">
-                I: ${res.ida[0]}-${res.ida[1]} &nbsp;|&nbsp; V: ${res.vta[0]}-${res.vta[1]}
-            </span>
-        </div>
-        
-        <div class="flex items-center justify-between p-2 border-b border-white/5">
-            <div class="flex items-center gap-2 truncate">
-                ${miniEscudo(p1)}
-                <span class="text-[10px] font-black ${p1 ? 'text-slate-100' : 'text-slate-500'} uppercase truncate">${p1Abreviado}</span>
-            </div>
-            <span class="text-white font-black text-[11px]">${p1 ? g1 : ''} ${hayPenales && p1 ? `<span class="text-yellow-500 text-[8px]">(${res.penales[0]})</span>` : ''}</span>
-        </div>
-        
-        <div class="flex items-center justify-between p-2">
-            <div class="flex items-center gap-2 truncate">
-                ${miniEscudo(p2)}
-                <span class="text-[10px] font-black ${p2 ? 'text-slate-100' : 'text-slate-500'} uppercase truncate">${p2Abreviado}</span>
-            </div>
-            <span class="text-white font-black text-[11px]">${p2 ? g2 : ''} ${hayPenales && p2 ? `<span class="text-yellow-500 text-[8px]">(${res.penales[1]})</span>` : ''}</span>
-        </div>
-    </div>`;
-};
-
-// ==========================================
-// 3. RENDER DEL CUADRO DE PLAY-OFFS (7 Columnas Simétricas)
-// ==========================================
-const contCuadro = document.getElementById('cuadro-render');
-if(contCuadro) {
-    // Definimos los ganadores de Octavos de manera limpia
-    const gan_a1 = obtenerGanadorLlave(grupoA[0]?.nombre, grupoA[7]?.nombre, "a1") || "";
-    const gan_a2 = obtenerGanadorLlave(grupoA[3]?.nombre, grupoA[4]?.nombre, "a2") || "";
-    const gan_a3 = obtenerGanadorLlave(grupoA[1]?.nombre, grupoA[6]?.nombre, "a3") || "";
-    const gan_a4 = obtenerGanadorLlave(grupoA[2]?.nombre, grupoA[5]?.nombre, "a4") || "";
-
-    const gan_b1 = obtenerGanadorLlave(grupoB[0]?.nombre, grupoB[7]?.nombre, "b1") || "";
-    const gan_b2 = obtenerGanadorLlave(grupoB[3]?.nombre, grupoB[4]?.nombre, "b2") || "";
-    const gan_b3 = obtenerGanadorLlave(grupoB[1]?.nombre, grupoB[6]?.nombre, "b3") || "";
-    const gan_b4 = obtenerGanadorLlave(grupoB[2]?.nombre, grupoB[5]?.nombre, "b4") || "";
-
-    // Definimos los ganadores de Cuartos para alimentar la Semifinal
-    // Si los de octavos no están definidos, el cuarto queda vacío
-    const gan_ca1 = (gan_a1 && gan_a2) ? (obtenerGanadorLlave(gan_a1, gan_a2, "ca1") || "") : "";
-    const gan_ca2 = (gan_a3 && gan_a4) ? (obtenerGanadorLlave(gan_a3, gan_a4, "ca2") || "") : "";
-    const gan_cb1 = (gan_b1 && gan_b2) ? (obtenerGanadorLlave(gan_b1, gan_b2, "cb1") || "") : "";
-    const gan_cb2 = (gan_b3 && gan_b4) ? (obtenerGanadorLlave(gan_b3, gan_b4, "cb2") || "") : "";
-
-    // Definimos los ganadores de Semifinal para alimentar la Final
-    // Solo calcula si AMBOS clasificados de cuartos existen reales
-    const finalista_A = (gan_ca1 && gan_ca2) ? (obtenerGanadorLlave(gan_ca1, gan_ca2, "sa1") || "") : "";
-    const finalista_B = (gan_cb1 && gan_cb2) ? (obtenerGanadorLlave(gan_cb1, gan_cb2, "sb1") || "") : "";
-
-    // El campeón definitivo saldrá del cruce final
-    const campeon_final = (finalista_A && finalista_B) ? (obtenerGanadorLlave(finalista_A, finalista_B, "final") || "") : "";
-
-    contCuadro.innerHTML = `
-        <div class="grid grid-cols-7 gap-4 items-center min-w-[1300px] py-4 px-2">
-            
-            <div>
-                <h4 class="text-center text-yellow-500 Richmond font-black text-[9px] uppercase mb-3 italic tracking-wider">Octavos A</h4>
-                ${crearTarjetaPartido(grupoA[0]?.nombre, grupoA[7]?.nombre, "a1", "Llave A1")}
-                ${crearTarjetaPartido(grupoA[3]?.nombre, grupoA[4]?.nombre, "a2", "Llave A2")}
-                <div class="h-8"></div>
-                ${crearTarjetaPartido(grupoA[1]?.nombre, grupoA[6]?.nombre, "a3", "Llave A3")}
-                ${crearTarjetaPartido(grupoA[2]?.nombre, grupoA[5]?.nombre, "a4", "Llave A4")}
-            </div>
-
-            <div class="flex flex-col justify-around h-full py-10">
-                ${crearTarjetaPartido(gan_a1 || "— POR DEFINIR —", gan_a2 || "— POR DEFINIR —", "ca1", "Cuartos A1")}
-                ${crearTarjetaPartido(gan_a3 || "— POR DEFINIR —", gan_a4 || "— POR DEFINIR —", "ca2", "Cuartos A2")}
-            </div>
-
-            <div class="flex flex-col justify-center h-full py-20">
-                ${crearTarjetaPartido(gan_ca1 || "— POR DEFINIR —", gan_ca2 || "— POR DEFINIR —", "sa1", "Semifinal A")}
-            </div>
-
-            <div class="flex flex-col items-center justify-center gap-6">
-                <div class="w-full">
-                    ${crearTarjetaPartido(finalista_A || "— POR DEFINIR —", finalista_B || "— POR DEFINIR —", "final", "GRAN FINAL")}
-                </div>
-                
-                <div class="w-full p-5 bg-gradient-to-b from-yellow-500/30 via-slate-900 to-slate-950 border-2 border-yellow-500 rounded-3xl shadow-2xl text-center">
-                    <p class="text-[7px] text-yellow-500 font-black tracking-widest uppercase mb-1 italic">👑 CAMPEÓN 👑</p>
-                    <div class="text-[12px] font-black text-white uppercase truncate drop-shadow-md">
-                        ${campeon_final && campeon_final.trim() !== "" ? campeon_final : "— POR DEFINIR —"}
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex flex-col justify-center h-full py-20">
-                ${crearTarjetaPartido(gan_cb1 || "— POR DEFINIR —", gan_cb2 || "— POR DEFINIR —", "sb1", "Semifinal B")}
-            </div>
-
-            <div class="flex flex-col justify-around h-full py-10">
-                ${crearTarjetaPartido(gan_b1 || "— POR DEFINIR —", gan_b2 || "— POR DEFINIR —", "cb1", "Cuartos B1")}
-                ${crearTarjetaPartido(gan_b3 || "— POR DEFINIR —", gan_b4 || "— POR DEFINIR —", "cb2", "Cuartos B2")}
-            </div>
-
-            <div>
-                <h4 class="text-center text-emerald-400 font-black text-[9px] uppercase mb-3 italic tracking-wider">Octavos B</h4>
-                ${crearTarjetaPartido(grupoB[0]?.nombre, grupoB[7]?.nombre, "b1", "Llave B1")}
-                ${crearTarjetaPartido(grupoB[3]?.nombre, grupoB[4]?.nombre, "b2", "Llave B2")}
-                <div class="h-8"></div>
-                ${crearTarjetaPartido(grupoB[1]?.nombre, grupoB[6]?.nombre, "b3", "Llave B3")}
-                ${crearTarjetaPartido(grupoB[2]?.nombre, grupoB[5]?.nombre, "b4", "Llave B4")}
-            </div>
-
-        </div>`;
-}
-
-// ==========================================
-// 4. RENDER DE TABLAS DE MÉRITO (ESTRUCTURA DE 3)
-// ==========================================
-const cont16 = document.getElementById('top-16-render');
-if(cont16) {
-    cont16.className = "flex flex-col lg:flex-row gap-6 w-full mb-8";
-
-    // 1. Armamos la tabla de 16 usando la tabla Norte Ajustada por la categoría
-    let tabla16Jerarquica = [];
-    for (let i = 0; i < 6; i++) {
-        let nivel = [tSur[i], tablaNorteAjustada[i], tCentro[i]].filter(Boolean);
-        nivel.sort((a, b) => (b.pts/b.pj) - (a.pts/a.pj) || b.dg - a.dg);
-        tabla16Jerarquica.push(...nivel);
-    }
-    const clasificados16 = tabla16Jerarquica.slice(0, 16);
-    const equiposSorteo = [];
-
-    const generarFila = (eq, i, colorClase, esColumnaGrupo) => {
-        if (!eq) return '';
-        const enSorteo = equiposSorteo.some(s => eq.nombre.toUpperCase().includes(s));
-        const aplicarEfectoSorteo = esColumnaGrupo && enSorteo;
-        
-        const estiloBorde = aplicarEfectoSorteo 
-            ? 'border-slate-600 opacity-50 bg-slate-800' 
-            : `${colorClase.replace('text-', 'border-')} bg-white/5`;
-        
-        const nombreFinal = aplicarEfectoSorteo 
-            ? `${eq.nombre} <span class="text-[7px] text-yellow-500 block">ESPERANDO SORTEO</span>` 
-            : eq.nombre;
-
-        return `
-        <div class="flex justify-between items-center p-2 mb-1 rounded border-l-2 ${estiloBorde} text-[10px] uppercase font-bold text-slate-200">
-            <span class="flex items-center gap-3 truncate min-w-0">
-                <span class="text-slate-500 w-3 font-black text-[8px] flex-shrink-0">${i+1}</span>
-                <div class="w-6 h-6 flex-shrink-0 flex items-center justify-center overflow-hidden">
-                    ${renderEscudo(eq.nombre)}
-                </div>
-                <span class="truncate leading-tight">${nombreFinal}</span>
-            </span> 
-            <span class="${aplicarEfectoSorteo ? 'text-slate-500' : 'text-yellow-500'} font-black text-[9px] ml-2">
-                ${(eq.pts/eq.pj).toFixed(2)}
-            </span>
-        </div>`;
-    };
-
-    cont16.innerHTML = `
-        <!-- COLUMNA IZQUIERDA: GENERAL 16 -->
-        <div class="flex-[1.2] bg-black/20 p-4 rounded-xl border border-white/5">
-            <div class="text-[10px] font-black text-white mb-4  tracking-widest border-b border-yellow-500 pb-1 italic flex justify-between">
-                <span>Orden de Mérito</span>
-                <span class="text-[8px] text-slate-500 font-normal">Posición + Promedio</span>
-            </div>
-            ${clasificados16.map((eq, i) => generarFila(eq, i, 'text-yellow-500', false)).join('')}
-        </div>
-
-        <!-- COLUMNA DERECHA: GRUPOS A Y B -->
-        <div class="flex-1 flex flex-col gap-4">
-            <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                <div class="text-[10px] font-black text-emerald-400 mb-2  tracking-widest border-b border-emerald-400/30 pb-1 italic">Grupo A (Sur/Centro)</div>
-                ${grupoA.map((eq, i) => generarFila(eq, i, 'text-emerald-500', true)).join('')}
-            </div>
-            <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                <div class="text-[10px] font-black text-blue-400 mb-2  tracking-widest border-b border-blue-400/30 pb-1 italic">Grupo B (Norte/Centro)</div>
-                ${grupoB.map((eq, i) => generarFila(eq, i, 'text-blue-500', true)).join('')}
-            </div>
-        </div>`;
-}
-// Inicializar iconos
-if(typeof lucide !== 'undefined') lucide.createIcons();
-
-// Re-inicializar iconos
-if(typeof lucide !== 'undefined') lucide.createIcons();
-}
-
-const ESCUDOS_MAP = {
-    "U. Agrarios Cerrito": "img/escudos/cuac.png",
-    "Atlético Hernandarias": "img/escudos/cah.png",
-    "J. Unida de Bovril": "img/escudos/juventudc.png",
-    "Deportivo Tuyango": "img/escudos/tuyango.png",
-    "Deportivo Bovril": "img/escudos/cdb.png",
-    "Independiente FC": "img/escudos/ifbc.png",
-    "Union Alcaraz": "img/escudos/ufc.png",
-    "Atlético Hasenkamp": "img/escudos/cahr.png",
-    "Litoral María Grande": "img/escudos/litoral.png",
-    "Cañadita Central": "img/escudos/cacc.png",
-    "Atlético María Grande": "img/escudos/camg.png",
-    "Segui FC": "img/escudos/segui.png",
-    "Escuela Diego Maradona": "img/escudos/maradona.png",
-    "Juventud Sarmiento": "img/escudos/cjs.png",
-    "Atlético Arsenal": "img/escudos/caa.png",
-    "Viale Football Club": "img/escudos/viale.png",
-    "Sarmiento de Crespo": "img/escudos/sarmientoc.png",
-    "Union de Crespo": "img/escudos/unionc.png",
-    "Deportivo Tabossi": "img/escudos/cadt.png",
-    "Cultural de Crespo": "img/escudos/culturalc.png",
-    "Union de Viale": "img/escudos/unionviale.jpg" 
-};
-
-function obtenerEscudo(nombre, clasesAdicionales = '') {
-    const url = ESCUDOS_MAP[nombre] || 'ruta/a/escudo/generico.png';
-    // Cambié w-5 h-5 por w-8 h-8 (puedes probar con w-10 si los quieres más grandes)
-    return `<img src="${url}" class="w-8 h-8 object-contain inline-block ${clasesAdicionales}" 
-            onerror="this.style.display='none'" alt="">`;
-}
-// Al final de todo tu JS
-window.onload = function() {
-    // 1. Obtenemos el valor que tenga el selector (en este caso será "7")
-    const fechaInicial = document.getElementById('fecha-selector').value;
-    
-    // 2. Forzamos la ejecución de la función de los partidos
-    cambiarFecha(fechaInicial);
-    
-    // 3. Forzamos el render de las tablas de mérito y el cuadro
-    // Si tus funciones de las tablas están dentro de un bloque, 
-    // asegúrate de que se llamen aquí también.
-    console.log("Sistema inicializado en Fecha " + fechaInicial);
-};
-// SOLUCIÓN FINAL: DESBLOQUEO SILENCIOSO
-// setTimeout(function() {
-//     // 1. Le decimos al sistema que ya pusimos la clave
-//     localStorage.setItem('acceso_superdep', 'true');
-    
-//     // 2. Ejecutamos la función con el video de Sergio de HOY
-//     if (typeof aplicarAcceso === 'function') {
-//         aplicarAcceso("vdW8zu-gaf0"); // <-- ¡ACTUALIZADO ACÁ TAMBIÉN!
-//     }
-    
-//     // 3. Si tenés el panel de "Contenido Protegido", lo ocultamos manualmente
-//     const paywall = document.getElementById('paywall');
-//     if (paywall) paywall.classList.add('hidden');
-    
-//     const form = document.getElementById('formulario-login');
-//     if (form) form.classList.add('hidden');
-
-//     console.log("Acceso forzado sin mover el diseño");
-// }, 1000);
-// Bloquear el clic derecho en toda la página web
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-});
-
-// Bloquear atajos de teclado típicos para inspeccionar código (F12, Ctrl+Shift+I, Ctrl+U)
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'F12' || 
-        (e.ctrlKey && e.shiftKey && e.key === 'I') || 
-        (e.ctrlKey && e.shiftKey && e.key === 'J') || 
-        (e.ctrlKey && e.key === 'u') || 
-        (e.ctrlKey && e.key === 'U')) {
-        e.preventDefault();
-        return false;
-    }
-});
-
-// FUNCIÓN PARA DESPLAZAMIENTO SUAVE ENTRE SECCIONES
-function irASeccion(idSeccion) {
-    const elemento = document.getElementById(idSeccion);
-    if (elemento) {
-        // Calculamos el espacio del header + el nav para que no tapen el título al scrollear
-        const offset = 130; 
-        const bodyRect = document.body.getBoundingClientRect().top;
-        const elementRect = elemento.getBoundingClientRect().top;
-        const elementPosition = elementRect - bodyRect;
-        const offsetPosition = elementPosition - offset;
-
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-        });
-    }
-}
-
-</script>
-<script src="https://www.youtube.com/iframe_api"></script>
+<!-- SCRIPTS MODULARIZADOS -->
+<script src="src/js/clausura-2026-data.js"></script>
+<script src="src/js/player.js"></script>
+<script src="src/js/main.js"></script>
 
 </body>
 </html>

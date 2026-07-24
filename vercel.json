@@ -6,7 +6,7 @@
       "use": "@vercel/node"
     },
     {
-      "src": "{index.html,historial-apertura-2026.html,src/**/*,public/**/*,img/**/*}",
+      "src": "{index.html,historial-apertura-2026.html,exito.html,src/**/*,public/**/*,img/**/*}",
       "use": "@vercel/static"
     }
   ],

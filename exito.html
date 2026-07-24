@@ -36,7 +36,7 @@
 
         // Apenas carga la pantalla, le pide un código libre al servidor
         document.addEventListener('DOMContentLoaded', () => {
-            fetch('/api/entregar-codigo', { method: 'POST' })
+            fetch('/api/entregar-codigo.js', { method: 'POST' })
                 .then(res => res.json())
                 .then(data => {
                     if (data.codigo) {

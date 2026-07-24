@@ -9,5 +9,15 @@
       "src": "{**.html,src/**/*,public/**/*,img/**/*,css/**/*,js/**/*}",
       "use": "@vercel/static"
     }
+  ],
+  "routes": [
+    {
+      "src": "/api/validar-clave",
+      "dest": "/api/validar-clave.js"
+    },
+    {
+      "src": "/api/entregar-codigo",
+      "dest": "/api/entregar-codigo.js"
+    }
   ]
 }

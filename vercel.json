@@ -9,11 +9,5 @@
       "src": "{index.html,historial-apertura-2026.html,exito.html,src/**/*,public/**/*,img/**/*}",
       "use": "@vercel/static"
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/index.js"
-    }
   ]
 }

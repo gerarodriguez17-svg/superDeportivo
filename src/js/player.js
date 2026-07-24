@@ -123,7 +123,7 @@ async function intentarAccesoConBaseDatos() {
 
     btn.disabled = true;
     btn.innerText = "VERIFICANDO...";
-    txtError.classList.add('hidden');
+    if (txtError) txtError.classList.add('hidden');
 
     try {
         const response = await fetch('/api/validar-clave', {
@@ -135,13 +135,16 @@ async function intentarAccesoConBaseDatos() {
         const resultado = await response.json();
 
         if (!response.ok || !resultado.valido) {
-            txtError.innerText = resultado.mensaje || resultado.error || "Código inválido.";
-            txtError.classList.remove('hidden');
+            if (txtError) {
+                txtError.innerText = resultado.mensaje || resultado.error || "Código inválido.";
+                txtError.classList.remove('hidden');
+            }
             btn.disabled = false;
             btn.innerText = "DESBLOQUEAR PARTIDO";
             return;
         }
 
+        // 1. Guardar permisos en LocalStorage
         localStorage.setItem('acceso_superdep', 'true');
         
         const ahora = new Date();
@@ -150,12 +153,28 @@ async function intentarAccesoConBaseDatos() {
         ahora.setHours(0, 0, 0, 0);
         localStorage.setItem('acceso_vencimiento', ahora.getTime().toString());
 
-        aplicarAcceso(VIDEO_ID_DOMINGO);
+        // 2. Ocultar formulario e indicar acceso concedido en pantalla
+        const formLogin = document.getElementById('formulario-login');
+        const accesoExitoso = document.getElementById('acceso-exitoso');
+
+        if (formLogin) formLogin.classList.add('hidden');
+        if (accesoExitoso) accesoExitoso.classList.remove('hidden');
+
+        // 3. Activar el reproductor (si la función aplicarAcceso existe)
+        if (typeof aplicarAcceso === 'function') {
+            const videoId = typeof VIDEO_ID_DOMINGO !== 'undefined' ? VIDEO_ID_DOMINGO : '';
+            aplicarAcceso(videoId);
+        }
 
     } catch (err) {
-        txtError.innerText = "ERROR DE CONEXIÓN. INTENTÁ DE NUEVO.";
-        txtError.classList.remove('hidden');
+        if (txtError) {
+            txtError.innerText = "ERROR DE CONEXIÓN. INTENTÁ DE NUEVO.";
+            txtError.classList.remove('hidden');
+        }
         btn.disabled = false;
         btn.innerText = "DESBLOQUEAR PARTIDO";
     }
 }
+
+// ⚠️ Asegurar exposición al botón del HTML
+window.intentarAccesoConBaseDatos = intentarAccesoConBaseDatos;

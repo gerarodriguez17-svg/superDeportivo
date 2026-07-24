@@ -8,15 +8,21 @@ export default async function handler(req, res) {
     if (req.method === 'OPTIONS') return res.status(200).end();
     if (req.method !== 'POST') return res.status(405).json({ error: 'Método no permitido.' });
 
-    const { codigo } = req.body;
+    // 👈 Parseo seguro de req.body
+    const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+    const { codigo } = body;
+
     if (!codigo) return res.status(400).json({ error: 'Falta ingresar el código.' });
 
     const SUPABASE_URL = process.env.SUPABASE_URL;
-    const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY; 
+    const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY; 
+
+    if (!SUPABASE_URL || !SUPABASE_KEY) {
+        return res.status(500).json({ error: 'Faltan variables de entorno de Supabase.' });
+    }
 
     try {
-        // 1. SELECT: Buscamos si el código existe y su estado es 'libre' o 'reservado'
-        // PostgREST usa "in.(libre,reservado)" para emular el IN de SQL
+        // 1. SELECT
         const urlFetch = `${SUPABASE_URL}/rest/v1/entradas?codigo=eq.${encodeURIComponent(codigo)}&estado=in.(libre,reservado)&select=*`;
         
         const responseSelect = await fetch(urlFetch, {
@@ -26,14 +32,13 @@ export default async function handler(req, res) {
 
         const data = await responseSelect.json();
 
-        // Si el array vuelve vacío, el código no existe o ya está 'usado'
-        if (data.length === 0) {
+        if (!data || data.length === 0) {
             return res.status(404).json({ valido: false, mensaje: 'El código ingresado no es válido o ya fue utilizado en otro dispositivo.' });
         }
 
         const registro = data[0];
 
-        // 2. UPDATE: Quemamos el código pasándolo a 'usado' y guardando el timestamp
+        // 2. UPDATE
         const urlUpdate = `${SUPABASE_URL}/rest/v1/entradas?id=eq.${registro.id}`;
         const timestampAhora = new Date().toISOString();
 
@@ -45,7 +50,7 @@ export default async function handler(req, res) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                estado: 'usado', // 👈 Se quema definitivamente
+                estado: 'usado',
                 usado_en: timestampAhora
             })
         });

@@ -110,3 +110,52 @@ function inicializarHlsBunny(urlStream) {
 }
 
 document.addEventListener('DOMContentLoaded', cargarReproductor);
+
+
+async function intentarAccesoConBaseDatos() {
+    const input = document.getElementById('clave-input');
+    const btn = document.getElementById('btn-validar');
+    const txtError = document.getElementById('error-mensaje');
+    
+    if (!input || !input.value.trim()) return;
+    
+    const codigoIngresado = input.value.trim().toUpperCase();
+
+    btn.disabled = true;
+    btn.innerText = "VERIFICANDO...";
+    txtError.classList.add('hidden');
+
+    try {
+        const response = await fetch('/api/validar-clave', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ codigo: codigoIngresado })
+        });
+
+        const resultado = await response.json();
+
+        if (!response.ok || !resultado.valido) {
+            txtError.innerText = resultado.mensaje || resultado.error || "Código inválido.";
+            txtError.classList.remove('hidden');
+            btn.disabled = false;
+            btn.innerText = "DESBLOQUEAR PARTIDO";
+            return;
+        }
+
+        localStorage.setItem('acceso_superdep', 'true');
+        
+        const ahora = new Date();
+        const diasHastaMiercoles = (10 - ahora.getDay()) % 7 || 7;
+        ahora.setDate(ahora.getDate() + diasHastaMiercoles);
+        ahora.setHours(0, 0, 0, 0);
+        localStorage.setItem('acceso_vencimiento', ahora.getTime().toString());
+
+        aplicarAcceso(VIDEO_ID_DOMINGO);
+
+    } catch (err) {
+        txtError.innerText = "ERROR DE CONEXIÓN. INTENTÁ DE NUEVO.";
+        txtError.classList.remove('hidden');
+        btn.disabled = false;
+        btn.innerText = "DESBLOQUEAR PARTIDO";
+    }
+}

@@ -207,52 +207,77 @@ window.intentarAccesoConBaseDatos = intentarAccesoConBaseDatos;
 
 // Función para solicitar la URL firmada e inicializar HLS.js
 async function cargarVideoDesbloqueado() {
-    const contenedorVideo = document.getElementById('wrapper-video-dinamico');
-    if (!contenedorVideo) return;
+    const contenedor = document.getElementById('wrapper-video-dinamico');
+    if (!contenedor) return;
+
+    // 1. Inyectamos primero la estructura limpia del HTML con la etiqueta <video>
+    contenedor.innerHTML = `
+        <video 
+            id="reproductor-live" 
+            class="w-full h-full object-cover" 
+            controls 
+            playsinline 
+            autoplay 
+            muted>
+            Tu navegador no soporta reproducción HLS.
+        </video>
+    `;
+
+    const videoElem = document.getElementById('reproductor-live');
 
     try {
-        // Pedimos la URL firmada a nuestra API
+        // 2. Pedimos la URL firmada a nuestra API de Vercel
         const response = await fetch('/api/obtener-stream');
         const data = await response.json();
 
         if (!response.ok || !data.streamUrl) {
-            console.error("Error al obtener la señal privada:", data.error);
+            console.error("Error al obtener la URL del vivo:", data);
             return;
         }
 
-        // Creamos el elemento <video>
-        contenedorVideo.innerHTML = `
-            <video id="video-stream" class="w-full h-full object-cover" controls autoplay playsinline muted></video>
-        `;
-
-        const videoElem = document.getElementById('video-stream');
-
-        // Si HLS.js está soportado en el navegador (Chrome, Firefox, Edge, etc.)
-        if (Hls.isSupported()) {
+        // 3. Manejo de reproducción según el navegador
+        if (typeof Hls !== 'undefined' && Hls.isSupported()) {
             const hls = new Hls({
                 enableWorker: true,
-                lowLatencyMode: true
+                lowLatencyMode: true,
+                manifestLoadingTimeOut: 10000
             });
+
             hls.loadSource(data.streamUrl);
             hls.attachMedia(videoElem);
+
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                videoElem.play().catch(() => console.log("Autoplay bloqueado, el usuario debe dar Play"));
+                videoElem.play().catch(() => {
+                    console.log("Autoplay bloqueado con audio. Se reproduce silenciado.");
+                    videoElem.muted = true;
+                    videoElem.play();
+                });
             });
-        } 
-        // Para Safari en iOS/Mac (soporte nativo de HLS)
-        else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {
+
+            hls.on(Hls.Events.ERROR, (event, dataError) => {
+                if (dataError.fatal) {
+                    if (dataError.type === Hls.ErrorTypes.NETWORK_ERROR) {
+                        console.log("Error de red, reintentando conectar al vivo...");
+                        hls.startLoad();
+                    } else if (dataError.type === Hls.ErrorTypes.MEDIA_ERROR) {
+                        hls.recoverMediaError();
+                    }
+                }
+            });
+
+        } else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {
+            // Caso para Safari en iPhone / Mac
             videoElem.src = data.streamUrl;
             videoElem.addEventListener('loadedmetadata', () => {
-                videoElem.play();
+                videoElem.play().catch(() => {
+                    videoElem.muted = true;
+                    videoElem.play();
+                });
             });
         }
 
-        // Mostrar controles personalizados si los usás
-        const controles = document.getElementById('controles-propios');
-        if (controles) controles.classList.remove('hidden');
-
     } catch (err) {
-        console.error("Error al conectar con la transmisión:", err);
+        console.error("Error conectando con la transmisión:", err);
     }
 }
 

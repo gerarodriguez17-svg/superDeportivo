@@ -12,15 +12,15 @@ export default async function handler(req, res) {
 
     if (!ACCOUNT_ID || !API_TOKEN) {
         return res.status(500).json({ 
-            error: 'Faltan credenciales.',
+            error: 'Faltan credenciales en Vercel.',
             tieneAccountId: !!ACCOUNT_ID, 
             tieneApiToken: !!API_TOKEN 
         });
     }
 
     try {
-        // Petición a Cloudflare Stream API
-        const urlCloudflare = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/stream/live_inputs/${LIVE_INPUT_ID}/token`;
+        // Endpoint correcto de Cloudflare Stream para tokens
+        const urlCloudflare = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/stream/${LIVE_INPUT_ID}/token`;
         
         const response = await fetch(urlCloudflare, {
             method: 'POST',
@@ -33,7 +33,6 @@ export default async function handler(req, res) {
             })
         });
 
-        // Leemos como texto primero para evitar el choque de JSON parser si Cloudflare envía un html/error
         const textData = await response.text();
         
         let data;

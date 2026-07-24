@@ -18,6 +18,10 @@
     {
       "src": "/api/entregar-codigo",
       "dest": "/api/entregar-codigo.js"
+    },
+    {
+      "source": "/api/obtener-stream",
+      "destination": "/api/obtener-stream.js"
     }
   ]
 }

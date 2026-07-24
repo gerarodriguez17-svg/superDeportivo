@@ -204,3 +204,78 @@ document.addEventListener('DOMContentLoaded', cargarReproductor);
 
 // Exponer la función al botón del HTML
 window.intentarAccesoConBaseDatos = intentarAccesoConBaseDatos;
+
+// Función para solicitar la URL firmada e inicializar HLS.js
+async function cargarVideoDesbloqueado() {
+    const contenedorVideo = document.getElementById('wrapper-video-dinamico');
+    if (!contenedorVideo) return;
+
+    try {
+        // Pedimos la URL firmada a nuestra API
+        const response = await fetch('/api/obtener-stream');
+        const data = await response.json();
+
+        if (!response.ok || !data.streamUrl) {
+            console.error("Error al obtener la señal privada:", data.error);
+            return;
+        }
+
+        // Creamos el elemento <video>
+        contenedorVideo.innerHTML = `
+            <video id="video-stream" class="w-full h-full object-cover" controls autoplay playsinline muted></video>
+        `;
+
+        const videoElem = document.getElementById('video-stream');
+
+        // Si HLS.js está soportado en el navegador (Chrome, Firefox, Edge, etc.)
+        if (Hls.isSupported()) {
+            const hls = new Hls({
+                enableWorker: true,
+                lowLatencyMode: true
+            });
+            hls.loadSource(data.streamUrl);
+            hls.attachMedia(videoElem);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                videoElem.play().catch(() => console.log("Autoplay bloqueado, el usuario debe dar Play"));
+            });
+        } 
+        // Para Safari en iOS/Mac (soporte nativo de HLS)
+        else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {
+            videoElem.src = data.streamUrl;
+            videoElem.addEventListener('loadedmetadata', () => {
+                videoElem.play();
+            });
+        }
+
+        // Mostrar controles personalizados si los usás
+        const controles = document.getElementById('controles-propios');
+        if (controles) controles.classList.remove('hidden');
+
+    } catch (err) {
+        console.error("Error al conectar con la transmisión:", err);
+    }
+}
+
+// Función que se ejecuta cuando el código es válido
+function aplicarAcceso() {
+    document.getElementById('formulario-login')?.classList.add('hidden');
+    document.getElementById('acceso-exitoso')?.classList.remove('hidden');
+    
+    // Disparar la carga del video privado
+    cargarVideoDesbloqueado();
+}
+
+// Verificar acceso guardado en localStorage al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    const tieneAcceso = localStorage.getItem('acceso_superdep') === 'true';
+    const vencimiento = localStorage.getItem('acceso_vencimiento');
+    const ahora = new Date().getTime();
+
+    if (tieneAcceso && vencimiento && ahora < parseInt(vencimiento)) {
+        aplicarAcceso();
+    } else {
+        // Si el pase venció, limpiamos storage
+        localStorage.removeItem('acceso_superdep');
+        localStorage.removeItem('acceso_vencimiento');
+    }
+});

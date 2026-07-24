@@ -12,33 +12,43 @@ export default async function handler(req, res) {
 
     if (!ACCOUNT_ID || !API_TOKEN) {
         return res.status(500).json({ 
-            error: 'Faltan las credenciales.',
-            debug: { tieneAccountId: !!ACCOUNT_ID, tieneApiToken: !!API_TOKEN }
+            error: 'Faltan credenciales.',
+            tieneAccountId: !!ACCOUNT_ID, 
+            tieneApiToken: !!API_TOKEN 
         });
     }
 
     try {
-        // Petición de token para Live Input
-        const response = await fetch(
-            `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/stream/live_inputs/${LIVE_INPUT_ID}/token`,
-            {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${API_TOKEN}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    exp: Math.floor(Date.now() / 1000) + 21600
-                })
-            }
-        );
+        // Petición a Cloudflare Stream API
+        const urlCloudflare = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/stream/live_inputs/${LIVE_INPUT_ID}/token`;
+        
+        const response = await fetch(urlCloudflare, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${API_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                exp: Math.floor(Date.now() / 1000) + 21600 // Válido por 6 horas
+            })
+        });
 
-        const data = await response.json();
+        // Leemos como texto primero para evitar el choque de JSON parser si Cloudflare envía un html/error
+        const textData = await response.text();
+        
+        let data;
+        try {
+            data = JSON.parse(textData);
+        } catch (e) {
+            return res.status(500).json({ 
+                error: 'Respuesta no válida de Cloudflare', 
+                respuestaRaw: textData 
+            });
+        }
 
         if (!response.ok || !data.success) {
-            console.error("Detalle error Cloudflare:", data);
             return res.status(response.status || 400).json({ 
-                error: 'Error devuelto por Cloudflare', 
+                error: 'Cloudflare rechazó la solicitud de token', 
                 detalles: data.errors || data 
             });
         }
@@ -49,6 +59,6 @@ export default async function handler(req, res) {
         return res.status(200).json({ streamUrl });
 
     } catch (error) {
-        return res.status(500).json({ error: 'Error de conexión.', mensaje: error.message });
+        return res.status(500).json({ error: 'Error interno en el servidor.', detalle: error.message });
     }
 }

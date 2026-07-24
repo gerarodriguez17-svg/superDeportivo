@@ -126,7 +126,7 @@ async function intentarAccesoConBaseDatos() {
     txtError.classList.add('hidden');
 
     try {
-        const response = await fetch('/api/validar-clave.js', {
+        const response = await fetch('/api/validar-clave', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ codigo: codigoIngresado })

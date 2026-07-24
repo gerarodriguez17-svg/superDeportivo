@@ -5,13 +5,13 @@ const CONFIG_TRANSMISION = {
     // "EN_VIVO" | "REPETICION" | "PROXIMAMENTE"
     estado: "EN_VIVO", 
 
-    // URL de Bunny.net para el vivo
+    // URL de Cloudflare/Bunny.net para el vivo
     bunnyUrl: "https://customer-s9j2d2h307gul2fy.cloudflarestream.com/407942320be38f97de9277fc37d3d08c/manifest/video.m3u8",
 
     // ID de YouTube para la repetición
     youtubeId: "J75ydWUSOmg", 
 
-    // Placa informativo cuando no hay partido
+    // Placa informativa cuando no hay partido
     proximoPartido: {
         titulo: "FECHA 1 - CLAUSURA 2026",
         equipoLocal: "Cerrito",
@@ -19,6 +19,26 @@ const CONFIG_TRANSMISION = {
         fechaHora: "Domingo 15:30 HS"
     }
 };
+
+// ==========================================
+// VERIFICACIÓN DE VENCIMIENTO DE ACCESO
+// ==========================================
+function verificarAccesoVigente() {
+    const acceso = localStorage.getItem('usuario_acceso_valido') === 'true';
+    const vencimiento = localStorage.getItem('acceso_vencimiento');
+
+    if (acceso && vencimiento) {
+        const ahora = new Date().getTime();
+        if (ahora > parseInt(vencimiento, 10)) {
+            // El acceso expiró
+            localStorage.removeItem('usuario_acceso_valido');
+            localStorage.removeItem('acceso_vencimiento');
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
 
 // ==========================================
 // LÓGICA DE CONTROL DEL REPRODUCTOR Y ACCESO
@@ -32,11 +52,10 @@ function cargarReproductor() {
     // 1. SI ESTÁ EN VIVO -> VERIFICAMOS ACCESO / CÓDIGO
     if (CONFIG_TRANSMISION.estado === "EN_VIVO") {
         
-        // Verificamos si en localStorage existe un pase/código validado por Supabase
-        const tieneAcceso = localStorage.getItem('usuario_acceso_valido') === 'true';
+        const tieneAcceso = verificarAccesoVigente();
 
         if (tieneAcceso) {
-            // Usuario PAGÓ / VALIDÓ -> Mostramos la señal de Bunny
+            // Usuario VALIDADO -> Carga señal HLS
             wrapper.innerHTML = `
                 <video 
                     id="reproductor-bunny" 
@@ -49,8 +68,15 @@ function cargarReproductor() {
                 </video>
             `;
             inicializarHlsBunny(CONFIG_TRANSMISION.bunnyUrl);
+            
+            // Ocultamos el formulario si el acceso ya está concedido
+            const formLogin = document.getElementById('formulario-login');
+            const accesoExitoso = document.getElementById('acceso-exitoso');
+            if (formLogin) formLogin.classList.add('hidden');
+            if (accesoExitoso) accesoExitoso.classList.remove('hidden');
+
         } else {
-            // Usuario NO PAGÓ -> Mostramos placa de bloqueo con botón de pago
+            // Usuario NO PAGÓ / SIN CÓDIGO -> Muestra placa de bloqueo
             wrapper.innerHTML = `
                 <div class="w-full h-full bg-slate-900 flex flex-col items-center justify-center p-6 text-center">
                     <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-3">
@@ -58,7 +84,6 @@ function cargarReproductor() {
                     </div>
                     <h3 class="text-lg font-black italic uppercase text-white mb-1">Contenido Exclusivo</h3>
                     <p class="text-xs text-slate-400 max-w-xs mb-4">Debes ingresar tu pase o adquirir tu entrada para ver el partido en vivo.</p>
-                    
                 </div>
             `;
             if (window.lucide) lucide.createIcons();
@@ -100,7 +125,7 @@ function inicializarHlsBunny(urlStream) {
     const video = document.getElementById('reproductor-bunny');
     if (!video) return;
 
-    if (Hls.isSupported()) {
+    if (typeof Hls !== 'undefined' && Hls.isSupported()) {
         const hls = new Hls({ enableWorker: true, lowLatencyMode: true });
         hls.loadSource(urlStream);
         hls.attachMedia(video);
@@ -109,9 +134,9 @@ function inicializarHlsBunny(urlStream) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', cargarReproductor);
-
-
+// ==========================================
+// VALIDACIÓN DE CÓDIGO Y DESBLOQUEO DE PANTALLA
+// ==========================================
 async function intentarAccesoConBaseDatos() {
     const input = document.getElementById('clave-input');
     const btn = document.getElementById('btn-validar');
@@ -144,27 +169,25 @@ async function intentarAccesoConBaseDatos() {
             return;
         }
 
-        // 1. Guardar permisos en LocalStorage
-        localStorage.setItem('acceso_superdep', 'true');
+        // 1. Guardar permiso con la clave unificada
+        localStorage.setItem('usuario_acceso_valido', 'true');
         
+        // Calcular vencimiento (próximo miércoles a las 00:00)
         const ahora = new Date();
         const diasHastaMiercoles = (10 - ahora.getDay()) % 7 || 7;
         ahora.setDate(ahora.getDate() + diasHastaMiercoles);
         ahora.setHours(0, 0, 0, 0);
         localStorage.setItem('acceso_vencimiento', ahora.getTime().toString());
 
-        // 2. Ocultar formulario e indicar acceso concedido en pantalla
+        // 2. Ocultar formulario de login y mostrar éxito
         const formLogin = document.getElementById('formulario-login');
         const accesoExitoso = document.getElementById('acceso-exitoso');
 
         if (formLogin) formLogin.classList.add('hidden');
         if (accesoExitoso) accesoExitoso.classList.remove('hidden');
 
-        // 3. Activar el reproductor (si la función aplicarAcceso existe)
-        if (typeof aplicarAcceso === 'function') {
-            const videoId = typeof VIDEO_ID_DOMINGO !== 'undefined' ? VIDEO_ID_DOMINGO : '';
-            aplicarAcceso(videoId);
-        }
+        // 3. Renderizar el reproductor HLS al instante
+        cargarReproductor();
 
     } catch (err) {
         if (txtError) {
@@ -176,5 +199,8 @@ async function intentarAccesoConBaseDatos() {
     }
 }
 
-// ⚠️ Asegurar exposición al botón del HTML
+// Escuchador al cargar el DOM
+document.addEventListener('DOMContentLoaded', cargarReproductor);
+
+// Exponer la función al botón del HTML
 window.intentarAccesoConBaseDatos = intentarAccesoConBaseDatos;

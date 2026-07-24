@@ -5,9 +5,6 @@ const CONFIG_TRANSMISION = {
     // "EN_VIVO" | "REPETICION" | "PROXIMAMENTE"
     estado: "EN_VIVO", 
 
-    // URL de Cloudflare/Bunny.net para el vivo
-    bunnyUrl: "https://customer-s9j2d2h307gul2fy.cloudflarestream.com/407942320be38f97de9277fc37d3d08c/manifest/video.m3u8",
-
     // ID de YouTube para la repetición
     youtubeId: "J75ydWUSOmg", 
 
@@ -21,16 +18,15 @@ const CONFIG_TRANSMISION = {
 };
 
 // ==========================================
-// VERIFICACIÓN DE VENCIMIENTO DE ACCESO
+// VERIFICAR ACCESO GUARDADO
 // ==========================================
-function verificarAccesoVigente() {
+function tieneAccesoValido() {
     const acceso = localStorage.getItem('usuario_acceso_valido') === 'true';
     const vencimiento = localStorage.getItem('acceso_vencimiento');
 
     if (acceso && vencimiento) {
         const ahora = new Date().getTime();
         if (ahora > parseInt(vencimiento, 10)) {
-            // El acceso expiró
             localStorage.removeItem('usuario_acceso_valido');
             localStorage.removeItem('acceso_vencimiento');
             return false;
@@ -41,42 +37,25 @@ function verificarAccesoVigente() {
 }
 
 // ==========================================
-// LÓGICA DE CONTROL DEL REPRODUCTOR Y ACCESO
+// INICIALIZACIÓN PRINCIPAL (CUANDO CARGA EL DOM)
 // ==========================================
-function cargarReproductor() {
+function inicializarPantalla() {
     const wrapper = document.getElementById('wrapper-video-dinamico');
     if (!wrapper) return;
 
-    wrapper.innerHTML = "";
-
-    // 1. SI ESTÁ EN VIVO -> VERIFICAMOS ACCESO / CÓDIGO
     if (CONFIG_TRANSMISION.estado === "EN_VIVO") {
-        
-        const tieneAcceso = verificarAccesoVigente();
-
-        if (tieneAcceso) {
-            // Usuario VALIDADO -> Carga señal HLS
-            wrapper.innerHTML = `
-                <video 
-                    id="reproductor-bunny" 
-                    class="w-full h-full object-cover" 
-                    controls 
-                    playsinline 
-                    autoplay 
-                    muted>
-                    Su navegador no soporta reproducción HLS.
-                </video>
-            `;
-            inicializarHlsBunny(CONFIG_TRANSMISION.bunnyUrl);
+        if (tieneAccesoValido()) {
+            console.log("Acceso detectado en localStorage. Cargando stream...");
             
-            // Ocultamos el formulario si el acceso ya está concedido
+            // Ocultamos formulario de login si existe
             const formLogin = document.getElementById('formulario-login');
             const accesoExitoso = document.getElementById('acceso-exitoso');
             if (formLogin) formLogin.classList.add('hidden');
             if (accesoExitoso) accesoExitoso.classList.remove('hidden');
 
+            cargarVideoDesbloqueado();
         } else {
-            // Usuario NO PAGÓ / SIN CÓDIGO -> Muestra placa de bloqueo
+            console.log("Usuario sin acceso. Mostrando placa de bloqueo.");
             wrapper.innerHTML = `
                 <div class="w-full h-full bg-slate-900 flex flex-col items-center justify-center p-6 text-center">
                     <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-3">
@@ -88,54 +67,92 @@ function cargarReproductor() {
             `;
             if (window.lucide) lucide.createIcons();
         }
-
-    } 
-    // 2. SI ES REPETICIÓN -> LIBRE PARA TODOS (YOUTUBE)
-    else if (CONFIG_TRANSMISION.estado === "REPETICION") {
+    } else if (CONFIG_TRANSMISION.estado === "REPETICION") {
         wrapper.innerHTML = `
-            <iframe 
-                class="w-full h-full" 
-                src="https://www.youtube.com/embed/${CONFIG_TRANSMISION.youtubeId}?autoplay=0&rel=0" 
-                title="Repetición del Partido" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                allowfullscreen>
-            </iframe>
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/${CONFIG_TRANSMISION.youtubeId}?autoplay=0&rel=0" frameborder="0" allowfullscreen></iframe>
         `;
-    } 
-    // 3. SI ES PROXIMAMENTE -> LIBRE PARA TODOS (PLACA)
-    else {
+    } else {
         wrapper.innerHTML = `
-            <div class="w-full h-full bg-gradient-to-br from-slate-900 to-slate-950 flex flex-col items-center justify-center p-6 text-center">
-                <div class="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-black italic uppercase px-3 py-1 rounded-full mb-3 tracking-widest">
-                    Próxima Transmisión
-                </div>
-                <h2 class="text-xl md:text-2xl font-black italic uppercase text-white mb-1">
-                    ${CONFIG_TRANSMISION.proximoPartido.equipoLocal} VS ${CONFIG_TRANSMISION.proximoPartido.equipoVisitante}
-                </h2>
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                    ${CONFIG_TRANSMISION.proximoPartido.titulo} • ${CONFIG_TRANSMISION.proximoPartido.fechaHora}
-                </p>
+            <div class="w-full h-full bg-slate-950 flex flex-col items-center justify-center p-6 text-center">
+                <h2 class="text-xl font-black text-white uppercase">${CONFIG_TRANSMISION.proximoPartido.equipoLocal} VS ${CONFIG_TRANSMISION.proximoPartido.equipoVisitante}</h2>
+                <p class="text-xs text-slate-400">${CONFIG_TRANSMISION.proximoPartido.titulo} • ${CONFIG_TRANSMISION.proximoPartido.fechaHora}</p>
             </div>
         `;
     }
 }
 
-function inicializarHlsBunny(urlStream) {
-    const video = document.getElementById('reproductor-bunny');
-    if (!video) return;
+// ==========================================
+// FUNCIÓN PARA SOLICITAR Y CARGAR EL STREAM FIRMADO
+// ==========================================
+async function cargarVideoDesbloqueado() {
+    const wrapper = document.getElementById('wrapper-video-dinamico');
+    if (!wrapper) return;
 
-    if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-        const hls = new Hls({ enableWorker: true, lowLatencyMode: true });
-        hls.loadSource(urlStream);
-        hls.attachMedia(video);
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = urlStream;
+    // 1. Inyectamos la etiqueta <video> limpia
+    wrapper.innerHTML = `
+        <video 
+            id="reproductor-bunny" 
+            class="w-full h-full object-cover" 
+            controls 
+            playsinline 
+            autoplay 
+            muted>
+            Su navegador no soporta reproducción HLS.
+        </video>
+    `;
+
+    const videoElem = document.getElementById('reproductor-bunny');
+
+    try {
+        console.log("Pidiendo URL firmada a /api/obtener-stream...");
+        const res = await fetch('/api/obtener-stream');
+        const data = await res.json();
+
+        if (!res.ok || !data.streamUrl) {
+            console.error("Error al obtener stream:", data);
+            return;
+        }
+
+        console.log("URL firmada recibida con éxito:", data.streamUrl);
+
+        // 2. Cargamos la señal con HLS.js o Nativo
+        if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+            const hls = new Hls({ enableWorker: true, lowLatencyMode: true });
+            hls.loadSource(data.streamUrl);
+            hls.attachMedia(videoElem);
+
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                console.log("Manifest parseado. Iniciando video...");
+                videoElem.play().catch(e => {
+                    console.warn("Autoplay prevenido por el navegador, reproduciendo silenciado.");
+                    videoElem.muted = true;
+                    videoElem.play();
+                });
+            });
+
+            hls.on(Hls.Events.ERROR, (event, dataError) => {
+                if (dataError.fatal) {
+                    console.error("Error fatal HLS:", dataError);
+                    if (dataError.type === Hls.ErrorTypes.NETWORK_ERROR) hls.startLoad();
+                }
+            });
+
+        } else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {
+            videoElem.src = data.streamUrl;
+            videoElem.addEventListener('loadedmetadata', () => {
+                videoElem.play();
+            });
+        } else {
+            console.error("HLS no es soportado en este navegador.");
+        }
+
+    } catch (err) {
+        console.error("Excepción al intentar cargar el video:", err);
     }
 }
 
 // ==========================================
-// VALIDACIÓN DE CÓDIGO Y DESBLOQUEO DE PANTALLA
+// VALIDACIÓN DEL CÓDIGO INGRESDADO POR EL USUARIO
 // ==========================================
 async function intentarAccesoConBaseDatos() {
     const input = document.getElementById('clave-input');
@@ -169,25 +186,24 @@ async function intentarAccesoConBaseDatos() {
             return;
         }
 
-        // 1. Guardar permiso con la clave unificada
+        // 1. Guardar en localStorage
         localStorage.setItem('usuario_acceso_valido', 'true');
         
-        // Calcular vencimiento (próximo miércoles a las 00:00)
         const ahora = new Date();
         const diasHastaMiercoles = (10 - ahora.getDay()) % 7 || 7;
         ahora.setDate(ahora.getDate() + diasHastaMiercoles);
         ahora.setHours(0, 0, 0, 0);
         localStorage.setItem('acceso_vencimiento', ahora.getTime().toString());
 
-        // 2. Ocultar formulario de login y mostrar éxito
+        // 2. Ocultar formulario
         const formLogin = document.getElementById('formulario-login');
         const accesoExitoso = document.getElementById('acceso-exitoso');
 
         if (formLogin) formLogin.classList.add('hidden');
         if (accesoExitoso) accesoExitoso.classList.remove('hidden');
 
-        // 3. Renderizar el reproductor HLS al instante
-        cargarReproductor();
+        // 3. Ejecutar la inyección del video
+        cargarVideoDesbloqueado();
 
     } catch (err) {
         if (txtError) {
@@ -199,108 +215,6 @@ async function intentarAccesoConBaseDatos() {
     }
 }
 
-// Escuchador al cargar el DOM
-document.addEventListener('DOMContentLoaded', cargarReproductor);
-
-// Exponer la función al botón del HTML
+// Escuchadores globales
+document.addEventListener('DOMContentLoaded', inicializarPantalla);
 window.intentarAccesoConBaseDatos = intentarAccesoConBaseDatos;
-
-// Función para solicitar la URL firmada e inicializar HLS.js
-async function cargarVideoDesbloqueado() {
-    const contenedor = document.getElementById('wrapper-video-dinamico');
-    if (!contenedor) return;
-
-    // 1. Inyectamos primero la estructura limpia del HTML con la etiqueta <video>
-    contenedor.innerHTML = `
-        <video 
-            id="reproductor-live" 
-            class="w-full h-full object-cover" 
-            controls 
-            playsinline 
-            autoplay 
-            muted>
-            Tu navegador no soporta reproducción HLS.
-        </video>
-    `;
-
-    const videoElem = document.getElementById('reproductor-live');
-
-    try {
-        // 2. Pedimos la URL firmada a nuestra API de Vercel
-        const response = await fetch('/api/obtener-stream');
-        const data = await response.json();
-
-        if (!response.ok || !data.streamUrl) {
-            console.error("Error al obtener la URL del vivo:", data);
-            return;
-        }
-
-        // 3. Manejo de reproducción según el navegador
-        if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-            const hls = new Hls({
-                enableWorker: true,
-                lowLatencyMode: true,
-                manifestLoadingTimeOut: 10000
-            });
-
-            hls.loadSource(data.streamUrl);
-            hls.attachMedia(videoElem);
-
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                videoElem.play().catch(() => {
-                    console.log("Autoplay bloqueado con audio. Se reproduce silenciado.");
-                    videoElem.muted = true;
-                    videoElem.play();
-                });
-            });
-
-            hls.on(Hls.Events.ERROR, (event, dataError) => {
-                if (dataError.fatal) {
-                    if (dataError.type === Hls.ErrorTypes.NETWORK_ERROR) {
-                        console.log("Error de red, reintentando conectar al vivo...");
-                        hls.startLoad();
-                    } else if (dataError.type === Hls.ErrorTypes.MEDIA_ERROR) {
-                        hls.recoverMediaError();
-                    }
-                }
-            });
-
-        } else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {
-            // Caso para Safari en iPhone / Mac
-            videoElem.src = data.streamUrl;
-            videoElem.addEventListener('loadedmetadata', () => {
-                videoElem.play().catch(() => {
-                    videoElem.muted = true;
-                    videoElem.play();
-                });
-            });
-        }
-
-    } catch (err) {
-        console.error("Error conectando con la transmisión:", err);
-    }
-}
-
-// Función que se ejecuta cuando el código es válido
-function aplicarAcceso() {
-    document.getElementById('formulario-login')?.classList.add('hidden');
-    document.getElementById('acceso-exitoso')?.classList.remove('hidden');
-    
-    // Disparar la carga del video privado
-    cargarVideoDesbloqueado();
-}
-
-// Verificar acceso guardado en localStorage al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-    const tieneAcceso = localStorage.getItem('acceso_superdep') === 'true';
-    const vencimiento = localStorage.getItem('acceso_vencimiento');
-    const ahora = new Date().getTime();
-
-    if (tieneAcceso && vencimiento && ahora < parseInt(vencimiento)) {
-        aplicarAcceso();
-    } else {
-        // Si el pase venció, limpiamos storage
-        localStorage.removeItem('acceso_superdep');
-        localStorage.removeItem('acceso_vencimiento');
-    }
-});

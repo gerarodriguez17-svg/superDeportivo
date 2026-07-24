@@ -84,7 +84,7 @@ function inicializarPantalla() {
 // ==========================================
 // FUNCIÓN PARA SOLICITAR Y CARGAR EL STREAM FIRMADO
 // ==========================================
-async function cargarVideoDesbloqueado() {
+/*async function cargarVideoDesbloqueado() {
     const wrapper = document.getElementById('wrapper-video-dinamico');
     if (!wrapper) return;
 
@@ -149,7 +149,78 @@ async function cargarVideoDesbloqueado() {
     } catch (err) {
         console.error("Excepción al intentar cargar el video:", err);
     }
+}*/
+
+let playerInstancia = null; // Guardamos la instancia del reproductor
+
+async function cargarVideoDesbloqueado() {
+    const contenedor = document.getElementById('wrapper-video-dinamico');
+    if (!contenedor) return;
+
+    // 1. Estructura del video para Plyr
+    contenedor.innerHTML = `
+        <video 
+            id="reproductor-plyr" 
+            class="w-full h-full object-cover" 
+            playsinline 
+            crossorigin 
+            controls>
+        </video>
+    `;
+
+    const videoElem = document.getElementById('reproductor-plyr');
+
+    try {
+        // 2. Pedimos la URL firmada a tu backend de Vercel
+        const response = await fetch('/api/obtener-stream');
+        const data = await response.json();
+
+        if (!response.ok || !data.streamUrl) {
+            console.error("Error al obtener el token de la transmisión:", data);
+            return;
+        }
+
+        const sourceUrl = data.streamUrl;
+
+        // 3. Inicializamos HLS.js
+        if (Hls.isSupported()) {
+            const hls = new Hls({
+                enableWorker: true,
+                lowLatencyMode: true
+            });
+
+            hls.loadSource(sourceUrl);
+            hls.attachMedia(videoElem);
+
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                // Inicializamos Plyr con controles completos (incluye AirPlay)
+                playerInstancia = new Plyr(videoElem, {
+                    controls: [
+                        'play-large', 'play', 'progress', 'current-time', 
+                        'mute', 'volume', 'captions', 'settings', 
+                        'pip', 'airplay', 'fullscreen'
+                    ],
+                    autoplay: true
+                });
+            });
+
+        } else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {
+            // Safari nativo (iOS / Mac)
+            videoElem.src = sourceUrl;
+            playerInstancia = new Plyr(videoElem, {
+                controls: [
+                    'play-large', 'play', 'progress', 'current-time', 
+                    'mute', 'volume', 'airplay', 'fullscreen'
+                ],
+                autoplay: true
+            });
+        }
+
+    } catch (err) {
+        console.error("Error de conexión al cargar la señal:", err);
+    }
 }
+
 
 // ==========================================
 // VALIDACIÓN DEL CÓDIGO INGRESDADO POR EL USUARIO
@@ -214,48 +285,8 @@ async function intentarAccesoConBaseDatos() {
         btn.innerText = "DESBLOQUEAR PARTIDO";
     }
 }
-async function compartirPantalla() {
-    const videoElem = document.getElementById('reproductor-bunny') || document.getElementById('reproductor-live');
 
-    if (!videoElem) {
-        alert("No se encontró el reproductor de video activo.");
-        return;
-    }
 
-    try {
-        // Pedimos acceso a la transmisión de pantalla del usuario
-        const screenStream = await navigator.mediaDevices.getDisplayMedia({
-            video: {
-                cursor: "always"
-            },
-            audio: true // Captura audio del sistema si el navegador lo permite
-        });
-
-        // Reemplazamos la fuente del video con la captura de pantalla
-        videoElem.srcObject = screenStream;
-        videoElem.play();
-
-        // Detectar cuando el usuario detiene la captura desde la barra flotante del navegador
-        const videoTrack = screenStream.getVideoTracks()[0];
-        videoTrack.onended = () => {
-            console.log("Captura de pantalla finalizada. Volviendo al reproductor...");
-            videoElem.srcObject = null;
-            // Volvemos a solicitar la transmisión original si terminó de compartir
-            if (typeof cargarVideoDesbloqueado === 'function') {
-                cargarVideoDesbloqueado();
-            }
-        };
-
-    } catch (err) {
-        if (err.name !== 'NotAllowedError') {
-            console.error("Error al intentar compartir pantalla:", err);
-            alert("No se pudo iniciar la captura de pantalla.");
-        }
-    }
-}
-
-// Exponemos la función de forma global
-window.compartirPantalla = compartirPantalla;
 // Escuchadores globales
 document.addEventListener('DOMContentLoaded', inicializarPantalla);
 window.intentarAccesoConBaseDatos = intentarAccesoConBaseDatos;

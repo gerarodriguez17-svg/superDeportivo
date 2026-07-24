@@ -214,7 +214,48 @@ async function intentarAccesoConBaseDatos() {
         btn.innerText = "DESBLOQUEAR PARTIDO";
     }
 }
+async function compartirPantalla() {
+    const videoElem = document.getElementById('reproductor-bunny') || document.getElementById('reproductor-live');
 
+    if (!videoElem) {
+        alert("No se encontró el reproductor de video activo.");
+        return;
+    }
+
+    try {
+        // Pedimos acceso a la transmisión de pantalla del usuario
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({
+            video: {
+                cursor: "always"
+            },
+            audio: true // Captura audio del sistema si el navegador lo permite
+        });
+
+        // Reemplazamos la fuente del video con la captura de pantalla
+        videoElem.srcObject = screenStream;
+        videoElem.play();
+
+        // Detectar cuando el usuario detiene la captura desde la barra flotante del navegador
+        const videoTrack = screenStream.getVideoTracks()[0];
+        videoTrack.onended = () => {
+            console.log("Captura de pantalla finalizada. Volviendo al reproductor...");
+            videoElem.srcObject = null;
+            // Volvemos a solicitar la transmisión original si terminó de compartir
+            if (typeof cargarVideoDesbloqueado === 'function') {
+                cargarVideoDesbloqueado();
+            }
+        };
+
+    } catch (err) {
+        if (err.name !== 'NotAllowedError') {
+            console.error("Error al intentar compartir pantalla:", err);
+            alert("No se pudo iniciar la captura de pantalla.");
+        }
+    }
+}
+
+// Exponemos la función de forma global
+window.compartirPantalla = compartirPantalla;
 // Escuchadores globales
 document.addEventListener('DOMContentLoaded', inicializarPantalla);
 window.intentarAccesoConBaseDatos = intentarAccesoConBaseDatos;

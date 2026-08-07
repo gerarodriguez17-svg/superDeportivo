@@ -187,7 +187,9 @@ async function cargarVideoDesbloqueado() {
         if (Hls.isSupported()) {
             const hls = new Hls({
                 enableWorker: true,
-                lowLatencyMode: true
+                lowLatencyMode: true,
+                autoStartLoad: false
+
             });
 
             hls.loadSource(sourceUrl);
@@ -204,6 +206,7 @@ async function cargarVideoDesbloqueado() {
                     autoplay: false
                     
                 });
+                videoElem.addEventListener('play', () => { hls.startLoad(); }, { once: true });
             });
 
         } else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {

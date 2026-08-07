@@ -160,7 +160,7 @@ async function cargarVideoDesbloqueado() {
 
     const urlPortada = CONFIG_TRANSMISION.posterUrl || '';
 
-    // 1. Estructura del HTML para el vídeo
+    // 1. Inyectamos la etiqueta video
     contenedor.innerHTML = `
         <video 
             id="reproductor-plyr" 
@@ -174,20 +174,9 @@ async function cargarVideoDesbloqueado() {
 
     const videoElem = document.getElementById('reproductor-plyr');
 
-    try {
-        // 2. Obtenemos la URL del stream desde la API
-        const response = await fetch('/api/obtener-stream');
-        const data = await response.json();
-
-        if (!response.ok || !data.streamUrl) {
-            console.error("Error al obtener el token de la transmisión:", data);
-            return;
-        }
-
-        const sourceUrl = data.streamUrl;
-
-        // Opciones de Plyr configuradas con la portada explícita
-        const opcionesPlyr = {
+    // Inicializamos Plyr primero para asegurar que reemplace los controles nativos
+    if (typeof Plyr !== 'undefined') {
+        playerInstancia = new Plyr(videoElem, {
             controls: [
                 'play-large', 'play', 'progress', 'current-time', 
                 'mute', 'volume', 'captions', 'settings', 
@@ -195,10 +184,21 @@ async function cargarVideoDesbloqueado() {
             ],
             autoplay: false,
             poster: urlPortada
-        };
+        });
+    }
 
-        // 3. Carga HLS estándar sin pausar la carga previa
-        if (Hls.isSupported()) {
+    try {
+        const response = await fetch('/api/obtener-stream');
+        const data = await response.json();
+
+        if (!response.ok || !data.streamUrl) {
+            console.warn("No hay transmisión en vivo activa en este momento.");
+            return;
+        }
+
+        const sourceUrl = data.streamUrl;
+
+        if (typeof Hls !== 'undefined' && Hls.isSupported()) {
             const hls = new Hls({
                 enableWorker: true,
                 lowLatencyMode: true
@@ -207,21 +207,22 @@ async function cargarVideoDesbloqueado() {
             hls.loadSource(sourceUrl);
             hls.attachMedia(videoElem);
 
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                playerInstancia = new Plyr(videoElem, opcionesPlyr);
+            // Si el vivo falla o no está transmitiendo, evitamos que quede en bucle negro
+            hls.on(Hls.Events.ERROR, function (event, data) {
+                if (data.fatal) {
+                    console.warn("Señal en vivo no detectada o desconectada. Mostrando portada.");
+                    hls.destroy();
+                }
             });
 
         } else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {
-            // Safari nativo (iOS / Mac)
             videoElem.src = sourceUrl;
-            playerInstancia = new Plyr(videoElem, opcionesPlyr);
         }
 
     } catch (err) {
-        console.error("Error de conexión al cargar la señal:", err);
+        console.error("Error al conectar con la señal:", err);
     }
 }
-
 // ==========================================
 // VALIDACIÓN DEL CÓDIGO INGRESDADO POR EL USUARIO
 // ==========================================

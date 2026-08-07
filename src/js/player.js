@@ -4,7 +4,7 @@
 const CONFIG_TRANSMISION = {
     // "EN_VIVO" | "REPETICION" | "PROXIMAMENTE"
     estado: "EN_VIVO", 
-
+    posterUrl: "/img/portadas/estadio_cuac.jfif",
     // ID de YouTube para la repetición
     youtubeId: "J75ydWUSOmg", 
 
@@ -161,12 +161,13 @@ async function cargarVideoDesbloqueado() {
     contenedor.innerHTML = `
         <video 
             id="reproductor-plyr" 
-            class="w-full h-full object-cover" 
+            class="w-full h-full object-cover"
+            poster="${CONFIG_TRANSMISION.posterUrl}"
             playsinline 
             crossorigin 
             controls>
         </video>
-    `;
+    `;  
 
     const videoElem = document.getElementById('reproductor-plyr');
 
@@ -200,7 +201,7 @@ async function cargarVideoDesbloqueado() {
                         'mute', 'volume', 'captions', 'settings', 
                         'pip', 'airplay', 'fullscreen'
                     ],
-                    autoplay: true
+                    autoplay: false
                 });
             });
 

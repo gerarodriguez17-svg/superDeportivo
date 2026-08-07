@@ -11,9 +11,9 @@ const CONFIG_TRANSMISION = {
     // Placa informativa cuando no hay partido
     proximoPartido: {
         titulo: "FECHA 1 - CLAUSURA 2026",
-        equipoLocal: "Cerrito",
-        equipoVisitante: "María Grande",
-        fechaHora: "Domingo 15:30 HS"
+        equipoLocal: "C.U.A.C",
+        equipoVisitante: "I.F.C.B",
+        fechaHora: "Domingo 9 AGOSTO"
     }
 };
 
@@ -213,7 +213,7 @@ async function cargarVideoDesbloqueado() {
                     'play-large', 'play', 'progress', 'current-time', 
                     'mute', 'volume', 'airplay', 'fullscreen'
                 ],
-                autoplay: true
+                autoplay: false
             });
         }
 

@@ -157,6 +157,8 @@ async function cargarVideoDesbloqueado() {
     const contenedor = document.getElementById('wrapper-video-dinamico');
     if (!contenedor) return;
 
+    const urlPortada = CONFIG_TRANSMISION.posterUrl || '';
+
     // 1. Estructura del video para Plyr
     contenedor.innerHTML = `
         <video 
@@ -172,7 +174,6 @@ async function cargarVideoDesbloqueado() {
     const videoElem = document.getElementById('reproductor-plyr');
 
     try {
-        // 2. Pedimos la URL firmada a tu backend de Vercel
         const response = await fetch('/api/obtener-stream');
         const data = await response.json();
 
@@ -183,42 +184,36 @@ async function cargarVideoDesbloqueado() {
 
         const sourceUrl = data.streamUrl;
 
-        // 3. Inicializamos HLS.js
+        // Opciones de Plyr declaradas explícitamente con la portada
+        const opcionesPlyr = {
+            controls: [
+                'play-large', 'play', 'progress', 'current-time', 
+                'mute', 'volume', 'captions', 'settings', 
+                'pip', 'airplay', 'fullscreen'
+            ],
+            autoplay: false,
+            poster: urlPortada // <-- Le pasamos la portada directo a Plyr
+        };
+
         if (Hls.isSupported()) {
             const hls = new Hls({
                 enableWorker: true,
                 lowLatencyMode: true,
                 autoStartLoad: false
-
             });
 
             hls.loadSource(sourceUrl);
             hls.attachMedia(videoElem);
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                // Inicializamos Plyr con controles completos (incluye AirPlay)
-                playerInstancia = new Plyr(videoElem, {
-                    controls: [
-                        'play-large', 'play', 'progress', 'current-time', 
-                        'mute', 'volume', 'captions', 'settings', 
-                        'pip', 'airplay', 'fullscreen'
-                    ],
-                    autoplay: false
-                    
-                });
+                playerInstancia = new Plyr(videoElem, opcionesPlyr);
+
                 videoElem.addEventListener('play', () => { hls.startLoad(); }, { once: true });
             });
 
         } else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {
-            // Safari nativo (iOS / Mac)
             videoElem.src = sourceUrl;
-            playerInstancia = new Plyr(videoElem, {
-                controls: [
-                    'play-large', 'play', 'progress', 'current-time', 
-                    'mute', 'volume', 'airplay', 'fullscreen'
-                ],
-                autoplay: false
-            });
+            playerInstancia = new Plyr(videoElem, opcionesPlyr);
         }
 
     } catch (err) {

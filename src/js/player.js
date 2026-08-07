@@ -157,17 +157,19 @@ async function cargarVideoDesbloqueado() {
     const contenedor = document.getElementById('wrapper-video-dinamico');
     if (!contenedor) return;
 
-    // 1. Estructura del video para Plyr
+    const urlPortada = CONFIG_TRANSMISION.posterUrl || '';
+
+    // 1. Estructura del video para Plyr con la portada agregada
     contenedor.innerHTML = `
         <video 
             id="reproductor-plyr" 
-            class="w-full h-full object-cover"
-            poster="${CONFIG_TRANSMISION.posterUrl}"
+            class="w-full h-full object-cover" 
+            poster="${urlPortada}" 
             playsinline 
             crossorigin 
             controls>
         </video>
-    `;  
+    `;
 
     const videoElem = document.getElementById('reproductor-plyr');
 
@@ -183,38 +185,40 @@ async function cargarVideoDesbloqueado() {
 
         const sourceUrl = data.streamUrl;
 
+        // Opciones centralizadas para Plyr
+        const opcionesPlyr = {
+            controls: [
+                'play-large', 'play', 'progress', 'current-time', 
+                'mute', 'volume', 'captions', 'settings', 
+                'pip', 'airplay', 'fullscreen'
+            ],
+            autoplay: false,
+            poster: urlPortada // Le indicamos la portada directamente a Plyr
+        };
+
         // 3. Inicializamos HLS.js
-        if (Hls.isSupported()) {
+        if (typeof Hls !== 'undefined' && Hls.isSupported()) {
             const hls = new Hls({
                 enableWorker: true,
-                lowLatencyMode: true
+                lowLatencyMode: true,
+                autoStartLoad: false // 🚨 CLAVE: evita que cargue los primeros frames y tape la portada antes de presionar Play
             });
 
             hls.loadSource(sourceUrl);
             hls.attachMedia(videoElem);
 
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                // Inicializamos Plyr con controles completos (incluye AirPlay)
-                playerInstancia = new Plyr(videoElem, {
-                    controls: [
-                        'play-large', 'play', 'progress', 'current-time', 
-                        'mute', 'volume', 'captions', 'settings', 
-                        'pip', 'airplay', 'fullscreen'
-                    ],
-                    autoplay: false
-                });
+            // Inicializamos Plyr
+            playerInstancia = new Plyr(videoElem, opcionesPlyr);
+
+            // Iniciar la carga del streaming recién cuando el usuario toca Play
+            playerInstancia.on('play', () => {
+                hls.startLoad();
             });
 
         } else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {
             // Safari nativo (iOS / Mac)
             videoElem.src = sourceUrl;
-            playerInstancia = new Plyr(videoElem, {
-                controls: [
-                    'play-large', 'play', 'progress', 'current-time', 
-                    'mute', 'volume', 'airplay', 'fullscreen'
-                ],
-                autoplay: false
-            });
+            playerInstancia = new Plyr(videoElem, opcionesPlyr);
         }
 
     } catch (err) {

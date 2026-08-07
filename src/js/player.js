@@ -160,7 +160,7 @@ async function cargarVideoDesbloqueado() {
 
     const urlPortada = CONFIG_TRANSMISION.posterUrl || '';
 
-    // 1. Estructura del video para Plyr
+    // 1. Estructura del HTML para el vídeo
     contenedor.innerHTML = `
         <video 
             id="reproductor-plyr" 
@@ -175,6 +175,7 @@ async function cargarVideoDesbloqueado() {
     const videoElem = document.getElementById('reproductor-plyr');
 
     try {
+        // 2. Obtenemos la URL del stream desde la API
         const response = await fetch('/api/obtener-stream');
         const data = await response.json();
 
@@ -185,7 +186,7 @@ async function cargarVideoDesbloqueado() {
 
         const sourceUrl = data.streamUrl;
 
-        // Opciones de Plyr declaradas explícitamente con la portada
+        // Opciones de Plyr configuradas con la portada explícita
         const opcionesPlyr = {
             controls: [
                 'play-large', 'play', 'progress', 'current-time', 
@@ -193,14 +194,14 @@ async function cargarVideoDesbloqueado() {
                 'pip', 'airplay', 'fullscreen'
             ],
             autoplay: false,
-            poster: urlPortada // <-- Le pasamos la portada directo a Plyr
+            poster: urlPortada
         };
 
+        // 3. Carga HLS estándar sin pausar la carga previa
         if (Hls.isSupported()) {
             const hls = new Hls({
                 enableWorker: true,
-                lowLatencyMode: true,
-                autoStartLoad: false
+                lowLatencyMode: true
             });
 
             hls.loadSource(sourceUrl);
@@ -208,11 +209,10 @@ async function cargarVideoDesbloqueado() {
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 playerInstancia = new Plyr(videoElem, opcionesPlyr);
-
-                videoElem.addEventListener('play', () => { hls.startLoad(); }, { once: true });
             });
 
         } else if (videoElem.canPlayType('application/vnd.apple.mpegurl')) {
+            // Safari nativo (iOS / Mac)
             videoElem.src = sourceUrl;
             playerInstancia = new Plyr(videoElem, opcionesPlyr);
         }
@@ -221,7 +221,6 @@ async function cargarVideoDesbloqueado() {
         console.error("Error de conexión al cargar la señal:", err);
     }
 }
-
 
 // ==========================================
 // VALIDACIÓN DEL CÓDIGO INGRESDADO POR EL USUARIO

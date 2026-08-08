@@ -287,47 +287,7 @@ async function intentarAccesoConBaseDatos() {
     }
 }
 
-// Inicializador global de Google Cast
-window['__onGCastApiAvailable'] = function(isAvailable) {
-    if (isAvailable) {
-        inicializarGoogleCast();
-    }
-};
 
-function inicializarGoogleCast() {
-    cast.framework.CastContext.getInstance().setOptions({
-        // Utiliza el Receptor Predeterminado de Media de Google Cast
-        receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
-        autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
-    });
-
-    const context = cast.framework.CastContext.getInstance();
-
-    // Escuchar cuando el usuario selecciona una TV y se conecta
-    context.addEventListener(
-        cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
-        async (event) => {
-            if (event.sessionState === cast.framework.SessionState.SESSION_STARTED) {
-                console.log("Conectado a Smart TV. Enviando transmisión...");
-                
-                // Pedimos el stream a la API para enviar la señal firmada a la TV
-                const res = await fetch('/api/obtener-stream');
-                const data = await res.json();
-                
-                if (data.streamUrl) {
-                    const session = cast.framework.CastContext.getInstance().getCurrentSession();
-                    const mediaInfo = new chrome.cast.media.MediaInfo(data.streamUrl, 'application/x-mpegurl');
-                    const request = new chrome.cast.media.LoadRequest(mediaInfo);
-                    
-                    session.loadMedia(request).then(
-                        () => console.log('Video cargado exitosamente en la TV'),
-                        (err) => console.error('Error al reproducir en la TV:', err)
-                    );
-                }
-            }
-        }
-    );
-}
 
 // Escuchadores globales
 document.addEventListener('DOMContentLoaded', inicializarPantalla);

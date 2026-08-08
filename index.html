@@ -19,7 +19,7 @@
 
     <!-- Motor HLS.js -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
+    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     <!-- SDK Oficial de Google Cast para enviar al TV -->
 <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     
@@ -145,8 +145,22 @@
                 <button onclick="controlarReproductor('fullscreen')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
                     <i data-lucide="maximize" class="w-3.5 h-3.5"></i> Ampliar
                 </button>
-                <button onclick="controlarReproductor('cast')" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5">
-                    <i data-lucide="tv" class="w-3.5 h-3.5"></i> Transmitir TV
+
+                <!-- BOTÓN NATIVO GOOGLE CAST -->
+                <button is="google-cast-button" id="castbutton" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black italic uppercase text-[10px] px-4 py-2 rounded-xl transition-all border border-white/5 cursor-pointer">
+                    <style>
+                        #castbutton {
+                            --connected-color: #10b981;
+                            --disconnected-color: #cbd5e1;
+                        }
+                        google-cast-launcher {
+                            width: 14px;
+                            height: 14px;
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
+                    </style>
+                    Transmitir TV
                 </button>
             </div>
         </div>

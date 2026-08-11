@@ -6,7 +6,7 @@ const CONFIG_TRANSMISION = {
     estado: "REPETICION", 
     posterUrl: "/public/img/portadas/PARTIDO1.png",
     // ID de YouTube para la repetición
-    youtubeId: "J75ydWUSOmg", 
+    youtubeId: "KAAzvgvVBiI", 
 
     // Placa informativa cuando no hay partido
     proximoPartido: {

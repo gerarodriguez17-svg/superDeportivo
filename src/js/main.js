@@ -529,3 +529,19 @@ document.addEventListener('DOMContentLoaded', () => {
     renderizar();
     renderizarSponsors(); // 🚀 AGREGAMOS ESTA LÍNEA ACÁ
 });
+
+
+// Función para navegar suavemente a cualquier sección desde el índice
+function irASeccion(idSeccion) {
+    const seccion = document.getElementById(idSeccion);
+    
+    if (seccion) {
+        // Desplazamiento suave con un pequeño margen para no tapar el encabezado
+        seccion.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    } else {
+        console.warn(`No se encontró la sección con el ID: ${idSeccion}`);
+    }
+}

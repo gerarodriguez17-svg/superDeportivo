@@ -3,8 +3,8 @@
 // ==========================================
 const CONFIG_TRANSMISION = {
     // "EN_VIVO" | "REPETICION" | "PROXIMAMENTE"
-    estado: "REPETICION", 
-    posterUrl: "/public/img/portadas/PARTIDO1.png",
+    estado: "EN_VIVO", 
+    posterUrl: "/public/img/portadas/PARTIDO2.png",
     // ID de YouTube para la repetición
     youtubeId: "KAAzvgvVBiI", 
 

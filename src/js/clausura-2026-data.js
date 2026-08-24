@@ -31,7 +31,7 @@ const EQUIPOS_SUR = ["Atlético Arsenal", "Viale Football Club", "Sarmiento de C
 const NORTE_DATA = {
     primera: {
         "1": { partidos: [{ L: "Deportivo Tuyango", V: "Atlético Hernandarias", R: "1-0" }, { L: "Independiente FC", V: "J. Unida de Bovril", R: "1-0" }, { L: "Union Alcaraz", V: "U. Agrarios Cerrito", R: "0-0" }], libre: "Deportivo Bovril" },
-        "2": { partidos: [{ L: "Atlético Hernandarias", V: "Deportivo Bovril", R: "" }, { L: "U. Agrarios Cerrito", V: "Deportivo Tuyango", R: "" }, { L: "J. Unida de Bovril", V: "Union Alcaraz", R: "" }], libre: "Independiente FC" },
+        "2": { partidos: [{ L: "Atlético Hernandarias", V: "Deportivo Bovril", R: "2-0" }, { L: "U. Agrarios Cerrito", V: "Deportivo Tuyango", R: "0-1" }, { L: "J. Unida de Bovril", V: "Union Alcaraz", R: "1-1" }], libre: "Independiente FC" },
         "3": { partidos: [{ L: "Union Alcaraz", V: "Independiente FC", R: "" }, { L: "Deportivo Bovril", V: "U. Agrarios Cerrito", R: "" }, { L: "Deportivo Tuyango", V: "J. Unida de Bovril", R: "" }], libre: "Atlético Hernandarias" },
         "4": { partidos: [{ L: "U. Agrarios Cerrito", V: "Atlético Hernandarias", R: "" }, { L: "Independiente FC", V: "Deportivo Tuyango", R: "" }, { L: "J. Unida de Bovril", V: "Deportivo Bovril", R: "" }], libre: "Union Alcaraz" },
         "5": { partidos: [{ L: "Deportivo Bovril", V: "Independiente FC", R: "" }, { L: "Atlético Hernandarias", V: "J. Unida de Bovril", R: "" }, { L: "Deportivo Tuyango", V: "Union Alcaraz", R: "" }], libre: "U. Agrarios Cerrito" },
@@ -40,7 +40,7 @@ const NORTE_DATA = {
     },
     sub20: {
         "1": { partidos: [{ L: "Independiente FC", V: "J. Unida de Bovril", R: "1-0" }, { L: "Deportivo Tuyango", V: "Atlético Hernandarias", R: "1-0" }, { L: "Union Alcaraz", V: "U. Agrarios Cerrito", R: "1-0" }], libre: "Deportivo Bovril" },
-        "2": { partidos: [{ L: "Atlético Hernandarias", V: "Deportivo Bovril", R: "" }, { L: "J. Unida de Bovril", V: "Union Alcaraz", R: "" }, { L: "U. Agrarios Cerrito", V: "Deportivo Tuyango", R: "" }], libre: "Independiente FC" },
+        "2": { partidos: [{ L: "Atlético Hernandarias", V: "Deportivo Bovril", R: "0-1" }, { L: "J. Unida de Bovril", V: "Union Alcaraz", R: "1-0" }, { L: "U. Agrarios Cerrito", V: "Deportivo Tuyango", R: "2-2" }], libre: "Independiente FC" },
         "3": { partidos: [{ L: "Union Alcaraz", V: "Independiente FC", R: "" }, { L: "Deportivo Bovril", V: "U. Agrarios Cerrito", R: "" }, { L: "Deportivo Tuyango", V: "J. Unida de Bovril", R: "" }], libre: "Atlético Hernandarias" },
         "4": { partidos: [{ L: "U. Agrarios Cerrito", V: "Atlético Hernandarias", R: "" }, { L: "Independiente FC", V: "Deportivo Tuyango", R: "" }, { L: "J. Unida de Bovril", V: "Deportivo Bovril", R: "" }], libre: "Union Alcaraz" },
         "5": { partidos: [{ L: "Deportivo Bovril", V: "Independiente FC", R: "" }, { L: "Atlético Hernandarias", V: "J. Unida de Bovril", R: "" }, { L: "Deportivo Tuyango", V: "Union Alcaraz", R: "" }], libre: "U. Agrarios Cerrito" },
@@ -48,8 +48,8 @@ const NORTE_DATA = {
         "7": { partidos: [{ L: "U. Agrarios Cerrito", V: "Independiente FC", R: "" }, { L: "Atlético Hernandarias", V: "Union Alcaraz", R: "" }, { L: "Deportivo Bovril", V: "Deportivo Tuyango", R: "" }], libre: "J. Unida de Bovril" }
     },
     sub17: {
-        "1": { partidos: [{ L: "Independiente FC", V: "J. Unida de Bovril", R: "" }, { L: "Deportivo Tuyango", V: "Atlético Hernandarias", R: "" }, { L: "Union Alcaraz", V: "U. Agrarios Cerrito", R: "" }], libre: "Deportivo Bovril" },
-        "2": { partidos: [{ L: "J. Unida de Bovril", V: "Union Alcaraz", R: "" }, { L: "U. Agrarios Cerrito", V: "Deportivo Tuyango", R: "" }, { L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "" }], libre: "Independiente FC" },
+        "1": { partidos: [{ L: "Independiente FC", V: "J. Unida de Bovril", R: "2-1" }, { L: "Deportivo Tuyango", V: "Atlético Hernandarias", R: "2-0" }, { L: "Union Alcaraz", V: "U. Agrarios Cerrito", R: "0-2" }], libre: "Deportivo Bovril" },
+        "2": { partidos: [{ L: "J. Unida de Bovril", V: "Union Alcaraz", R: "3-0" }, { L: "U. Agrarios Cerrito", V: "Deportivo Tuyango", R: "1-0" }, { L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "3-0" }], libre: "Independiente FC" },
         "3": { partidos: [{ L: "Union Alcaraz", V: "Independiente FC", R: "" }, { L: "Deportivo Bovril", V: "U. Agrarios Cerrito", R: "" }, { L: "Deportivo Tuyango", V: "J. Unida de Bovril", R: "" }], libre: "Atlético Hernandarias" },
         "4": { partidos: [{ L: "U. Agrarios Cerrito", V: "Atlético Hernandarias", R: "" }, { L: "Independiente FC", V: "Deportivo Tuyango", R: "" }, { L: "J. Unida de Bovril", V: "Deportivo Bovril", R: "" }], libre: "Union Alcaraz" },
         "5": { partidos: [{ L: "Deportivo Bovril", V: "Independiente FC", R: "" }, { L: "Atlético Hernandarias", V: "J. Unida de Bovril", R: "" }, { L: "Deportivo Tuyango", V: "Union Alcaraz", R: "" }], libre: "U. Agrarios Cerrito" },
@@ -62,7 +62,7 @@ const CENTRO_DATA = {
     primera: {
 
         "1": { partidos: [{ L: "Segui FC", V: "Atlético Hasenkamp", R: "3-2" }, { L: "Juventud Sarmiento", V: "Litoral María Grande", R: "0-2" }, { L: "Escuela Diego Maradona", V: "Cañadita Central", R: "3-2" }], libre: "Atlético María Grande" },
-        "2": { partidos: [{ L: "Atlético Hasenkamp", V: "Atlético María Grande", R: "" }, { L: "Cañadita Central", V: "Segui FC", R: "" }, { L: "Litoral María Grande", V: "Escuela Diego Maradona", R: "" }], libre: "Juventud Sarmiento" },
+        "2": { partidos: [{ L: "Atlético Hasenkamp", V: "Atlético María Grande", R: "0-1" }, { L: "Cañadita Central", V: "Segui FC", R: "3-1" }, { L: "Litoral María Grande", V: "Escuela Diego Maradona", R: "1-0" }], libre: "Juventud Sarmiento" },
         "3": { partidos: [{ L: "Escuela Diego Maradona", V: "Juventud Sarmiento", R: "" }, { L: "Atlético María Grande", V: "Cañadita Central", R: "" }, { L: "Segui FC", V: "Litoral María Grande", R: "" }], libre: "Atlético Hasenkamp" },
         "4": { partidos: [{ L: "Cañadita Central", V: "Atlético Hasenkamp", R: "" }, { L: "Juventud Sarmiento", V: "Segui FC", R: "" }, { L: "Litoral María Grande", V: "Atlético María Grande", R: "" }], libre: "Escuela Diego Maradona" },
         "5": { partidos: [{ L: "Atlético María Grande", V: "Juventud Sarmiento", R: "" }, { L: "Atlético Hasenkamp", V: "Litoral María Grande", R: " " }, { L: "Segui FC", V: "Escuela Diego Maradona", R: "" }], libre: "Cañadita Central" },
@@ -71,7 +71,7 @@ const CENTRO_DATA = {
     },
     sub20: {
         "1": { partidos: [{ L: "Segui FC", V: "Atlético Hasenkamp", R: "0-1" }, { L: "Juventud Sarmiento", V: "Litoral María Grande", R: "1-3" }, { L: "Escuela Diego Maradona", V: "Cañadita Central", R: "0-0" }], libre: "Atlético María Grande" },
-        "2": { partidos: [{ L: "Atlético Hasenkamp", V: "Atlético María Grande", R: "" }, { L: "Cañadita Central", V: "Segui FC", R: "" }, { L: "Litoral María Grande", V: "Escuela Diego Maradona", R: "" }], libre: "Juventud Sarmiento" },
+        "2": { partidos: [{ L: "Atlético Hasenkamp", V: "Atlético María Grande", R: "1-0" }, { L: "Cañadita Central", V: "Segui FC", R: "2-1" }, { L: "Litoral María Grande", V: "Escuela Diego Maradona", R: "3-0" }], libre: "Juventud Sarmiento" },
         "3": { partidos: [{ L: "Escuela Diego Maradona", V: "Juventud Sarmiento", R: "" }, { L: "Atlético María Grande", V: "Cañadita Central", R: "" }, { L: "Segui FC", V: "Litoral María Grande", R: "" }], libre: "Atlético Hasenkamp" },
         "4": { partidos: [{ L: "Cañadita Central", V: "Atlético Hasenkamp", R: "" }, { L: "Juventud Sarmiento", V: "Segui FC", R: "" }, { L: "Litoral María Grande", V: "Atlético María Grande", R: "" }], libre: "Escuela Diego Maradona" },
         "5": { partidos: [{ L: "Atlético María Grande", V: "Juventud Sarmiento", R: "" }, { L: "Atlético Hasenkamp", V: "Litoral María Grande", R: " " }, { L: "Segui FC", V: "Escuela Diego Maradona", R: "" }], libre: "Cañadita Central" },
@@ -80,7 +80,7 @@ const CENTRO_DATA = {
     },
     sub17: {
         "1": { partidos: [{ L: "Segui FC", V: "Atlético Hasenkamp", R: "0-7" }, { L: "Juventud Sarmiento", V: "Litoral María Grande", R: "0-4"   }, { L: "Escuela Diego Maradona", V: "Cañadita Central", R: "1-1" }], libre: "Atlético María Grande" },
-        "2": { partidos: [{ L: "Atlético Hasenkamp", V: "Atlético María Grande", R: "" }, { L: "Cañadita Central", V: "Segui FC", R: "" }, { L: "Litoral María Grande", V: "Escuela Diego Maradona", R: "" }], libre: "Juventud Sarmiento" },
+        "2": { partidos: [{ L: "Atlético Hasenkamp", V: "Atlético María Grande", R: "1-0" }, { L: "Cañadita Central", V: "Segui FC", R: "1-0" }, { L: "Litoral María Grande", V: "Escuela Diego Maradona", R: "4-0" }], libre: "Juventud Sarmiento" },
         "3": { partidos: [{ L: "Escuela Diego Maradona", V: "Juventud Sarmiento", R: "" }, { L: "Atlético María Grande", V: "Cañadita Central", R: "" }, { L: "Segui FC", V: "Litoral María Grande", R: "" }], libre: "Atlético Hasenkamp" },
         "4": { partidos: [{ L: "Cañadita Central", V: "Atlético Hasenkamp", R: "" }, { L: "Juventud Sarmiento", V: "Segui FC", R: "" }, { L: "Litoral María Grande", V: "Atlético María Grande", R: "" }], libre: "Escuela Diego Maradona" },
         "5": { partidos: [{ L: "Atlético María Grande", V: "Juventud Sarmiento", R: "" }, { L: "Atlético Hasenkamp", V: "Litoral María Grande", R: " " }, { L: "Segui FC", V: "Escuela Diego Maradona", R: "" }], libre: "Cañadita Central" },
@@ -92,7 +92,7 @@ const CENTRO_DATA = {
 const SUR_DATA = { 
     primera: {
         "1": { partidos: [{ L: "Sarmiento de Crespo", V: "Union de Viale", R: "1-0" }, { L: "Atlético Arsenal", V: "Union de Crespo", R: "2-2" }, { L: "Deportivo Tabossi", V: "Cultural de Crespo", R: "2-0" }], libre: "Viale Football Club" },
-        "2": { partidos: [{ L: "Atlético Arsenal", V: "Sarmiento de Crespo", R: "" }, { L: "Viale Football Club", V: "Deportivo Tabossi", R: "" }, { L: "Union de Crespo", V: "Cultural de Crespo", R: "" }], libre: "Union de Viale" },
+        "2": { partidos: [{ L: "Atlético Arsenal", V: "Sarmiento de Crespo", R: "2-0" }, { L: "Viale Football Club", V: "Deportivo Tabossi", R: "2-0" }, { L: "Union de Crespo", V: "Cultural de Crespo", R: "2-1" }], libre: "Union de Viale" },
         "3": { partidos: [{ L: "Cultural de Crespo", V: "Union de Viale", R: "" }, { L: "Sarmiento de Crespo", V: "Viale Football Club", R: "" }, { L: "Deportivo Tabossi", V: "Union de Crespo", R: "" }], libre: "Atlético Arsenal" },
         "4": { partidos: [{ L: "Viale Football Club", V: "Atlético Arsenal", R: "" }, { L: "Union de Viale", V: "Deportivo Tabossi", R: "" }, { L: "Union de Crespo", V: "Sarmiento de Crespo", R: "" }], libre: "Cultural de Crespo" },
         "5": { partidos: [{ L: "Deportivo Tabossi", V: "Atlético Arsenal", R: "" }, { L: "Union de Viale", V: "Union de Crespo", R: "" }, { L: "Cultural de Crespo", V: "Viale Football Club", R: "" }], libre: "Sarmiento de Crespo" },
@@ -101,7 +101,7 @@ const SUR_DATA = {
         }, 
     sub20: {
         "1": { partidos: [{ L: "Sarmiento de Crespo", V: "Union de Viale", R: "2-1" }, { L: "Atlético Arsenal", V: "Union de Crespo", R: "0-1" }, { L: "Deportivo Tabossi", V: "Cultural de Crespo", R: "2-1" }], libre: "Viale Football Club" },
-        "2": { partidos: [{ L: "Atlético Arsenal", V: "Sarmiento de Crespo", R: "" }, { L: "Viale Football Club", V: "Deportivo Tabossi", R: "" }, { L: "Union de Crespo", V: "Cultural de Crespo", R: "" }], libre: "Union de Viale" },
+        "2": { partidos: [{ L: "Atlético Arsenal", V: "Sarmiento de Crespo", R: "2-0" }, { L: "Viale Football Club", V: "Deportivo Tabossi", R: "1-0" }, { L: "Union de Crespo", V: "Cultural de Crespo", R: "2-0" }], libre: "Union de Viale" },
         "3": { partidos: [{ L: "Cultural de Crespo", V: "Union de Viale", R: "" }, { L: "Sarmiento de Crespo", V: "Viale Football Club", R: "" }, { L: "Deportivo Tabossi", V: "Union de Crespo", R: "" }], libre: "Atlético Arsenal" },
         "4": { partidos: [{ L: "Viale Football Club", V: "Atlético Arsenal", R: "" }, { L: "Union de Viale", V: "Deportivo Tabossi", R: "" }, { L: "Union de Crespo", V: "Sarmiento de Crespo", R: "" }], libre: "Cultural de Crespo" },
         "5": { partidos: [{ L: "Deportivo Tabossi", V: "Atlético Arsenal", R: "" }, { L: "Union de Viale", V: "Union de Crespo", R: "" }, { L: "Cultural de Crespo", V: "Viale Football Club", R: "" }], libre: "Sarmiento de Crespo" },
@@ -110,7 +110,7 @@ const SUR_DATA = {
         }, 
     sub17: {
         "1": { partidos: [{ L: "Sarmiento de Crespo", V: "Union de Viale", R: "9-0" }, { L: "Atlético Arsenal", V: "Union de Crespo", R: "1-1" }, { L: "Deportivo Tabossi", V: "Cultural de Crespo", R: "0-1" }], libre: "Viale Football Club" },
-        "2": { partidos: [{ L: "Atlético Arsenal", V: "Sarmiento de Crespo", R: "" }, { L: "Viale Football Club", V: "Deportivo Tabossi", R: "" }, { L: "Union de Crespo", V: "Cultural de Crespo", R: "" }], libre: "Union de Viale" },
+        "2": { partidos: [{ L: "Atlético Arsenal", V: "Sarmiento de Crespo", R: "3-3" }, { L: "Viale Football Club", V: "Deportivo Tabossi", R: "1-1" }, { L: "Union de Crespo", V: "Cultural de Crespo", R: "3-0" }], libre: "Union de Viale" },
         "3": { partidos: [{ L: "Cultural de Crespo", V: "Union de Viale", R: "" }, { L: "Sarmiento de Crespo", V: "Viale Football Club", R: "" }, { L: "Deportivo Tabossi", V: "Union de Crespo", R: "" }], libre: "Atlético Arsenal" },
         "4": { partidos: [{ L: "Viale Football Club", V: "Atlético Arsenal", R: "" }, { L: "Union de Viale", V: "Deportivo Tabossi", R: "" }, { L: "Union de Crespo", V: "Sarmiento de Crespo", R: "" }], libre: "Cultural de Crespo" },
         "5": { partidos: [{ L: "Deportivo Tabossi", V: "Atlético Arsenal", R: "" }, { L: "Union de Viale", V: "Union de Crespo", R: "" }, { L: "Cultural de Crespo", V: "Viale Football Club", R: "" }], libre: "Sarmiento de Crespo" },

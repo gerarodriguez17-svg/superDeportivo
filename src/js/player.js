@@ -10,10 +10,10 @@ const CONFIG_TRANSMISION = {
 
     // Placa informativa cuando no hay partido
     proximoPartido: {
-        titulo: "FECHA 1 - CLAUSURA 2026",
-        equipoLocal: "C.U.A.C",
-        equipoVisitante: "I.F.C.B",
-        fechaHora: "Domingo 9 AGOSTO"
+        titulo: "FECHA 3 - CLAUSURA 2026",
+        equipoLocal: "C.D.B",
+        equipoVisitante: "C.U.A.C",
+        fechaHora: "Domingo 30 AGOSTO"
     }
 };
 

@@ -3,10 +3,10 @@
 // ==========================================
 const CONFIG_TRANSMISION = {
     // "EN_VIVO" | "REPETICION" | "PROXIMAMENTE"
-    estado: "EN_VIVO", 
+    estado: "REPETICION", 
     posterUrl: "/public/img/portadas/PARTIDO2.jpg",
     // ID de YouTube para la repetición
-    youtubeId: "KAAzvgvVBiI", 
+    youtubeId: "cZkcxq1Tv30", 
 
     // Placa informativa cuando no hay partido
     proximoPartido: {

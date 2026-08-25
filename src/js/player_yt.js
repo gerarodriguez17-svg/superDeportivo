@@ -2,7 +2,7 @@
 // CONTROL DEL REPRODUCTOR Y AUTENTICACIÓN
 // ==========================================
 
-const VIDEO_ID_DOMINGO = "KAAzvgvVBiI"; // 🚀 CAMBIÁ ESTE ID CADA DOMINGO
+const VIDEO_ID_DOMINGO = "cZkcxq1Tv30"; // 🚀 CAMBIÁ ESTE ID CADA DOMINGO
 let ytpPlayer = null; 
 let idVideoGlobal = VIDEO_ID_DOMINGO;
 

@@ -12,7 +12,7 @@ const ESCUDOS_MAP = {
     "Litoral María Grande": "public/img/escudos/litoral.png",
     "Cañadita Central": "public/img/escudos/cacc.png",
     "Atlético María Grande": "public/img/escudos/camg.png",
-    "Segui FC": "public/public/img/escudos/segui.png",
+    "Segui FC": "public/img/escudos/segui.png",
     "Escuela Diego Maradona": "public/img/escudos/maradona.png",
     "Juventud Sarmiento": "public/img/escudos/cjs.png",
     "Atlético Arsenal": "public/img/escudos/caa.png",

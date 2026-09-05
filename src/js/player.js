@@ -4,16 +4,16 @@
 const CONFIG_TRANSMISION = {
     // "EN_VIVO" | "REPETICION" | "PROXIMAMENTE"
     estado: "EN_VIVO", 
-    posterUrl: "/public/img/portadas/PARTIDO3.jfif",
+    posterUrl: "/public/img/portadas/PARTIDO4.jpg",
     // ID de YouTube para la repetición
     youtubeId: "cZkcxq1Tv30", 
 
     // Placa informativa cuando no hay partido
     proximoPartido: {
-        titulo: "FECHA 3 - CLAUSURA 2026",
+        titulo: "FECHA 4 - CLAUSURA 2026",
         equipoLocal: "C.D.B",
         equipoVisitante: "C.U.A.C",
-        fechaHora: "Domingo 30 AGOSTO"
+        fechaHora: "Domingo 6 SEPTIEMBRE"
     }
 };
 

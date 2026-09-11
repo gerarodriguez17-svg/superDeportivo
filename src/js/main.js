@@ -4,7 +4,7 @@
 
 let zonaActual = 'norte';
 let categoriaActual = 'primera';
-let fechaActual = '2'; //CAMBIAR SEMANA A SEMANA
+let fechaActual = '5'; //CAMBIAR SEMANA A SEMANA
 
 // 1. CAMBIAR ZONA / CATEGORÍA / FECHA
 function cambiarZona(z) {

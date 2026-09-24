@@ -122,7 +122,26 @@ const SUR_DATA = {
 
     };
 
-const resultadosPlayoffs = {};
+const resultadosPlayoffs = {
+    // // === OCTAVOS DE FINAL ===
+    // // Gana el Local (Equipo 1) con un global de 3-1
+    // a1: { ida: [2, 1], vta: [1, 0], penales: [0, 0] },
+    
+    // // Empatan 2-2 en el global, pasa el Visitante (Equipo 10) por penales (3-4)
+    // a2: { ida: [1, 1], vta: [1, 1], penales: [3, 4] },
+    
+    // // Gana el Visitante (Equipo 12) con global 0-2
+    // a3: { ida: [0, 1], vta: [0, 1], penales: [0, 0] },
+    
+    // // Gana el Local (Equipo 3) con global 4-0
+    // a4: { ida: [2, 0], vta: [2, 0], penales: [0, 0] },
+
+    // // Podés dejar las llaves del Lado B vacías o con "-" si aún no se jugaron
+    // b1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] },
+    // b2: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] },
+    // b3: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] },
+    // b4: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] },
+};
 
 const SPONSORS = [
     { nombre: "DAR+, la tarjeta para comprar", logo: "public/img/sponsors/Dar+.jpg" },

@@ -28,6 +28,8 @@ const EQUIPOS_CENTRO = ["Litoral María Grande", "Cañadita Central", "Atlético
 const EQUIPOS_NORTE = ["J. Unida de Bovril", "Deportivo Tuyango", "U. Agrarios Cerrito", "Atlético Hernandarias", "Deportivo Bovril", "Independiente FC", "Union Alcaraz"];
 const EQUIPOS_SUR = ["Atlético Arsenal", "Viale Football Club", "Sarmiento de Crespo", "Union de Crespo", "Deportivo Tabossi", "Cultural de Crespo", "Union de Viale"];
 
+const MODO_TORNEO = 'APERTURA';
+
 const NORTE_DATA = {
     primera: {
         "1": { partidos: [{ L: "Atlético Hernandarias", V: "Deportivo Tuyango", R: "0-3" }, { L: "J. Unida de Bovril", V: "Independiente FC", R: "2-0" }, { L: "U. Agrarios Cerrito", V: "Union Alcaraz", R: "4-2" }], libre: "Deportivo Bovril" },

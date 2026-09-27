@@ -313,10 +313,24 @@ function renderizarMerito(tNorte, tCentro, tSur) {
 
     if (isClausura) {
        // --- LÓGICA CLAUSURA 2026 ---
-        let todosLosEquipos = [...tNorte, ...tCentro, ...tSur];
+        // Recuperamos la función para guardar la posición interna de cada zona
+        const guardarPosicionOriginal = (tabla) => tabla.map((eq, ind) => ({ ...eq, posicionZona: ind + 1 }));
         
-        // Ordenar general por Promedio (pts/pj) y Diferencia de Gol
+        const tNorteConPos = guardarPosicionOriginal(tNorte);
+        const tCentroConPos = guardarPosicionOriginal(tCentro);
+        const tSurConPos = guardarPosicionOriginal(tSur);
+
+        // Juntamos los tres grupos ya con la propiedad 'posicionZona' adentro
+        let todosLosEquipos = [...tNorteConPos, ...tCentroConPos, ...tSurConPos];
+        
+        // Ordenar general: 1° por posición en su zona, 2° por Promedio (pts/pj) y 3° por Diferencia de Gol
         todosLosEquipos.sort((a, b) => {
+            // Filtro reglamentario de la Liga: Prioriza el puesto en el grupo
+            if (a.posicionZona !== b.posicionZona) {
+                return a.posicionZona - b.posicionZona;
+            }
+            
+            // Si salieron en el mismo puesto (ej. todos los 1°), desempata promedio y dg
             const promA = a.pj > 0 ? a.pts / a.pj : 0;
             const promB = b.pj > 0 ? b.pts / b.pj : 0;
             return promB - promA || b.dg - a.dg;
@@ -418,12 +432,26 @@ function renderizarPlayoffs(tNorte, tCentro, tSur) {
 
     if (isClausura) {
         // --- LÓGICA CLAUSURA 2026 ---
-        let todos = [...tNorte, ...tCentro, ...tSur];
+        // Recuperamos la función para guardar la posición interna de cada zona antes de mezclarlos
+        const guardarPosicionOriginal = (tabla) => tabla.map((eq, ind) => ({ ...eq, posicionZona: ind + 1 }));
+        
+        const tNorteConPos = guardarPosicionOriginal(tNorte);
+        const tCentroConPos = guardarPosicionOriginal(tCentro);
+        const tSurConPos = guardarPosicionOriginal(tSur);
+
+        // Juntamos los tres grupos con la propiedad 'posicionZona' cargada
+        let todos = [...tNorteConPos, ...tCentroConPos, ...tSurConPos];
+        
+        // Ordenamiento General Reglamentario (Posición en zona primero, luego Promedio y DG)
         todos.sort((a, b) => {
+            if (a.posicionZona !== b.posicionZona) {
+                return a.posicionZona - b.posicionZona;
+            }
             const promA = a.pj > 0 ? a.pts / a.pj : 0;
             const promB = b.pj > 0 ? b.pts / b.pj : 0;
             return promB - promA || b.dg - a.dg;
         });
+        
         const top16 = todos.slice(0, 16);
 
         // Lado A

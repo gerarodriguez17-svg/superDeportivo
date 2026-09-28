@@ -51,7 +51,7 @@ const NORTE_DATA = {
     },
     sub17: {
         "1": { partidos: [{ L: "Independiente FC", V: "J. Unida de Bovril", R: "2-1" }, { L: "Deportivo Tuyango", V: "Atlético Hernandarias", R: "2-0" }, { L: "Union Alcaraz", V: "U. Agrarios Cerrito", R: "0-2" }], libre: "Deportivo Bovril" },
-        "2": { partidos: [{ L: "J. Unida de Bovril", V: "Union Alcaraz", R: "3-0" }, { L: "U. Agrarios Cerrito", V: "Deportivo Tuyango", R: "1-0" }, { L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "3-0" }], libre: "Independiente FC" },
+        "2": { partidos: [{ L: "J. Unida de Bovril", V: "Union Alcaraz", R: "1-0" }, { L: "U. Agrarios Cerrito", V: "Deportivo Tuyango", R: "1-0" }, { L: "Deportivo Bovril", V: "Atlético Hernandarias", R: "3-0" }], libre: "Independiente FC" },
         "3": { partidos: [{ L: "Union Alcaraz", V: "Independiente FC", R: "0-0" }, { L: "Deportivo Bovril", V: "U. Agrarios Cerrito", R: "1-1" }, { L: "Deportivo Tuyango", V: "J. Unida de Bovril", R: "2-0" }], libre: "Atlético Hernandarias" },
         "4": { partidos: [{ L: "U. Agrarios Cerrito", V: "Atlético Hernandarias", R: "3-1" }, { L: "Independiente FC", V: "Deportivo Tuyango", R: "1-1" }, { L: "J. Unida de Bovril", V: "Deportivo Bovril", R: "0-0" }], libre: "Union Alcaraz" },
         "5": { partidos: [{ L: "Deportivo Bovril", V: "Independiente FC", R: "1-0" }, { L: "Atlético Hernandarias", V: "J. Unida de Bovril", R: "6-0" }, { L: "Deportivo Tuyango", V: "Union Alcaraz", R: "0-1" }], libre: "U. Agrarios Cerrito" },

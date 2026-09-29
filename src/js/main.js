@@ -338,6 +338,38 @@ function renderizarMerito(tNorte, tCentro, tSur) {
 
         const top16 = todosLosEquipos.slice(0, 16);
 
+        // NUEVA FUNCIÓN INTERNA DE RENDERIZADO PARA MOSTRAR PTS, PJ Y PROMEDIO GRANDE
+        const generarFilaClausura = (eq, posReal, colorNumero) => {
+            const promedio = eq.pj > 0 ? (eq.pts / eq.pj).toFixed(3) : "0.000";
+            return `
+                <div class="grid grid-cols-12 gap-1 items-center bg-white/5 border border-white/10 p-2.5 mb-1 rounded-xl transition-all">
+                    <!-- Número de Orden de Mérito -->
+                    <div class="col-span-1 ${colorNumero} font-black text-[11px]">${posReal}</div>
+                    
+                    <!-- Escudo y Nombre del Equipo -->
+                    <div class="col-span-5 font-black italic uppercase text-[10px] text-slate-200 flex items-center gap-1.5 overflow-hidden">
+                        ${obtenerEscudo(eq.nombre)}
+                        <span class="truncate">${eq.nombre}</span>
+                        <span class="text-[8px] text-slate-500 font-sans not-italic font-normal">(${eq.posicionZona}°Z)</span>
+                    </div>
+                    
+                    <!-- Datos: PTS, PJ y PROMEDIO RELLENO -->
+                    <div class="col-span-2 text-center text-slate-400 font-bold text-[10px]">
+                        <span class="text-[8px] text-slate-500 block font-medium uppercase tracking-tighter">Pts</span>
+                        ${eq.pts}
+                    </div>
+                    <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">
+                        <span class="text-[8px] text-slate-500 block font-medium uppercase tracking-tighter">PJ</span>
+                        ${eq.pj}
+                    </div>
+                    <div class="col-span-3 text-right ${colorNumero} font-black text-sm italic tracking-tight pr-1">
+                        <span class="text-[8px] text-slate-500 block font-sans not-italic font-medium uppercase tracking-tighter">Promedio</span>
+                        ${promedio}
+                    </div>
+                </div>
+            `;
+        };
+
         // Lado A (Ordenados por posición en tabla: 1, 3, 5, 7, 10, 12, 14, 16)
         // Índices en el array: 0, 2, 4, 6, 9, 11, 13, 15
         const indicesA_Ordenados = [0, 2, 4, 6, 9, 11, 13, 15];
@@ -354,19 +386,20 @@ function renderizarMerito(tNorte, tCentro, tSur) {
                     <span>Orden de Mérito General (Clausura)</span>
                     <span class="text-[8px] text-slate-500 font-normal">Posición + Promedio</span>
                 </div>
-                ${top16.map((eq, i) => generarFila(eq, i, 'text-amber-500', i+1)).join('')}
+                ${top16.map((eq, i) => generarFilaClausura(eq, i + 1, 'text-amber-500')).join('')}
             </div>
             <div class="flex-1 flex flex-col gap-4">
                 <div class="bg-black/20 p-4 rounded-xl border border-white/5">
                     <div class="text-[10px] font-black text-emerald-400 mb-2 tracking-widest border-b border-emerald-400/30 pb-1 italic">Clasificados Lado A</div>
-                    ${grupoA.map(item => generarFila(item.equipo, item.posReal - 1, 'text-emerald-500', item.posReal)).join('')}
+                    ${grupoA.map(item => generarFilaClausura(item.equipo, item.posReal, 'text-emerald-500')).join('')}
                 </div>
                 <div class="bg-black/20 p-4 rounded-xl border border-white/5">
                     <div class="text-[10px] font-black text-blue-400 mb-2 tracking-widest border-b border-blue-400/30 pb-1 italic">Clasificados Lado B</div>
-                    ${grupoB.map(item => generarFila(item.equipo, item.posReal - 1, 'text-blue-500', item.posReal)).join('')}
+                    ${grupoB.map(item => generarFilaClausura(item.equipo, item.posReal, 'text-blue-500')).join('')}
                 </div>
             </div>`;
     } else {
+
         // --- LÓGICA ORIGINAL APERTURA 2026 (INTACTA) ---
         const guardarPosicionOriginal = (tabla) => tabla.map((eq, ind) => ({ ...eq, posicionZona: ind + 1 }));
         let tablaNorteAjustada = guardarPosicionOriginal([...tNorte]);

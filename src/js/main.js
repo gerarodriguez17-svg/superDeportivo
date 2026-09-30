@@ -561,49 +561,64 @@ function renderizarPlayoffs(tNorte, tCentro, tSur) {
         ? ["1º vs 16º", "7º vs 10º", "5º vs 12º", "3º vs 14º", "2º vs 15º", "8º vs 9º", "6º vs 11º", "4º vs 13º"] 
         : ["Llave A1", "Llave A2", "Llave A3", "Llave A4", "Llave B1", "Llave B2", "Llave B3", "Llave B4"];
 
-    contCuadro.innerHTML = `
-        <div class="grid grid-cols-7 gap-4 items-center min-w-[1300px] py-4 px-2">
-            <div>
-                <h4 class="text-center text-yellow-500 font-black text-[9px] uppercase mb-3 italic">Octavos A</h4>
+contCuadro.innerHTML = `
+        <div class="flex flex-row justify-between items-stretch w-full min-w-[1100px] py-6 px-2 gap-4">
+            
+            <!-- OCTAVOS LADO A -->
+            <div class="flex flex-col justify-between w-[14%] gap-3">
+                <h4 class="text-center text-yellow-500 font-black text-[9px] uppercase mb-2 italic">Octavos A</h4>
                 ${crearTarjetaPartido(eq_a1_1, eq_a1_2, "a1", lbl[0])}
                 ${crearTarjetaPartido(eq_a2_1, eq_a2_2, "a2", lbl[1])}
-                <div class="h-8"></div>
+                <div class="h-4"></div> <!-- Espaciador para marcar los cruces -->
                 ${crearTarjetaPartido(eq_a3_1, eq_a3_2, "a3", lbl[2])}
                 ${crearTarjetaPartido(eq_a4_1, eq_a4_2, "a4", lbl[3])}
             </div>
-            <div class="flex flex-col justify-around h-full py-10">
+
+            <!-- CUARTOS LADO A -->
+            <div class="flex flex-col justify-around w-[14%] py-12 gap-3">
                 ${crearTarjetaPartido(gan_a1, gan_a2, "ca1", "Cuartos A1")}
                 ${crearTarjetaPartido(gan_a3, gan_a4, "ca2", "Cuartos A2")}
             </div>
-            <div class="flex flex-col justify-center h-full py-20">
+
+            <!-- SEMIFINAL LADO A -->
+            <div class="flex flex-col justify-center w-[14%] py-24 gap-3">
                 ${crearTarjetaPartido(gan_ca1, gan_ca2, "sa1", "Semifinal A")}
             </div>
-            <div class="flex flex-col items-center justify-center gap-6">
+
+            <!-- FINAL (CENTRO) -->
+            <div class="flex flex-col items-center justify-center w-[16%] gap-4 z-10 px-1">
                 <div class="w-full">
                     ${crearTarjetaPartido(finalista_A, finalista_B, "final", "GRAN FINAL")}
                 </div>
-                <div class="w-full p-5 bg-gradient-to-b from-yellow-500/30 via-slate-900 to-slate-950 border-2 border-yellow-500 rounded-3xl shadow-2xl text-center">
+                <div class="w-full p-4 bg-gradient-to-b from-yellow-500/30 via-slate-900 to-slate-950 border-2 border-yellow-500 rounded-2xl shadow-2xl text-center">
                     <p class="text-[7px] text-yellow-500 font-black tracking-widest uppercase mb-1 italic">👑 CAMPEÓN 👑</p>
-                    <div class="text-[12px] font-black text-white uppercase truncate drop-shadow-md">
+                    <div class="text-[11px] lg:text-[12px] font-black text-white uppercase truncate drop-shadow-md">
                         ${campeon_final && campeon_final.trim() !== "" ? campeon_final : "— POR DEFINIR —"}
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col justify-center h-full py-20">
+
+            <!-- SEMIFINAL LADO B -->
+            <div class="flex flex-col justify-center w-[14%] py-24 gap-3">
                 ${crearTarjetaPartido(gan_cb1, gan_cb2, "sb1", "Semifinal B")}
             </div>
-            <div class="flex flex-col justify-around h-full py-10">
+
+            <!-- CUARTOS LADO B -->
+            <div class="flex flex-col justify-around w-[14%] py-12 gap-3">
                 ${crearTarjetaPartido(gan_cb1, gan_cb2, "cb1", "Cuartos B1")}
                 ${crearTarjetaPartido(gan_b3, gan_b4, "cb2", "Cuartos B2")}
             </div>
-            <div>
-                <h4 class="text-center text-emerald-400 font-black text-[9px] uppercase mb-3 italic">Octavos B</h4>
+
+            <!-- OCTAVOS LADO B -->
+            <div class="flex flex-col justify-between w-[14%] gap-3">
+                <h4 class="text-center text-emerald-400 font-black text-[9px] uppercase mb-2 italic">Octavos B</h4>
                 ${crearTarjetaPartido(eq_b1_1, eq_b1_2, "b1", lbl[4])}
                 ${crearTarjetaPartido(eq_b2_1, eq_b2_2, "b2", lbl[5])}
-                <div class="h-8"></div>
+                <div class="h-4"></div> <!-- Espaciador para marcar los cruces -->
                 ${crearTarjetaPartido(eq_b3_1, eq_b3_2, "b3", lbl[6])}
                 ${crearTarjetaPartido(eq_b4_1, eq_b4_2, "b4", lbl[7])}
             </div>
+            
         </div>`;
 }
 

@@ -4,16 +4,16 @@
 const CONFIG_TRANSMISION = {
     // "EN_VIVO" | "REPETICION" | "PROXIMAMENTE"
     estado: "EN_VIVO", 
-    posterUrl: "/public/img/portadas/PARTIDO6.jfif",
+    posterUrl: "/public/img/portadas/PARTIDO8.jfif",
     // ID de YouTube para la repetición
     youtubeId: "cZkcxq1Tv30", 
 
     // Placa informativa cuando no hay partido
     proximoPartido: {
-        titulo: "FECHA 6 - CLAUSURA 2026",
-        equipoLocal: "C.A.J.U.",
+        titulo: "8VOS IDA - CLAUSURA 2026",
+        equipoLocal: "C.A.D.T.",
         equipoVisitante: "C.U.A.C",
-        fechaHora: "Domingo 20 SEPTIEMBRE"
+        fechaHora: "Domingo 04 OCTUBRE"
     }
 };
 

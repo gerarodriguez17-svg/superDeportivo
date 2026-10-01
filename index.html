@@ -331,14 +331,32 @@
         <div id="top-16-render" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
     </div>
 
-    <!-- CUADRO DE PLAY-OFFS -->
+<!-- CUADRO DE PLAY-OFFS -->
     <div id="seccion-playoffs" class="panel-deportivo p-6 shadow-2xl border-t-4 border-emerald-500 mt-12">
-        <div class="flex items-center gap-3 mb-6">
-            <div class="bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
-                <i data-lucide="git-merge" class="w-5 h-5 text-emerald-500"></i>
+        
+        <!-- ENCABEZADO CON TÍTULO E INDICADOR -->
+        <div class="flex flex-wrap items-center justify-between mb-6 relative gap-4">
+            
+            <!-- Título Izquierda -->
+            <div class="flex items-center gap-3 z-20">
+                <div class="bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
+                    <i data-lucide="git-merge" class="w-5 h-5 text-emerald-500"></i>
+                </div>
+                <h3 class="text-xs font-black uppercase tracking-widest text-slate-200">Play-offs: Fase Final</h3>
             </div>
-            <h3 class="text-xs font-black uppercase tracking-widest text-slate-200">Play-offs: Fase Final</h3>
+            
+            <!-- INDICADOR CATEGORÍA (MÁS GRANDE) -->
+            <div class="md:absolute md:left-1/2 md:-translate-x-1/2 bg-slate-950 border-2 border-emerald-500/40 px-6 py-2 md:py-2.5 rounded-full shadow-xl z-20 flex-shrink-0">
+                <span id="categoria-playoffs" class="text-emerald-400 font-black italic uppercase text-xs md:text-sm tracking-widest drop-shadow-md">
+                    1° DIVISIÓN
+                </span>
+            </div>
+
+            <!-- Div fantasma para mantener el equilibrio del justify-between en PC -->
+            <div class="hidden md:block w-[180px]"></div>
         </div>
+
+        <!-- CONTENEDOR DEL CUADRO -->
         <div id="cuadro-render" class="w-full overflow-x-auto custom-scrollbar"></div>
     </div>
 

@@ -171,34 +171,50 @@ function crearTarjetaPartido(p1, p2, llaveId, labelEtiqueta) {
         if (!nombre || nombre === "---") return `<div class="w-5 h-5 bg-white/5 rounded-full"></div>`;
         return `<div class="w-5 h-5 flex items-center justify-center flex-shrink-0 overflow-visible">${obtenerEscudo(nombre)}</div>`;
     };
-
     return `
-    <div class="flex flex-col w-full bg-slate-900/95 border border-white/10 rounded-xl shadow-xl mb-3 overflow-hidden">
-        <div class="flex justify-between items-center px-2.5 py-1.5 bg-slate-950 border-b border-white/10">
-            <span class="text-slate-400 font-black uppercase text-[8px] tracking-wider italic">${labelEtiqueta}</span>
-            <span class="text-yellow-400 font-extrabold text-[9px] bg-yellow-500/10 px-2 py-0.5 rounded border border-yellow-500/20 tracking-wide shadow-inner">
-                I: ${res.ida[0]}-${res.ida[1]} &nbsp;|&nbsp; V: ${res.vta[0]}-${res.vta[1]}
-            </span>
-        </div>
-        <div class="flex items-center justify-between p-2 border-b border-white/5">
-            <div class="flex items-center gap-2 truncate">
-                ${miniEscudo(p1)}
-                <span class="text-[10px] font-black ${p1 ? 'text-slate-100' : 'text-slate-500'} uppercase truncate">${p1Abreviado}</span>
+        <!-- CONTENEDOR DEL PARTIDO -->
+        <div class="w-full">
+            
+            <!-- TÍTULO AFUERA DE LA TARJETA -->
+            <div class="text-center text-slate-300 font-black uppercase text-[10px] md:text-[11px] tracking-widest mb-1 italic drop-shadow-md">
+                ${labelEtiqueta}
             </div>
-            <span class="text-white font-black text-[11px]">${p1 ? g1 : ''} ${hayPenales && p1 ? `<span class="text-yellow-500 text-[8px]">(${res.penales[0]})</span>` : ''}</span>
-        </div>
-        <div class="flex items-center justify-between p-2">
-            <div class="flex items-center gap-2 truncate">
-                ${miniEscudo(p2)}
-                <span class="text-[10px] font-black ${p2 ? 'text-slate-100' : 'text-slate-500'} uppercase truncate">${p2Abreviado}</span>
+            
+            <!-- TARJETA VISUAL -->
+            <div class="flex flex-col w-full bg-slate-900/95 border border-white/10 rounded-xl shadow-xl mb-3 overflow-hidden">
+                
+                <!-- Cabecera interna (Solo Ida y Vuelta centrados) -->
+                <div class="flex justify-center items-center px-3 py-1.5 bg-slate-950 border-b border-white/10">
+                    <span class="text-yellow-400 font-extrabold text-[9px] md:text-[10px] bg-yellow-500/10 px-2 py-0.5 rounded border border-yellow-500/20 tracking-wide shadow-inner">
+                        I: ${res.ida[0]}-${res.ida[1]} &nbsp;|&nbsp; V: ${res.vta[0]}-${res.vta[1]}
+                    </span>
+                </div>
+                
+                <!-- Equipo 1 y Goles/Penales -->
+                <div class="flex items-center justify-between p-2 border-b border-white/5">
+                    <div class="flex items-center gap-2 truncate pr-2">
+                        ${miniEscudo(p1)}
+                        <span class="text-[10px] font-black ${p1 ? 'text-slate-100' : 'text-slate-500'} uppercase truncate">${p1Abreviado}</span>
+                    </div>
+                    <span class="text-white font-black text-[11px] whitespace-nowrap">${p1 ? g1 : ''} ${hayPenales && p1 ? `<span class="text-yellow-500 text-[8px] ml-0.5">(${res.penales[0]})</span>` : ''}</span>
+                </div>
+                
+                <!-- Equipo 2 y Goles/Penales -->
+                <div class="flex items-center justify-between p-2">
+                    <div class="flex items-center gap-2 truncate pr-2">
+                        ${miniEscudo(p2)}
+                        <span class="text-[10px] font-black ${p2 ? 'text-slate-100' : 'text-slate-500'} uppercase truncate">${p2Abreviado}</span>
+                    </div>
+                    <span class="text-white font-black text-[11px] whitespace-nowrap">${p2 ? g2 : ''} ${hayPenales && p2 ? `<span class="text-yellow-500 text-[8px] ml-0.5">(${res.penales[1]})</span>` : ''}</span>
+                </div>
+                
             </div>
-            <span class="text-white font-black text-[11px]">${p2 ? g2 : ''} ${hayPenales && p2 ? `<span class="text-yellow-500 text-[8px]">(${res.penales[1]})</span>` : ''}</span>
-        </div>
-    </div>`;
+        </div>`;
 }
 
 // 6. FUNCIÓN DE RENDERIZADO COMPLETO
 function renderizar() {
+
     if (typeof NORTE_DATA === 'undefined') return;
 
     // A) Tabla de Posiciones
@@ -209,6 +225,15 @@ function renderizar() {
     const tCentro = obtenerTablaPorZona('centro', categoriaActual);
     const tSur = obtenerTablaPorZona('sur', categoriaActual);
     const tablaMostrar = zonaActual === 'norte' ? tNorte : (zonaActual === 'centro' ? tCentro : tSur);
+
+    // --- NUEVA LÓGICA: IDENTIFICAR AL MEJOR 6TO ---
+    const sextos = [tNorte[5], tCentro[5], tSur[5]].filter(Boolean);
+    sextos.sort((a, b) => {
+        const promA = a.pj > 0 ? a.pts / a.pj : 0;
+        const promB = b.pj > 0 ? b.pts / b.pj : 0;
+        return promB - promA || b.dg - a.dg;
+    });
+    const mejorSextoNombre = sextos.length > 0 ? sextos[0].nombre : null;
 
     const header = `
         <div class="grid grid-cols-12 gap-1 px-4 mb-2 text-[9px] font-black uppercase text-slate-500 tracking-tighter">
@@ -228,12 +253,32 @@ function renderizar() {
     if (contTabla) {
         contTabla.innerHTML = header + tablaMostrar.map((eq, i) => {
             const esTop5 = i < 5;
-            let bg = esTop5 ? 'bg-amber-500/10 border-amber-500/20' : 'bg-white/5 border-white/10';
-            let txt = esTop5 ? 'text-amber-400' : 'text-slate-200';
+            const esMejorSexto = (i === 5 && eq.nombre === mejorSextoNombre);
+            
+            // Estilos por defecto (resto de los equipos)
+            let bg = 'bg-white/5 border-white/10';
+            let txt = 'text-slate-200';
+            let numColor = 'text-slate-500';
+            let ptsColor = 'text-slate-300';
+
+            // Estilos si es Top 5
+            if (esTop5) {
+                bg = 'bg-amber-500/10 border-amber-500/20';
+                txt = 'text-amber-400';
+                numColor = 'text-amber-500';
+                ptsColor = 'text-amber-500';
+            } 
+            // Estilos si es el Mejor 6to
+            else if (esMejorSexto) {
+                bg = 'bg-blue-500/10 border-blue-500/30';
+                txt = 'text-blue-400';
+                numColor = 'text-blue-500';
+                ptsColor = 'text-blue-400';
+            }
 
             return `
                 <div class="grid grid-cols-12 gap-1 items-center ${bg} p-3 mb-1 rounded-xl border transition-all">
-                    <div class="col-span-1 ${esTop5 ? 'text-amber-500' : 'text-slate-500'} font-black text-[10px]">${i+1}</div>
+                    <div class="col-span-1 ${numColor} font-black text-[10px]">${i+1}</div>
                     <div class="col-span-4 font-black italic uppercase text-[10px] ${txt} flex items-center gap-1.5 overflow-hidden">
                         ${obtenerEscudo(eq.nombre)}
                         <span class="truncate">${eq.nombre}</span>
@@ -244,12 +289,12 @@ function renderizar() {
                     <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.pp}</div>
                     <div class="col-span-1 text-center text-slate-500 text-[9px] font-medium">${eq.gf}/${eq.gc}</div>
                     <div class="col-span-1 text-center text-slate-400 font-bold text-[10px]">${eq.dg > 0 ? '+' + eq.dg : eq.dg}</div>
-                    <div class="col-span-1 text-right text-amber-500 font-black text-sm italic">${eq.pts}</div>
+                    <div class="col-span-1 text-right ${ptsColor} font-black text-sm italic">${eq.pts}</div>
                 </div>
             `;
         }).join('');
     }
-
+    
     // B) Fixture
     let dataFixture = zonaActual === 'norte' ? NORTE_DATA[categoriaActual] : (zonaActual === 'centro' ? CENTRO_DATA[categoriaActual] : SUR_DATA[categoriaActual]);
     const fecha = (dataFixture && dataFixture[fechaActual]) ? dataFixture[fechaActual] : { partidos: [], libre: "" };
@@ -299,7 +344,7 @@ function renderizarMerito(tNorte, tCentro, tSur) {
         return `
         <div class="flex justify-between items-center p-2 mb-1 rounded border-l-2 ${estiloBorde} text-[10px] uppercase font-bold text-slate-200">
             <span class="flex items-center gap-3 truncate min-w-0">
-                <span class="text-slate-500 w-3 font-black text-[8px] flex-shrink-0">${posReal}</span>
+                <span class="text-slate-400 w-4 md:w-5 font-black text-[11px] md:text-xs flex-shrink-0">${posReal}</span>
                 <div class="w-6 h-6 flex-shrink-0 flex items-center justify-center overflow-hidden">
                     ${obtenerEscudo(eq.nombre)}
                 </div>
@@ -378,28 +423,31 @@ function renderizarMerito(tNorte, tCentro, tSur) {
 
             const indicesB_Ordenados = new Array(1, 3, 5, 7, 8, 10, 12, 14);
             const grupoB = indicesB_Ordenados.map(idx => ({ equipo: top16[idx], posReal: idx + 1 })).filter(item => item.equipo);
-
             cont16.innerHTML = `
-                <div class="flex-[1.2] bg-black/20 p-4 rounded-xl border border-white/5">
-                    <div class="text-[10px] font-black text-white mb-4 tracking-widest border-b border-amber-500 pb-1 italic flex justify-between">
-                        <span>Orden de Mérito General (Clausura)</span>
-                        <span class="text-[8px] text-slate-500 font-normal">Posición + Promedio</span>
-                    </div>
-                    ${headerColumnas}
-                    ${top16.map((eq, i) => generarFilaClausura(eq, i + 1, 'text-amber-500')).join('')}
-                </div>
-                <div class="flex-1 flex flex-col gap-4">
-                    <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                        <div class="text-[10px] font-black text-emerald-400 mb-2 tracking-widest border-b border-emerald-400/30 pb-1 italic">Clasificados Lado A</div>
-                        ${headerColumnas}
-                        ${grupoA.map(item => generarFilaClausura(item.equipo, item.posReal, 'text-emerald-500')).join('')}
-                    </div>
-                    <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                        <div class="text-[10px] font-black text-blue-400 mb-2 tracking-widest border-b border-blue-400/30 pb-1 italic">Clasificados Lado B</div>
-                        ${headerColumnas}
-                        ${grupoB.map(item => generarFilaClausura(item.equipo, item.posReal, 'text-blue-500')).join('')}
-                    </div>
-                </div>`;
+                            <div class="flex-[1.2] bg-black/20 p-4 rounded-xl border border-white/5">
+                                <div class="text-xs md:text-sm font-black text-white mb-4 tracking-widest border-b border-amber-500 pb-2 italic flex justify-between items-end uppercase">
+                                    <span>Orden de Mérito General (Clausura)</span>
+                                    <span class="text-[9px] text-slate-500 font-normal normal-case">Posición + Promedio</span>
+                                </div>
+                                ${headerColumnas}
+                                ${top16.map((eq, i) => generarFilaClausura(eq, i + 1, 'text-amber-500')).join('')}
+                            </div>
+                            <div class="flex-1 flex flex-col gap-4">
+                                <div class="bg-black/20 p-4 rounded-xl border border-white/5">
+                                    <div class="text-xs md:text-sm font-black text-emerald-400 mb-3 tracking-widest border-b border-emerald-400/30 pb-2 italic uppercase">
+                                        Clasificados Lado A
+                                    </div>
+                                    ${headerColumnas}
+                                    ${grupoA.map(item => generarFilaClausura(item.equipo, item.posReal, 'text-emerald-500')).join('')}
+                                </div>
+                                <div class="bg-black/20 p-4 rounded-xl border border-white/5">
+                                    <div class="text-xs md:text-sm font-black text-blue-400 mb-3 tracking-widest border-b border-blue-400/30 pb-2 italic uppercase">
+                                        Clasificados Lado B
+                                    </div>
+                                    ${headerColumnas}
+                                    ${grupoB.map(item => generarFilaClausura(item.equipo, item.posReal, 'text-blue-500')).join('')}
+                                </div>
+                            </div>`;
         } else {
         // --- LÓGICA ORIGINAL APERTURA 2026 (INTACTA) ---
         const guardarPosicionOriginal = (tabla) => tabla.map((eq, ind) => ({ ...eq, posicionZona: ind + 1 }));
@@ -561,64 +609,92 @@ function renderizarPlayoffs(tNorte, tCentro, tSur) {
         ? ["1º vs 16º", "7º vs 10º", "5º vs 12º", "3º vs 14º", "2º vs 15º", "8º vs 9º", "6º vs 11º", "4º vs 13º"] 
         : ["Llave A1", "Llave A2", "Llave A3", "Llave A4", "Llave B1", "Llave B2", "Llave B3", "Llave B4"];
 
-contCuadro.innerHTML = `
-        <div class="flex flex-row justify-between items-stretch w-full min-w-[1100px] py-6 px-2 gap-4">
+     // Formatear el texto de la categoría para la marca de agua
+    let categoriaFondo = "1° DIVISIÓN";
+    if (categoriaActual === "sub20") categoriaFondo = "SUB-20";
+    if (categoriaActual === "sub17") categoriaFondo = "SUB-17";
+
+    // Actualizar el indicador externo en el HTML
+    const indicadorPlayoffs = document.getElementById('categoria-playoffs');
+    if (indicadorPlayoffs) {
+        indicadorPlayoffs.innerText = categoriaFondo;
+    }
+
+    contCuadro.innerHTML = `
+        <div class="relative w-full overflow-hidden rounded-3xl">
             
-            <!-- OCTAVOS LADO A -->
-            <div class="flex flex-col justify-between w-[14%] gap-3">
-                <h4 class="text-center text-yellow-500 font-black text-[9px] uppercase mb-2 italic">Octavos A</h4>
-                ${crearTarjetaPartido(eq_a1_1, eq_a1_2, "a1", lbl[0])}
-                ${crearTarjetaPartido(eq_a2_1, eq_a2_2, "a2", lbl[1])}
-                <div class="h-4"></div> <!-- Espaciador para marcar los cruces -->
-                ${crearTarjetaPartido(eq_a3_1, eq_a3_2, "a3", lbl[2])}
-                ${crearTarjetaPartido(eq_a4_1, eq_a4_2, "a4", lbl[3])}
-            </div>
-
-            <!-- CUARTOS LADO A -->
-            <div class="flex flex-col justify-around w-[14%] py-12 gap-3">
-                ${crearTarjetaPartido(gan_a1, gan_a2, "ca1", "Cuartos A1")}
-                ${crearTarjetaPartido(gan_a3, gan_a4, "ca2", "Cuartos A2")}
-            </div>
-
-            <!-- SEMIFINAL LADO A -->
-            <div class="flex flex-col justify-center w-[14%] py-24 gap-3">
-                ${crearTarjetaPartido(gan_ca1, gan_ca2, "sa1", "Semifinal A")}
-            </div>
-
-            <!-- FINAL (CENTRO) -->
-            <div class="flex flex-col items-center justify-center w-[16%] gap-4 z-10 px-1">
-                <div class="w-full">
-                    ${crearTarjetaPartido(finalista_A, finalista_B, "final", "GRAN FINAL")}
+            <!-- LOGO (Arriba al centro, sin texto de categoría) -->
+            <div class="absolute top-0 md:top-2 left-0 right-0 flex flex-col items-center justify-start opacity-15 pointer-events-none z-0 select-none origin-top scale-75 md:scale-90">
+                <div class="bg-emerald-600 p-4 md:p-5 rounded-3xl shadow-lg mb-3 mt-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white w-12 h-12 md:w-16 md:h-16"><path d="M4.9 16.1C1 12.2 1 5.8 4.9 1.9"></path><path d="M7.8 4.7a6.14 6.14 0 0 0-.8 7.5"></path><circle cx="12" cy="9" r="2"></circle><path d="M16.2 4.8c2 2 2.26 5.11.8 7.47"></path><path d="M19.1 1.9a9.96 9.96 0 0 1 0 14.1"></path><path d="M9.5 18h5"></path><path d="m8 22 4-11 4 11"></path></svg>
                 </div>
-                <div class="w-full p-4 bg-gradient-to-b from-yellow-500/30 via-slate-900 to-slate-950 border-2 border-yellow-500 rounded-2xl shadow-2xl text-center">
-                    <p class="text-[7px] text-yellow-500 font-black tracking-widest uppercase mb-1 italic">👑 CAMPEÓN 👑</p>
-                    <div class="text-[11px] lg:text-[12px] font-black text-white uppercase truncate drop-shadow-md">
-                        ${campeon_final && campeon_final.trim() !== "" ? campeon_final : "— POR DEFINIR —"}
+                <div class="text-center">
+                    <h1 class="text-4xl md:text-5xl font-black italic uppercase tracking-tighter leading-none text-white mb-2">
+                        SUPER <span class="text-emerald-500">DEPORTIVO</span>
+                    </h1>
+                    <p class="text-base md:text-lg font-bold text-slate-500 uppercase tracking-[0.3em] italic">CERRITO • Entre Ríos</p>
+                </div>
+            </div>
+
+            <!-- CUADRO DE LLAVES ORIGINAL -->
+            <div class="relative z-10 flex flex-row justify-between items-stretch w-full min-w-[1100px] py-6 px-2 gap-4">
+                
+                <!-- OCTAVOS LADO A -->
+                <div class="flex flex-col justify-between w-[14%] gap-3">
+                    <h4 class="text-center text-yellow-500 font-black text-[9px] uppercase mb-2 italic">Octavos A</h4>
+                    ${crearTarjetaPartido(eq_a1_1, eq_a1_2, "a1", lbl[0])}
+                    ${crearTarjetaPartido(eq_a2_1, eq_a2_2, "a2", lbl[1])}
+                    <div class="h-4"></div>
+                    ${crearTarjetaPartido(eq_a3_1, eq_a3_2, "a3", lbl[2])}
+                    ${crearTarjetaPartido(eq_a4_1, eq_a4_2, "a4", lbl[3])}
+                </div>
+
+                <!-- CUARTOS LADO A -->
+                <div class="flex flex-col justify-around w-[14%] py-12 gap-3">
+                    ${crearTarjetaPartido(gan_a1, gan_a2, "ca1", "Cuartos A1")}
+                    ${crearTarjetaPartido(gan_a3, gan_a4, "ca2", "Cuartos A2")}
+                </div>
+
+                <!-- SEMIFINAL LADO A -->
+                <div class="flex flex-col justify-center w-[14%] py-24 gap-3">
+                    ${crearTarjetaPartido(gan_ca1, gan_ca2, "sa1", "Semi A")}
+                </div>
+
+                <!-- FINAL (CENTRO) -->
+                <div class="flex flex-col items-center justify-center w-[16%] gap-4 z-10 px-1 pt-32">
+                    <div class="w-full">
+                        ${crearTarjetaPartido(finalista_A, finalista_B, "final", "FINAL")}
+                    </div>
+                    <div class="w-full p-4 bg-gradient-to-b from-yellow-500/30 via-slate-900 to-slate-950 border-2 border-yellow-500 rounded-2xl shadow-2xl text-center">
+                        <p class="text-[7px] text-yellow-500 font-black tracking-widest uppercase mb-1 italic">👑 CAMPEÓN 👑</p>
+                        <div class="text-[11px] lg:text-[12px] font-black text-white uppercase truncate drop-shadow-md">
+                            ${campeon_final && campeon_final.trim() !== "" ? campeon_final : "— POR DEFINIR —"}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- SEMIFINAL LADO B -->
-            <div class="flex flex-col justify-center w-[14%] py-24 gap-3">
-                ${crearTarjetaPartido(gan_cb1, gan_cb2, "sb1", "Semifinal B")}
-            </div>
+                <!-- SEMIFINAL LADO B -->
+                <div class="flex flex-col justify-center w-[14%] py-24 gap-3">
+                    ${crearTarjetaPartido(gan_cb1, gan_cb2, "sb1", "Semi B")}
+                </div>
 
-            <!-- CUARTOS LADO B -->
-            <div class="flex flex-col justify-around w-[14%] py-12 gap-3">
-                ${crearTarjetaPartido(gan_cb1, gan_cb2, "cb1", "Cuartos B1")}
-                ${crearTarjetaPartido(gan_b3, gan_b4, "cb2", "Cuartos B2")}
-            </div>
+                <!-- CUARTOS LADO B -->
+                <div class="flex flex-col justify-around w-[14%] py-12 gap-3">
+                    ${crearTarjetaPartido(gan_cb1, gan_cb2, "cb1", "Cuartos B1")}
+                    ${crearTarjetaPartido(gan_b3, gan_b4, "cb2", "Cuartos B2")}
+                </div>
 
-            <!-- OCTAVOS LADO B -->
-            <div class="flex flex-col justify-between w-[14%] gap-3">
-                <h4 class="text-center text-emerald-400 font-black text-[9px] uppercase mb-2 italic">Octavos B</h4>
-                ${crearTarjetaPartido(eq_b1_1, eq_b1_2, "b1", lbl[4])}
-                ${crearTarjetaPartido(eq_b2_1, eq_b2_2, "b2", lbl[5])}
-                <div class="h-4"></div> <!-- Espaciador para marcar los cruces -->
-                ${crearTarjetaPartido(eq_b3_1, eq_b3_2, "b3", lbl[6])}
-                ${crearTarjetaPartido(eq_b4_1, eq_b4_2, "b4", lbl[7])}
+                <!-- OCTAVOS LADO B -->
+                <div class="flex flex-col justify-between w-[14%] gap-3">
+                    <h4 class="text-center text-emerald-400 font-black text-[9px] uppercase mb-2 italic">Octavos B</h4>
+                    ${crearTarjetaPartido(eq_b1_1, eq_b1_2, "b1", lbl[4])}
+                    ${crearTarjetaPartido(eq_b2_1, eq_b2_2, "b2", lbl[5])}
+                    <div class="h-4"></div>
+                    ${crearTarjetaPartido(eq_b3_1, eq_b3_2, "b3", lbl[6])}
+                    ${crearTarjetaPartido(eq_b4_1, eq_b4_2, "b4", lbl[7])}
+                </div>
+                
             </div>
-            
         </div>`;
 }
 

@@ -129,16 +129,16 @@ const resultadosPlayoffs = {
     
     // --- OCTAVOS DE FINAL ---
     // LADO A
-    a1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 1º AT. MG. vs 16º CULT. CRESPO de la Tabla General
-    a2: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 7º ATL ARSENAL vs 10º  DEP BOVRIL de la Tabla General
-    a3: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 5º TUYANGO vs 12º SAR CRESPO de la Tabla General
-    a4: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 3º CUAC vs 14º TABOSSI de la Tabla General
+    a1: { ida: ["5", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 1º AT. MG. vs 16º CULT. CRESPO de la Tabla General
+    a2: { ida: ["3", "3"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 7º ATL ARSENAL vs 10º  DEP BOVRIL de la Tabla General
+    a3: { ida: ["0", "2"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 5º TUYANGO vs 12º SAR CRESPO de la Tabla General
+    a4: { ida: ["1", "2"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 3º CUAC vs 14º TABOSSI de la Tabla General
     
     // LADO B
-    b1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 2º VIALE vs 15º SEGUI de la Tabla General
-    b2: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 8º ATL HERNAND vs 9º CAÑADITA de la Tabla General
-    b3: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 6º UNION CRESPO vs 11º MARADONA de la Tabla General
-    b4: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 4º LITORAL MG vs 13º UNION ALCARAZ de la Tabla General
+    b1: { ida: ["5", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 2º VIALE vs 15º SEGUI de la Tabla General
+    b2: { ida: ["0", "1"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 8º ATL HERNAND vs 9º CAÑADITA de la Tabla General
+    b3: { ida: ["2", "1"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 6º UNION CRESPO vs 11º MARADONA de la Tabla General
+    b4: { ida: ["5", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: 4º LITORAL MG vs 13º UNION ALCARAZ de la Tabla General
 
     // --- CUARTOS DE FINAL ---
     ca1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: Ganador a1 vs Ganador a2
@@ -159,15 +159,15 @@ const resultadosPlayoffs = {
     // ====================================================================
     
     // --- OCTAVOS DE FINAL ---
-    sub17_a1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 1º LITORAL vs 16º SARM CRESPO
-    sub17_a2: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 7º SARMIENTO vs 10º ATL MG
-    sub17_a3: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 5º BOVRIL vs 12º TUYANGO 
-    sub17_a4: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 3º CUAC vs 14º TABOSSI
+    sub17_a1: { ida: ["2", "1"], vta: ["-", "-"], penales: ["-", "-"] }, // 1º LITORAL vs 16º SARM CRESPO
+    sub17_a2: { ida: ["0", "1"], vta: ["-", "-"], penales: ["-", "-"] }, // 7º SARMIENTO vs 10º ATL MG
+    sub17_a3: { ida: ["1", "2"], vta: ["-", "-"], penales: ["-", "-"] }, // 5º BOVRIL vs 12º TUYANGO 
+    sub17_a4: { ida: ["1", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // 3º CUAC vs 14º TABOSSI
     
-    sub17_b1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 2º UNION CRESPO vs 15º CAÑADITA 
-    sub17_b2: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 8º VIALE vs 9º INDEPENDIENTE
-    sub17_b3: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 6º CULTURAL CRESPO vs 11º ATL ARSENAL 
-    sub17_b4: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 4º ATL ARSENAL vs 13º ATL HERNANDARIAS
+    sub17_b1: { ida: ["3", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // 2º UNION CRESPO vs 15º CAÑADITA 
+    sub17_b2: { ida: ["2", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // 8º VIALE vs 9º INDEPENDIENTE
+    sub17_b3: { ida: ["1", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // 6º CULTURAL CRESPO vs 11º ATL ARSENAL 
+    sub17_b4: { ida: ["3", "2"], vta: ["-", "-"], penales: ["-", "-"] }, // 4º ATL ARSENAL vs 13º ATL HERNANDARIAS
 
     // --- CUARTOS DE FINAL ---
     sub17_ca1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador a1 vs Ganador a2
@@ -188,15 +188,15 @@ const resultadosPlayoffs = {
     // ====================================================================
     
     // --- OCTAVOS DE FINAL ---
-    sub20_a1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 1º UNION  vs 16º TABOSSI
-    sub20_a2: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 7º ATL HASENK vs 10º SAR CRESPO
-    sub20_a3: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 5º TUYANGO vs 12º CUAC
-    sub20_a4: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 3º INDEPENDIENTE vs 14º JUV SARMIENTO
+    sub20_a1: { ida: ["4", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // 1º UNION  vs 16º TABOSSI
+    sub20_a2: { ida: ["4", "1"], vta: ["-", "-"], penales: ["-", "-"] }, // 7º ATL HASENK vs 10º SAR CRESPO
+    sub20_a3: { ida: ["1", "2"], vta: ["-", "-"], penales: ["-", "-"] }, // 5º TUYANGO vs 12º CUAC
+    sub20_a4: { ida: ["1", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // 3º INDEPENDIENTE vs 14º JUV SARMIENTO
     
-    sub20_b1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 2º LITRORAL MG vs 15º BOVRIL
-    sub20_b2: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 8º CULT CRESPO vs 9º UNION ALCARAZ
-    sub20_b3: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 6º ATL ARSENAL vs 11º ATL MG
-    sub20_b4: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // 4º CAÑADITA vs 13º VIALE
+    sub20_b1: { ida: ["0", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // 2º LITRORAL MG vs 15º BOVRIL
+    sub20_b2: { ida: ["4", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // 8º CULT CRESPO vs 9º UNION ALCARAZ
+    sub20_b3: { ida: ["1", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // 6º ATL ARSENAL vs 11º ATL MG
+    sub20_b4: { ida: ["0", "1"], vta: ["-", "-"], penales: ["-", "-"] }, // 4º CAÑADITA vs 13º VIALE
 
     // --- CUARTOS DE FINAL ---
     sub20_ca1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador a1 vs Ganador a2

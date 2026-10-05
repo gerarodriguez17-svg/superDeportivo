@@ -619,11 +619,11 @@ function renderizarPlayoffs(tNorte, tCentro, tSur) {
     if (indicadorPlayoffs) {
         indicadorPlayoffs.innerText = categoriaFondo;
     }
-
-    contCuadro.innerHTML = `
-        <div class="relative w-full overflow-hidden rounded-3xl">
+contCuadro.innerHTML = `
+        <!-- EL SECRETO ESTÁ ACÁ: min-w-[1100px] pasa al contenedor principal -->
+        <div class="relative w-full min-w-[1100px] lg:min-w-full overflow-hidden rounded-3xl">
             
-            <!-- LOGO (Arriba al centro, sin texto de categoría) -->
+            <!-- LOGO (Arriba al centro) -->
             <div class="absolute top-0 md:top-2 left-0 right-0 flex flex-col items-center justify-start opacity-15 pointer-events-none z-0 select-none origin-top scale-75 md:scale-90">
                 <div class="bg-emerald-600 p-4 md:p-5 rounded-3xl shadow-lg mb-3 mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white w-12 h-12 md:w-16 md:h-16"><path d="M4.9 16.1C1 12.2 1 5.8 4.9 1.9"></path><path d="M7.8 4.7a6.14 6.14 0 0 0-.8 7.5"></path><circle cx="12" cy="9" r="2"></circle><path d="M16.2 4.8c2 2 2.26 5.11.8 7.47"></path><path d="M19.1 1.9a9.96 9.96 0 0 1 0 14.1"></path><path d="M9.5 18h5"></path><path d="m8 22 4-11 4 11"></path></svg>
@@ -637,11 +637,12 @@ function renderizarPlayoffs(tNorte, tCentro, tSur) {
             </div>
 
             <!-- CUADRO DE LLAVES ORIGINAL -->
-            <div class="relative z-10 flex flex-row justify-between items-stretch w-full min-w-[1100px] py-6 px-2 gap-4">
+            <!-- Al div de abajo le sacamos el min-w-[1100px] porque ya lo tiene el padre -->
+            <div class="relative z-10 flex flex-row justify-between items-stretch w-full py-6 px-2 gap-4">
                 
                 <!-- OCTAVOS LADO A -->
                 <div class="flex flex-col justify-between w-[14%] gap-3">
-                    <h4 class="text-center text-yellow-500 font-black text-[9px] uppercase mb-2 italic">Octavos A</h4>
+                    <h4 class="text-center text-yellow-500 font-black text-[9px] uppercase mb-2 italic drop-shadow-md">Octavos A</h4>
                     ${crearTarjetaPartido(eq_a1_1, eq_a1_2, "a1", lbl[0])}
                     ${crearTarjetaPartido(eq_a2_1, eq_a2_2, "a2", lbl[1])}
                     <div class="h-4"></div>
@@ -657,13 +658,13 @@ function renderizarPlayoffs(tNorte, tCentro, tSur) {
 
                 <!-- SEMIFINAL LADO A -->
                 <div class="flex flex-col justify-center w-[14%] py-24 gap-3">
-                    ${crearTarjetaPartido(gan_ca1, gan_ca2, "sa1", "Semi A")}
+                    ${crearTarjetaPartido(gan_ca1, gan_ca2, "sa1", "Semifinal A")}
                 </div>
 
                 <!-- FINAL (CENTRO) -->
                 <div class="flex flex-col items-center justify-center w-[16%] gap-4 z-10 px-1 pt-32">
                     <div class="w-full">
-                        ${crearTarjetaPartido(finalista_A, finalista_B, "final", "FINAL")}
+                        ${crearTarjetaPartido(finalista_A, finalista_B, "final", "GRAN FINAL")}
                     </div>
                     <div class="w-full p-4 bg-gradient-to-b from-yellow-500/30 via-slate-900 to-slate-950 border-2 border-yellow-500 rounded-2xl shadow-2xl text-center">
                         <p class="text-[7px] text-yellow-500 font-black tracking-widest uppercase mb-1 italic">👑 CAMPEÓN 👑</p>
@@ -675,7 +676,7 @@ function renderizarPlayoffs(tNorte, tCentro, tSur) {
 
                 <!-- SEMIFINAL LADO B -->
                 <div class="flex flex-col justify-center w-[14%] py-24 gap-3">
-                    ${crearTarjetaPartido(gan_cb1, gan_cb2, "sb1", "Semi B")}
+                    ${crearTarjetaPartido(gan_cb1, gan_cb2, "sb1", "Semifinal B")}
                 </div>
 
                 <!-- CUARTOS LADO B -->
@@ -686,7 +687,7 @@ function renderizarPlayoffs(tNorte, tCentro, tSur) {
 
                 <!-- OCTAVOS LADO B -->
                 <div class="flex flex-col justify-between w-[14%] gap-3">
-                    <h4 class="text-center text-emerald-400 font-black text-[9px] uppercase mb-2 italic">Octavos B</h4>
+                    <h4 class="text-center text-emerald-400 font-black text-[9px] uppercase mb-2 italic drop-shadow-md">Octavos B</h4>
                     ${crearTarjetaPartido(eq_b1_1, eq_b1_2, "b1", lbl[4])}
                     ${crearTarjetaPartido(eq_b2_1, eq_b2_2, "b2", lbl[5])}
                     <div class="h-4"></div>

@@ -681,7 +681,7 @@ contCuadro.innerHTML = `
 
                 <!-- CUARTOS LADO B -->
                 <div class="flex flex-col justify-around w-[14%] py-12 gap-3">
-                    ${crearTarjetaPartido(gan_cb1, gan_cb2, "cb1", "Cuartos B1")}
+                    ${crearTarjetaPartido(gan_b1, gan_b2, "cb1", "Cuartos B1")}
                     ${crearTarjetaPartido(gan_b3, gan_b4, "cb2", "Cuartos B2")}
                 </div>
 

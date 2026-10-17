@@ -4,7 +4,7 @@
 const CONFIG_TRANSMISION = {
     // "EN_VIVO" | "REPETICION" | "PROXIMAMENTE"
     estado: "EN_VIVO", 
-    posterUrl: "/public/img/portadas/PARTIDO8.jfif",
+    posterUrl: "/public/img/portadas/PARTIDO_CUARTOS_IDA.jpeg",
     // ID de YouTube para la repetición
     youtubeId: "cZkcxq1Tv30", 
 

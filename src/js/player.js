@@ -4,16 +4,16 @@
 const CONFIG_TRANSMISION = {
     // "EN_VIVO" | "REPETICION" | "PROXIMAMENTE"
     estado: "EN_VIVO", 
-    posterUrl: "/public/img/portadas/PARTIDO_CUARTOS_IDA.jpeg",
+    posterUrl: "/public/img/portadas/PARTIDO_CUARTOS_VUELTA.jfif",
     // ID de YouTube para la repetición
     youtubeId: "cZkcxq1Tv30", 
 
     // Placa informativa cuando no hay partido
     proximoPartido: {
-        titulo: "8VOS IDA - CLAUSURA 2026",
+        titulo: "4tos vuelta - CLAUSURA 2026",
         equipoLocal: "C.A.D.T.",
         equipoVisitante: "C.U.A.C",
-        fechaHora: "Domingo 04 OCTUBRE"
+        fechaHora: "Domingo 25 OCTUBRE"
     }
 };
 

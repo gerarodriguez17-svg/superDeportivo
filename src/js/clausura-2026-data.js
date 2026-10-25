@@ -141,10 +141,10 @@ const resultadosPlayoffs = {
     b4: { ida: ["5", "0"], vta: ["4", "0"], penales: ["-", "-"] }, // Juegan: 4º LITORAL MG vs 13º UNION ALCARAZ de la Tabla General
 
     // --- CUARTOS DE FINAL ---
-    ca1: { ida: ["1", "1"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: Ganador a1 vs Ganador a2
-    ca2: { ida: ["0", "1"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: Ganador a3 vs Ganador a4
-    cb1: { ida: ["3", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: Ganador b1 vs Ganador b2
-    cb2: { ida: ["0", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: Ganador b3 vs Ganador b4
+    ca1: { ida: ["1", "1"], vta: ["5", "1"], penales: ["-", "-"] }, // Juegan: Ganador a1 vs Ganador a2
+    ca2: { ida: ["0", "1"], vta: ["0", "0"], penales: ["-", "-"] }, // Juegan: Ganador a3 vs Ganador a4
+    cb1: { ida: ["3", "0"], vta: ["1", "0"], penales: ["-", "-"] }, // Juegan: Ganador b1 vs Ganador b2
+    cb2: { ida: ["0", "0"], vta: ["1", "2"], penales: ["-", "-"] }, // Juegan: Ganador b3 vs Ganador b4
 
     // --- SEMIFINALES ---
     sa1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: Ganador ca1 vs Ganador ca2 (Finalista Lado A)
@@ -170,10 +170,10 @@ const resultadosPlayoffs = {
     sub17_b4: { ida: ["3", "2"], vta: ["1", "2"], penales: ["-", "-"] }, // 4º ATL HASENKAMP vs 13º ATL HERNANDARIAS
 
     // --- CUARTOS DE FINAL ---
-    sub17_ca1: { ida: ["1", "1"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador a1 vs Ganador a2
-    sub17_ca2: { ida: ["1", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador a3 vs Ganador a4
-    sub17_cb1: { ida: ["1", "1"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador b1 vs Ganador b2
-    sub17_cb2: { ida: ["1", "1"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador b3 vs Ganador b4
+    sub17_ca1: { ida: ["1", "1"], vta: ["2", "1"], penales: ["-", "-"] }, // Ganador a1 vs Ganador a2
+    sub17_ca2: { ida: ["1", "0"], vta: ["1", "4"], penales: ["-", "-"] }, // Ganador a3 vs Ganador a4
+    sub17_cb1: { ida: ["1", "1"], vta: ["4", "0"], penales: ["-", "-"] }, // Ganador b1 vs Ganador b2
+    sub17_cb2: { ida: ["1", "1"], vta: ["2", "1"], penales: ["-", "-"] }, // Ganador b3 vs Ganador b4
 
     // --- SEMIFINALES ---
     sub17_sa1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador ca1 vs Ganador ca2
@@ -199,10 +199,10 @@ const resultadosPlayoffs = {
     sub20_b4: { ida: ["0", "1"], vta: ["0", "0"], penales: ["-", "-"] }, // 4º CAÑADITA vs 13º VIALE
 
     // --- CUARTOS DE FINAL ---
-    sub20_ca1: { ida: ["2", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador a1 vs Ganador a2
-    sub20_ca2: { ida: ["0", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador a3 vs Ganador a4
-    sub20_cb1: { ida: ["1", "2"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador b1 vs Ganador b2
-    sub20_cb2: { ida: ["0", "2"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador b3 vs Ganador b4
+    sub20_ca1: { ida: ["2", "0"], vta: ["1", "1"], penales: ["-", "-"] }, // Ganador a1 vs Ganador a2
+    sub20_ca2: { ida: ["0", "0"], vta: ["1", "0"], penales: ["-", "-"] }, // Ganador a3 vs Ganador a4
+    sub20_cb1: { ida: ["1", "2"], vta: ["1", "1"], penales: ["-", "-"] }, // Ganador b1 vs Ganador b2
+    sub20_cb2: { ida: ["1", "0"], vta: ["1", "0"], penales: ["-", "-"] }, // Ganador b3 vs Ganador b4
 
     // --- SEMIFINALES ---
     sub20_sa1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador ca1 vs Ganador ca2

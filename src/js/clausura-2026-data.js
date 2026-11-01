@@ -147,8 +147,8 @@ const resultadosPlayoffs = {
     cb2: { ida: ["0", "0"], vta: ["1", "2"], penales: ["-", "-"] }, // Juegan: Ganador b3 vs Ganador b4
 
     // --- SEMIFINALES ---
-    sa1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: Ganador ca1 vs Ganador ca2 (Finalista Lado A)
-    sb1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: Ganador cb1 vs Ganador cb2 (Finalista Lado B)
+    sa1: { ida: ["3", "2"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: Ganador ca1 vs Ganador ca2 (Finalista Lado A)
+    sb1: { ida: ["2", "1"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: Ganador cb1 vs Ganador cb2 (Finalista Lado B)
 
     // --- GRAN FINAL ---
     final: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Juegan: Ganador sa1 vs Ganador sb1
@@ -176,8 +176,8 @@ const resultadosPlayoffs = {
     sub17_cb2: { ida: ["1", "1"], vta: ["2", "1"], penales: ["-", "-"] }, // Ganador b3 vs Ganador b4
 
     // --- SEMIFINALES ---
-    sub17_sa1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador ca1 vs Ganador ca2
-    sub17_sb1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador cb1 vs Ganador cb2
+    sub17_sa1: { ida: ["1", "2"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador ca1 vs Ganador ca2
+    sub17_sb1: { ida: ["0", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador cb1 vs Ganador cb2
 
     // --- GRAN FINAL ---
     sub17_final: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador sa1 vs Ganador sb1
@@ -205,8 +205,8 @@ const resultadosPlayoffs = {
     sub20_cb2: { ida: ["1", "0"], vta: ["1", "0"], penales: ["-", "-"] }, // Ganador b3 vs Ganador b4
 
     // --- SEMIFINALES ---
-    sub20_sa1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador ca1 vs Ganador ca2
-    sub20_sb1: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador cb1 vs Ganador cb2
+    sub20_sa1: { ida: ["1", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador ca1 vs Ganador ca2
+    sub20_sb1: { ida: ["1", "1"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador cb1 vs Ganador cb2
 
     // --- GRAN FINAL ---
     sub20_final: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }  // Ganador sa1 vs Ganador sb1

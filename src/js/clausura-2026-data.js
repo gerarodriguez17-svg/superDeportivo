@@ -177,7 +177,7 @@ const resultadosPlayoffs = {
 
     // --- SEMIFINALES ---
     sub17_sa1: { ida: ["1", "2"], vta: ["1", "1"], penales: ["-", "-"] }, // Ganador ca1 vs Ganador ca2
-    sub17_sb1: { ida: ["0", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador cb1 vs Ganador cb2
+    sub17_sb1: { ida: ["0", "0"], vta: ["0", "0"], penales: ["5", "4"] }, // Ganador cb1 vs Ganador cb2
 
     // --- GRAN FINAL ---
     sub17_final: { ida: ["-", "-"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador sa1 vs Ganador sb1
@@ -205,7 +205,7 @@ const resultadosPlayoffs = {
     sub20_cb2: { ida: ["1", "0"], vta: ["1", "0"], penales: ["-", "-"] }, // Ganador b3 vs Ganador b4
 
     // --- SEMIFINALES ---
-    sub20_sa1: { ida: ["1", "0"], vta: ["-", "-"], penales: ["-", "-"] }, // Ganador ca1 vs Ganador ca2
+    sub20_sa1: { ida: ["1", "0"], vta: ["1", "1"], penales: ["-", "-"] }, // Ganador ca1 vs Ganador ca2
     sub20_sb1: { ida: ["1", "1"], vta: ["0", "1"], penales: ["-", "-"] }, // Ganador cb1 vs Ganador cb2
 
     // --- GRAN FINAL ---

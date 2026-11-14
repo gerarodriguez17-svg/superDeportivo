@@ -4,16 +4,16 @@
 const CONFIG_TRANSMISION = {
     // "EN_VIVO" | "REPETICION" | "PROXIMAMENTE"
     estado: "EN_VIVO", 
-    posterUrl: "/public/img/portadas/PARTIDO_SEMI_VUELTA.jfif",
+    posterUrl: "/public/img/portadas/FINAL_IDA_SUB17.jfif",
     // ID de YouTube para la repetición
     youtubeId: "cZkcxq1Tv30", 
 
     // Placa informativa cuando no hay partido
     proximoPartido: {
-        titulo: "Smemi VUELTA - CLAUSURA 2026",
-        equipoLocal: "C.A.M.G.",
-        equipoVisitante: "C.U.A.C",
-        fechaHora: "Domingo 08 NOVIEMBRE"
+        titulo: "FINAL IDA - CLAUSURA 2026",
+        equipoLocal: "C.U.A.C",
+        equipoVisitante: "C.A.U.C",
+        fechaHora: "Domingo 15 NOVIEMBRE"
     }
 };
 
